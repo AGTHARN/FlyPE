@@ -40,9 +40,7 @@ class Main extends PluginBase implements Listener {
     }
 	
 	private function levelcheck(Entity $sender) : bool{
-		//if(!$sender instanceof Player) return false;
 			if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
-				//sender->sendMessage(TextFormat::RED . "This world does not allow flight!");
 				$sender->sendMessage(C::GREEN . "Toggled your flight on!");
 				$sender->setFlying(true);
 				$sender->setAllowFlight(true);
@@ -107,7 +105,6 @@ class Main extends PluginBase implements Listener {
                 $sender->sendMessage(C::RED . "Toggled your flight off!");
             } else {
 				if($sender instanceof Player) $this->levelcheck($sender);
-                //$sender->sendMessage(C::GREEN . "Toggled your flight on");
             }
         }
         return false;
@@ -118,12 +115,6 @@ class Main extends PluginBase implements Listener {
         $entity = $event->getEntity();
         $damager = $event->getDamager();
 
-        //if($event->isCancelled() || $this->getConfig()->get("combatdisablefly") === false){
-            //return;
-        //}
-        //if(!$entity instanceof Player || !$damager instanceof Player){
-            //return;
-        //}
 		if ($this->getConfig()->get("combatdisablefly") === true){
 			if($entity->getAllowFlight()){
 				$entity->setFlying(false);
