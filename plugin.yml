@@ -1,0 +1,16 @@
+main: AGTHARN\FlyPE\Main
+name: FlyPE
+author: AGTHARN
+version: 1.0.0
+api: [3.0.0, 4.0.0]
+
+commands:
+  fly:
+    permission: "flype.command"
+    description: "fly command"
+
+permissions:
+  flype.command:
+    default: op
+  flype.command.others:
+    default: op

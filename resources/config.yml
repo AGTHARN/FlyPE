@@ -1,0 +1,11 @@
+# Disables fly when a player joins
+joindisablefly: true
+
+# Disables fly when a player gets hurt
+combatdisablefly: true
+
+# List of worlds where you can't use fly in
+disabled-worlds:
+ - "placeholder1"
+ - "placeholder2"
+ - "placeholder3"
