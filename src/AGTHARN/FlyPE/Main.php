@@ -46,7 +46,7 @@ class Main extends PluginBase implements Listener {
 				$sender->setAllowFlight(true);
 				return false;
 			}
-			elseif($sender->getAllowFlight()){
+			elseif($sender->getAllowFlight() === true){
                 $sender->setFlying(false);
                 $sender->setAllowFlight(false);
                 $sender->sendMessage(C::RED . "Toggled your flight off!");
@@ -58,11 +58,12 @@ class Main extends PluginBase implements Listener {
 	
 	public function onLevelChange(EntityLevelChangeEvent $event) : void{
 		$sender = $event->getEntity();
-		//if($sender instanceof Player) $this->levelcheck($sender);
-		if($sender->getAllowFlight()){
+		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
+		if($sender->getAllowFlight() === true){
 			$sender->setFlying(false);
 			$sender->setAllowFlight(false);
 			$sender->sendMessage(C::RED . "This world does not allow flight!");
+			return false;
 		}
 	}
 
@@ -83,28 +84,29 @@ class Main extends PluginBase implements Listener {
                     $sender->sendMessage(C::RED . "Player could not be found!");
                     return false;
                 }
-				if(!$sender->hasPermission("flype.command")){
-					if($target->getAllowFlight()){
+				if(!$sender->hasPermission("flype.command.others")){
+					if($target->getAllowFlight() === true){
 						$target->setFlying(false);
 						$target->setAllowFlight(false);
 						$target->sendMessage(C::RED . "Your flight was toggled off!");
 						$sender->sendMessage(C::RED . "Toggled " . $target->getName() . "'s flight off");
 						return false;
 						} else {
-							if($sender instanceof Player) $this->levelcheck($sender);
-							$target->sendMessage(C::GREEN . "Your flight was toggled on!");
-							$sender->sendMessage(C::GREEN . "Toggled " . $target->getName() . "'s flight on");
-							return false;
-						}
+						$target->setFlying(false);
+						$target->setAllowFlight(false);
+						$target->sendMessage(C::GREEN . "Your flight was toggled on!");
+						$sender->sendMessage(C::GREEN . "Toggled " . $target->getName() . "'s flight on");
+						return false;
+					}
 				}
 			}
 
-            if($sender->getAllowFlight()){
+            if($sender->getAllowFlight() === true){
                 $sender->setFlying(false);
                 $sender->setAllowFlight(false);
                 $sender->sendMessage(C::RED . "Toggled your flight off!");
             } else {
-				if($sender instanceof Player) $this->levelcheck($sender);
+		    if($sender instanceof Player) $this->levelcheck($sender);
             }
         }
         return false;
@@ -116,10 +118,13 @@ class Main extends PluginBase implements Listener {
         $damager = $event->getDamager();
 
 		if ($this->getConfig()->get("combatdisablefly") === true){
-			if($entity->getAllowFlight()){
+			if(!$damager instanceof Player) return;
+			if($damager->isCreative()) return;
+			if($damager->getAllowFlight() === true){
 				$entity->setFlying(false);
 				$entity->setAllowFlight(false);
-				$entity->sendMessage(C::RED . "Your flight has been disabled!");
+				$entity->sendMessage(C::RED . "You can't fly while in combat!");
+				return false;
 			}
         }
     }
