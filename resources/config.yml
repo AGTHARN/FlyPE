@@ -1,7 +1,7 @@
 # Disables fly when a player joins
 joindisablefly: true
 
-# Disables fly when a player gets hurt
+# Disables fly when a player is in combat
 combatdisablefly: true
 
 # List of worlds where you can't use fly in
