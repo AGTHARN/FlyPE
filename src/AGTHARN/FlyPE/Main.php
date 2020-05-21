@@ -31,23 +31,34 @@ class Main extends PluginBase implements Listener {
         $player = $event->getPlayer();
 		
 		if ($this->getConfig()->get("joindisablefly") === true) {
-			if($player->getAllowFlight() === true){
-				$player->setFlying(false);
-				$player->setAllowFlight(false);
-				$player->sendMessage(C::RED . "Your flight has been disabled");
+			if($player->getGamemode() === Player::CREATIVE){
+				return;
+			}elseif($player->getAllowFlight() === true){
+					$player->setFlying(false);
+					$player->setAllowFlight(false);
+					$player->sendMessage(C::RED . "Your flight has been disabled");
 			}
         }
     }
 	
 	private function levelcheck(Entity $sender) : bool{
-		if(!$sender->isCreative()){
-			return;
-		}elseif(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
+		if($sender->getGamemode() === Player::CREATIVE){
+			if($sender->getAllowFlight() === false){
+				$sender->sendMessage(C::RED . "You can't toggle fly in creative!");
+				return false;
+				}
+				if($sender->getAllowFlight() === true){
+				$sender->sendMessage(C::RED . "You can't disable fly in creative!");
+				return false;
+				}
+				}
+		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
 			$sender->sendMessage(C::GREEN . "Toggled your flight on!");
 			$sender->setFlying(true);
 			$sender->setAllowFlight(true);
 			return false;
-		}elseif($sender->getAllowFlight() === true){
+		}
+		if($sender->getAllowFlight() === true){
 			$sender->setFlying(false);
 			$sender->setAllowFlight(false);
 			$sender->sendMessage(C::RED . "Toggled your flight off!");
@@ -59,7 +70,8 @@ class Main extends PluginBase implements Listener {
 	
 	public function onLevelChange(EntityLevelChangeEvent $event) : void{
 		$sender = $event->getEntity();
-		if(!$sender->isCreative()){
+		if($sender->getGamemode() === Player::CREATIVE){
+			$sender->sendMessage(C::RED . "You can't toggle fly in creative!");
 			return;
 		}
 		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
@@ -75,12 +87,9 @@ class Main extends PluginBase implements Listener {
     public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) : bool{
         if($cmd->getName() === "fly"){
             if(!$sender instanceof Player){
-                $sender->sendMessage("Please use this command in-game!");
+                $sender->sendMessage("You can only use this command in-game!");
                 return false;
             }
-		if(!$sender->isCreative()){
-			return false;
-		}
             if(isset($args[0])){
                 if(!$sender->hasPermission("flype.command.others")){
                     $sender->sendMessage(C::RED . "You do not have permission to toggle flight for others!");
@@ -92,27 +101,43 @@ class Main extends PluginBase implements Listener {
                     return false;
                 }
 				if(!$sender->hasPermission("flype.command.others")){
+					if($target->getGamemode() === Player::CREATIVE){
+						$target->sendMessage(C::RED . "Target is in creative mode!");
+						return false;
+					}
 					if($target->getAllowFlight() === true){
 						$target->setFlying(false);
 						$target->setAllowFlight(false);
 						$target->sendMessage(C::RED . "Your flight was toggled off!");
 						$sender->sendMessage(C::RED . "Toggled " . $target->getName() . "'s flight off");
 						return false;
-					}
-						$target->setFlying(false);
-						$target->setAllowFlight(false);
+					}elseif($target->getAllowFlight() === false){
+						$target->setFlying(true);
+						$target->setAllowFlight(true);
 						$target->sendMessage(C::GREEN . "Your flight was toggled on!");
 						$sender->sendMessage(C::GREEN . "Toggled " . $target->getName() . "'s flight on");
 						return false;
 				}
 			}
+			}
+			if($sender->getGamemode() === Player::CREATIVE){
+			if($sender->getAllowFlight() === false){
+				$sender->sendMessage(C::RED . "You can't toggle fly in creative!");
+				return false;
+				}
+				if($sender->getAllowFlight() === true){
+				$sender->sendMessage(C::RED . "You can't disable fly in creative!");
+				return false;
+				}
+				}
             if($sender->getAllowFlight() === true){
                 $sender->setFlying(false);
                 $sender->setAllowFlight(false);
                 $sender->sendMessage(C::RED . "Toggled your flight off!");
-            } else {
-		    if($sender instanceof Player) $this->levelcheck($sender);
-            }
+				return false;
+            }elseif($sender->getAllowFlight() === false){
+				if($sender instanceof Player) $this->levelcheck($sender);
+			}
         }
         return false;
     }
