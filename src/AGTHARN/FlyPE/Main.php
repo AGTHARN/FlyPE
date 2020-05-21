@@ -40,24 +40,28 @@ class Main extends PluginBase implements Listener {
     }
 	
 	private function levelcheck(Entity $sender) : bool{
-			if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
-				$sender->sendMessage(C::GREEN . "Toggled your flight on!");
-				$sender->setFlying(true);
-				$sender->setAllowFlight(true);
-				return false;
-			}
-			elseif($sender->getAllowFlight() === true){
-                $sender->setFlying(false);
-                $sender->setAllowFlight(false);
-                $sender->sendMessage(C::RED . "Toggled your flight off!");
-				return false;
-            }
-			$sender->sendMessage(C::RED . "This world does not allow flight!");
+		if(!$sender->isCreative()){
+			return;
+		}elseif(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
+			$sender->sendMessage(C::GREEN . "Toggled your flight on!");
+			$sender->setFlying(true);
+			$sender->setAllowFlight(true);
 			return false;
+		}elseif($sender->getAllowFlight() === true){
+			$sender->setFlying(false);
+			$sender->setAllowFlight(false);
+			$sender->sendMessage(C::RED . "Toggled your flight off!");
+			return false;
+		}
+		$sender->sendMessage(C::RED . "This world does not allow flight!");
+		return false;
 	}
 	
 	public function onLevelChange(EntityLevelChangeEvent $event) : void{
 		$sender = $event->getEntity();
+		if(!$sender->isCreative()){
+			return;
+		}
 		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
 			if($sender->getAllowFlight() === true){
 			$sender->setFlying(false);
@@ -74,7 +78,9 @@ class Main extends PluginBase implements Listener {
                 $sender->sendMessage("Please use this command in-game!");
                 return false;
             }
-
+		if(!$sender->isCreative()){
+			return false;
+		}
             if(isset($args[0])){
                 if(!$sender->hasPermission("flype.command.others")){
                     $sender->sendMessage(C::RED . "You do not have permission to toggle flight for others!");
