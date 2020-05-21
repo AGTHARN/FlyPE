@@ -26,20 +26,21 @@ class Main extends PluginBase implements Listener {
         $this->config = new Config($this->getDataFolder() . 'config.yml', Config::YAML);
     }
 
-    public function onPlayerJoin(PlayerJoinEvent $event)
-    {
+    public function onPlayerJoin(PlayerJoinEvent $event){
         $player = $event->getPlayer();
 		
 		if ($this->getConfig()->get("joindisablefly") === true) {
 			if($player->getGamemode() === Player::CREATIVE){
 				return;
-			}elseif($player->getAllowFlight() === true){
-					$player->setFlying(false);
-					$player->setAllowFlight(false);
-					$player->sendMessage(C::RED . "Your flight has been disabled");
-			}
-        }
-    }
+				}else{
+					if($player->getAllowFlight() === true){
+						$player->setFlying(false);
+						$player->setAllowFlight(false);
+						$player->sendMessage(C::RED . "Your flight has been disabled");
+					}
+				}
+		}
+	}
 	
 	private function levelcheck(Entity $sender) : bool{
 		if($sender->getGamemode() === Player::CREATIVE){
@@ -90,19 +91,20 @@ class Main extends PluginBase implements Listener {
                 $sender->sendMessage("You can only use this command in-game!");
                 return false;
             }
+			//will be fixed soon
             if(isset($args[0])){
+				$target = $this->getServer()->getPlayer($args[0]);
                 if(!$sender->hasPermission("flype.command.others")){
                     $sender->sendMessage(C::RED . "You do not have permission to toggle flight for others!");
                     return false;
                 }
-                $target = $sender->getServer()->getPlayer($args[0]);
                 if(!$target instanceof Player){
                     $sender->sendMessage(C::RED . "Player could not be found!");
                     return false;
                 }
 				if(!$sender->hasPermission("flype.command.others")){
 					if($target->getGamemode() === Player::CREATIVE){
-						$target->sendMessage(C::RED . "Target is in creative mode!");
+						$sender->sendMessage(C::RED . "Target is in creative mode!");
 						return false;
 					}
 					if($target->getAllowFlight() === true){
@@ -111,15 +113,17 @@ class Main extends PluginBase implements Listener {
 						$target->sendMessage(C::RED . "Your flight was toggled off!");
 						$sender->sendMessage(C::RED . "Toggled " . $target->getName() . "'s flight off");
 						return false;
-					}elseif($target->getAllowFlight() === false){
+					}else{
+						if($target->getAllowFlight() === false){
 						$target->setFlying(true);
 						$target->setAllowFlight(true);
 						$target->sendMessage(C::GREEN . "Your flight was toggled on!");
 						$sender->sendMessage(C::GREEN . "Toggled " . $target->getName() . "'s flight on");
 						return false;
+						}
+					}
+					}
 				}
-			}
-			}
 			if($sender->getGamemode() === Player::CREATIVE){
 			if($sender->getAllowFlight() === false){
 				$sender->sendMessage(C::RED . "You can't toggle fly in creative!");
@@ -135,27 +139,31 @@ class Main extends PluginBase implements Listener {
                 $sender->setAllowFlight(false);
                 $sender->sendMessage(C::RED . "Toggled your flight off!");
 				return false;
-            }elseif($sender->getAllowFlight() === false){
-				if($sender instanceof Player) $this->levelcheck($sender);
+            }else{
+				if($sender->getAllowFlight() === false){
+					if($sender instanceof Player) $this->levelcheck($sender);
+				}
 			}
-        }
+		}
         return false;
     }
 
-    public function onEntityDamageEntity(EntityDamageByEntityEvent $event) : void
-    {
+    public function onEntityDamageEntity(EntityDamageByEntityEvent $event) : void {
         $entity = $event->getEntity();
-        $damager = $event->getDamager();
+		$damager = $event->getDamager();
 
 		if ($this->getConfig()->get("combatdisablefly") === true){
-			if(!$damager instanceof Player) return;
-			if($damager->isCreative()) return;
-			if($damager->getAllowFlight() === true){
-				$entity->setFlying(false);
-				$entity->setAllowFlight(false);
-				$entity->sendMessage(C::RED . "You can't fly while in combat!");
-				return;
+			if($event instanceof EntityDamageByEntityEvent){
+				if($entity instanceof Player){
+					if(!$damager instanceof Player) return;
+					if($damager->isCreative()) return;
+					if($damager->getAllowFlight() === true){
+						$damager->setAllowFlight(false);
+						$damager->setFlying(false);
+						$sender->sendMessage(C::RED . "You can't fly during combat!");
+					}
+				}
 			}
-        }
-    }
+		}
+	}
 }
