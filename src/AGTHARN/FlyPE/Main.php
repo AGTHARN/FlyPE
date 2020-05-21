@@ -31,10 +31,10 @@ class Main extends PluginBase implements Listener {
         $player = $event->getPlayer();
 		
 		if ($this->getConfig()->get("joindisablefly") === true) {
-			if($player->getAllowFlight()) {
-            $player->setFlying(false);
-            $player->setAllowFlight(false);
-            $player->sendMessage(C::RED . "Your flight has been disabled");
+			if($player->getAllowFlight() === true){
+				$player->setFlying(false);
+				$player->setAllowFlight(false);
+				$player->sendMessage(C::RED . "Your flight has been disabled");
 			}
         }
     }
