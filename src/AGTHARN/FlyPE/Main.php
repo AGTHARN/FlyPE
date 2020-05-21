@@ -59,11 +59,12 @@ class Main extends PluginBase implements Listener {
 	public function onLevelChange(EntityLevelChangeEvent $event) : void{
 		$sender = $event->getEntity();
 		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
-		if($sender->getAllowFlight() === true){
+			if($sender->getAllowFlight() === true){
 			$sender->setFlying(false);
 			$sender->setAllowFlight(false);
 			$sender->sendMessage(C::RED . "This world does not allow flight!");
-			return false;
+			return;
+			}
 		}
 	}
 
@@ -91,16 +92,14 @@ class Main extends PluginBase implements Listener {
 						$target->sendMessage(C::RED . "Your flight was toggled off!");
 						$sender->sendMessage(C::RED . "Toggled " . $target->getName() . "'s flight off");
 						return false;
-						} else {
+					}
 						$target->setFlying(false);
 						$target->setAllowFlight(false);
 						$target->sendMessage(C::GREEN . "Your flight was toggled on!");
 						$sender->sendMessage(C::GREEN . "Toggled " . $target->getName() . "'s flight on");
 						return false;
-					}
 				}
 			}
-
             if($sender->getAllowFlight() === true){
                 $sender->setFlying(false);
                 $sender->setAllowFlight(false);
@@ -124,7 +123,7 @@ class Main extends PluginBase implements Listener {
 				$entity->setFlying(false);
 				$entity->setAllowFlight(false);
 				$entity->sendMessage(C::RED . "You can't fly while in combat!");
-				return false;
+				return;
 			}
         }
     }
