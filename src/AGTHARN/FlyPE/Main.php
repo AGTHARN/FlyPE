@@ -54,16 +54,19 @@ class Main extends PluginBase implements Listener {
 				}
 				}
 		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
-			$sender->sendMessage(C::GREEN . "Toggled your flight on!");
-			$sender->setFlying(true);
-			$sender->setAllowFlight(true);
-			return false;
-		}
-		if($sender->getAllowFlight() === true){
-			$sender->setFlying(false);
-			$sender->setAllowFlight(false);
-			$sender->sendMessage(C::RED . "Toggled your flight off!");
-			return false;
+			if($sender->getAllowFlight() === false){
+				$sender->sendMessage(C::GREEN . "Toggled your flight on!");
+				$sender->setFlying(true);
+				$sender->setAllowFlight(true);
+				return false;
+				}else{
+					if($sender->getAllowFlight() === true){
+						$sender->setFlying(false);
+						$sender->setAllowFlight(false);
+						$sender->sendMessage(C::RED . "Toggled your flight off!");
+						return false;
+					}
+				}
 		}
 		$sender->sendMessage(C::RED . "This world does not allow flight!");
 		return false;
@@ -72,7 +75,6 @@ class Main extends PluginBase implements Listener {
 	public function onLevelChange(EntityLevelChangeEvent $event) : void{
 		$sender = $event->getEntity();
 		if($sender->getGamemode() === Player::CREATIVE){
-			$sender->sendMessage(C::RED . "You can't toggle fly in creative!");
 			return;
 		}
 		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
@@ -124,26 +126,7 @@ class Main extends PluginBase implements Listener {
 					}
 					}
 				}
-			if($sender->getGamemode() === Player::CREATIVE){
-			if($sender->getAllowFlight() === false){
-				$sender->sendMessage(C::RED . "You can't toggle fly in creative!");
-				return false;
-				}
-				if($sender->getAllowFlight() === true){
-				$sender->sendMessage(C::RED . "You can't disable fly in creative!");
-				return false;
-				}
-				}
-            if($sender->getAllowFlight() === true){
-                $sender->setFlying(false);
-                $sender->setAllowFlight(false);
-                $sender->sendMessage(C::RED . "Toggled your flight off!");
-				return false;
-            }else{
-				if($sender->getAllowFlight() === false){
-					if($sender instanceof Player) $this->levelcheck($sender);
-				}
-			}
+            if($sender instanceof Player) $this->levelcheck($sender);
 		}
         return false;
     }
