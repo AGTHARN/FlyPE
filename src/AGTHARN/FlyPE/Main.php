@@ -96,7 +96,6 @@ class Main extends PluginBase implements Listener {
 			if(empty($args[0])){
 					if($sender instanceof Player) $this->levelcheck($sender);
 					}
-			//will be fixed soon
             if(isset($args[0])){
 				$target = $this->getServer()->getPlayer($args[0]);
                 if(!$sender->hasPermission("flype.command.others")){
@@ -119,7 +118,6 @@ class Main extends PluginBase implements Listener {
 						$target->sendMessage(C::GREEN . "Your flight was toggled on!");
 						$sender->sendMessage(C::GREEN . "Flight for " . $target->getName() . " has been toggled on!");
 						}
-				//fixxx hereee
 					}
         return false;
 		}
