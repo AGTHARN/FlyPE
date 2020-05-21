@@ -93,6 +93,9 @@ class Main extends PluginBase implements Listener {
                 $sender->sendMessage("You can only use this command in-game!");
                 return false;
             }
+			if(empty($args[0])){
+					if($sender instanceof Player) $this->levelcheck($sender);
+					}
 			//will be fixed soon
             if(isset($args[0])){
 				$target = $this->getServer()->getPlayer($args[0]);
@@ -104,32 +107,23 @@ class Main extends PluginBase implements Listener {
                     $sender->sendMessage(C::RED . "Player could not be found!");
                     return false;
                 }
-				if(!$sender->hasPermission("flype.command.others")){
-					if($target->getGamemode() === Player::CREATIVE){
-						$sender->sendMessage(C::RED . "Target is in creative mode!");
-						return false;
-					}
+				if($target->isCreative()) return false;
 					if($target->getAllowFlight() === true){
-						$target->setFlying(false);
-						$target->setAllowFlight(false);
-						$target->sendMessage(C::RED . "Your flight was toggled off!");
-						$sender->sendMessage(C::RED . "Toggled " . $target->getName() . "'s flight off");
-						return false;
+					$target->setFlying(false);
+                    $target->setAllowFlight(false);
+                    $target->sendMessage(C::RED . "Your flight was toggled off!");
+                    $sender->sendMessage(C::RED . "Flight for " . $target->getName() . " has been toggled off!");
 					}else{
-						if($target->getAllowFlight() === false){
-						$target->setFlying(true);
 						$target->setAllowFlight(true);
+						$target->setFlying(true);
 						$target->sendMessage(C::GREEN . "Your flight was toggled on!");
-						$sender->sendMessage(C::GREEN . "Toggled " . $target->getName() . "'s flight on");
-						return false;
+						$sender->sendMessage(C::GREEN . "Flight for " . $target->getName() . " has been toggled on!");
 						}
+				//fixxx hereee
 					}
-					}
-				}
-            if($sender instanceof Player) $this->levelcheck($sender);
-		}
         return false;
-    }
+		}
+		}
 
     public function onEntityDamageEntity(EntityDamageByEntityEvent $event) : void {
         $entity = $event->getEntity();
