@@ -77,6 +77,9 @@ class Main extends PluginBase implements Listener {
 		if($sender->hasPermission("flype.command.bypass")){
 			return;
 		}
+		if($sender->getGamemode() === Player::CREATIVE){
+			return;
+		}
 		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
 			if($sender->getAllowFlight() === true){
 			$sender->setFlying(false);
