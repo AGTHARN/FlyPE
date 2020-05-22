@@ -107,7 +107,7 @@ class Main extends PluginBase implements Listener {
                     return false;
                 }
 					if($target->getGamemode() === Player::CREATIVE){
-						$sender->sendMessage(C::RED . "Unable to toggle because player is in creative!"
+						$sender->sendMessage(C::RED . "Unable to toggle because player is in creative!");
 						return false;
 					}
 					if($target->getAllowFlight() === true){
