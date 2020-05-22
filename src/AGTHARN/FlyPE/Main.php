@@ -24,6 +24,13 @@ class Main extends PluginBase implements Listener {
 
         $this->saveResource('config.yml');
         $this->config = new Config($this->getDataFolder() . 'config.yml', Config::YAML);
+	    
+        $configversion = $this->config->get("config-version");
+	    
+	    if($configversion < "1.0.0"){
+		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
+		    $this->getServer()->getPluginManager()->disablePlugin($this);
+	    }
     }
 
     public function onPlayerJoin(PlayerJoinEvent $event){
