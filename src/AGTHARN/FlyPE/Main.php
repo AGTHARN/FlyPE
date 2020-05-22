@@ -18,130 +18,226 @@ class Main extends PluginBase implements Listener {
 
     private $config;
 
-    public function onEnable()
-    {
+    public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 
         $this->saveResource('config.yml');
         $this->config = new Config($this->getDataFolder() . 'config.yml', Config::YAML);
+	    
+        $configversion = $this->config->get("config-version");
+	    
+	    if($configversion < "2"){
+		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
+		    $this->getServer()->getPluginManager()->disablePlugin($this);
+	    }
     }
 
     public function onPlayerJoin(PlayerJoinEvent $event){
         $player = $event->getPlayer();
 		
-		if ($this->getConfig()->get("joindisablefly") === true) {
-			if($player->getGamemode() === Player::CREATIVE){
-				return;
-				}else{
-					if($player->getAllowFlight() === true){
-						$player->setFlying(false);
-						$player->setAllowFlight(false);
-						$player->sendMessage(C::RED . "Your flight has been disabled");
-					}
-				}
-		}
-	}
+	    if($this->getConfig()->get("joindisablefly") === true) {
+		    if($player->getGamemode() === Player::CREATIVE){
+			    return;
+			    } else {
+			    if($player->getAllowFlight() === true){
+				    $player->setFlying(false);
+				    $player->setAllowFlight(false);
+				    $player->sendMessage(C::RED . "Your flight has been disabled");
+			    }
+		    }
+	    }
+    }
 	
 	private function levelcheck(Entity $entity) : bool{
 		if($entity->getGamemode() === Player::CREATIVE){
 			if($entity->getAllowFlight() === false){
 				$entity->sendMessage(C::RED . "You can't toggle fly in creative!");
 				return false;
-				}
-				if($entity->getAllowFlight() === true){
+			}
+			if($entity->getAllowFlight() === true){
 				$entity->sendMessage(C::RED . "You can't disable fly in creative!");
 				return false;
-				}
-				}
-		if(!in_array($entity->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
-			if($entity->getAllowFlight() === false){
-				$entity->sendMessage(C::GREEN . "Toggled your flight on!");
-				$entity->setFlying(true);
-				$entity->setAllowFlight(true);
-				return false;
-				}else{
-					if($entity->getAllowFlight() === true){
+			}
+		}
+		if($this->getConfig()->get("mode") === "blacklist"){
+			if(!in_array($entity->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))){
+				if($entity->getAllowFlight() === false){
+					$entity->sendMessage(C::GREEN . "Toggled your flight on!");
+					$entity->setFlying(true);
+					$entity->setAllowFlight(true);
+					return false;
+					} else {
 						$entity->setFlying(false);
 						$entity->setAllowFlight(false);
 						$entity->sendMessage(C::RED . "Toggled your flight off!");
 						return false;
 					}
 				}
-		}
+		} else {
+			if($this->getConfig()->get("mode") === "whitelist"){
+				if(in_array($entity->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))){
+					if($entity->getAllowFlight() === false){
+						$entity->sendMessage(C::GREEN . "Toggled your flight on!");
+						$entity->setFlying(true);
+						$entity->setAllowFlight(true);
+						return false;
+					} else {
+							$entity->setFlying(false);
+							$entity->setAllowFlight(false);
+							$entity->sendMessage(C::RED . "Toggled your flight off!");
+							return false;
+						}
+					}
+					$entity->sendMessage(C::RED . "This world does not allow flight!");
+					return false;
+				}
+			}
 		$entity->sendMessage(C::RED . "This world does not allow flight!");
 		return false;
 	}
 	
 	public function onLevelChange(EntityLevelChangeEvent $event) : void{
-		$sender = $event->getEntity();
-		if($sender->hasPermission("flype.command.bypass")){
+		$entity = $event->getEntity();
+		if($entity->hasPermission("flype.command.bypass")){
 			return;
 		}
-		if($sender->getGamemode() === Player::CREATIVE){
+		if($entity->getGamemode() === Player::CREATIVE){
 			return;
 		}
-		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
-			if($sender->getAllowFlight() === true){
-			$sender->setFlying(false);
-			$sender->setAllowFlight(false);
-			$sender->sendMessage(C::RED . "This world does not allow flight!");
-			return;
+		if($this->getConfig()->get("mode") === "blacklist"){
+			if(!in_array($entity->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))){
+				if($entity->getAllowFlight() === true){
+					$entity->setFlying(false);
+					$entity->setAllowFlight(false);
+					$entity->sendMessage(C::RED . "This world does not allow flight!");
+					return;
+				}
+			}
+		}
+		if($this->getConfig()->get("mode") === "whitelist"){
+			if(in_array($entity->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))){
+				if($entity->getAllowFlight() === true){
+					$entity->setFlying(false);
+					$entity->setAllowFlight(false);
+					$entity->sendMessage(C::RED . "This world does not allow flight!");
+					return;
+				}
 			}
 		}
 	}
-
+	
+	public function openflyui($player){
+		$formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+		$this->economy = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
+		
+		$form = $formapi->createSimpleForm(function (Player $player, int $data = null){
+			
+			switch($data){
+                case 0:
+				$cost = $this->getConfig()->get("buyflycost");
+				$playermoney = $this->economy->myMoney($player);
+				
+				if($this->getConfig()->get("payforfly") === true){
+				if($playermoney < $cost){
+					$player->sendMessage(C::RED . "You do not have enough money!");
+				} else {
+					$this->economy->reduceMoney($player, $cost);
+					$player->sendMessage(C::GREEN . "Successful purchase of fly!");
+					
+				if($player instanceof Player) $this->levelcheck($player);
+				}
+				} else {
+					if($this->getConfig()->get("payforfly") === false){
+						if($player instanceof Player) $this->levelcheck($player);
+					}
+				}
+				break;
+				
+				case 1:
+				break;
+			}
+			});
+			
+			if($this->getConfig()->get("payforfly") === true){
+				if($this->getConfig()->get("enableflyui") === true){
+					$cost = $this->getConfig()->get("buyflycost");
+					
+					$form->setTitle("§l§7< §2FlyUI §7>");
+					$form->addButton("§aToggle Fly §e(Costs $ {$cost})");
+					$form->addButton("§cExit");
+					$form->sendToPlayer($player);
+					return $form;
+			}
+			} else {
+				if($this->getConfig()->get("enableflyui") === true){
+					if($this->getConfig()->get("payforfly") === false){
+					$form->setTitle("§l§7< §6FlyUI §7>");
+					$form->addButton("§aToggle Fly");
+					$form->addButton("§cExit");
+					$form->sendToPlayer($player);
+					return $form;
+					}
+				}
+			}
+	}
+	
     public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) : bool{
-        if($cmd->getName() === "fly"){
-            if(!$sender instanceof Player){
-                $sender->sendMessage("You can only use this command in-game!");
-                return false;
-            }
-			if(empty($args[0])){
-					if($sender instanceof Player) $this->levelcheck($sender);
-					}
-            if(isset($args[0])){
-				$target = $this->getServer()->getPlayer($args[0]);
-                if(!$sender->hasPermission("flype.command.others")){
-                    $sender->sendMessage(C::RED . "You do not have permission to toggle flight for others!");
-                    return false;
-                }
-                if(!$target instanceof Player){
-                    $sender->sendMessage(C::RED . "Player could not be found!");
-                    return false;
-                }
-					if($target->getGamemode() === Player::CREATIVE){
-						$sender->sendMessage(C::RED . "Unable to toggle because player is in creative!");
-						return false;
-					}
-					if($target->getAllowFlight() === true){
-							$target->setFlying(false);
-							$target->setAllowFlight(false);
-							$target->sendMessage(C::RED . "Your flight was toggled off!");
-							$sender->sendMessage(C::RED . "Flight for " . $target->getName() . " has been toggled off!");
-							}else{
-								$target->setAllowFlight(true);
-								$target->setFlying(true);
-								$target->sendMessage(C::GREEN . "Your flight was toggled on!");
-								$sender->sendMessage(C::GREEN . "Flight for " . $target->getName() . " has been toggled on!");
-							}
+	    if($cmd->getName() === "fly"){
+		    if(!$sender instanceof Player){
+			    $sender->sendMessage("You can only use this command in-game!");
+			    return false;
+		    }
+			if($this->getConfig()->get("enableflyui") === true){
+				//$sender->sendMessage(C::GREEN . "THIS MESSAGE IS FOR DEBUG PURPOSES! IF YOU SEE IT PLEASE REPORT IT TO ME!");
+				if($sender instanceof Player) $this->openflyui($sender);
+				return false;
 			}
-			return false;
-		}
-	}
+		    if(empty($args[0])){
+			    if($sender instanceof Player) $this->levelcheck($sender);
+		    }
+		    if(isset($args[0])){
+			    $target = $this->getServer()->getPlayer($args[0]);
+			    if(!$sender->hasPermission("flype.command.others")){
+				    $sender->sendMessage(C::RED . "You do not have permission to toggle flight for others!");
+				    return false;
+			    }
+			    if(!$target instanceof Player){
+				    $sender->sendMessage(C::RED . "Player could not be found!");
+				    return false;
+			    }
+			    if($target->getGamemode() === Player::CREATIVE){
+				    $sender->sendMessage(C::RED . "Unable to toggle because player is in creative!");
+				    return false;
+			    }
+			    if($target->getAllowFlight() === true){
+				    $target->setFlying(false);
+				    $target->setAllowFlight(false);
+				    $target->sendMessage(C::RED . "Your flight was toggled off!");
+				    $sender->sendMessage(C::RED . "Flight for " . $target->getName() . " has been toggled off!");
+				    }else{
+				    $target->setAllowFlight(true);
+				    $target->setFlying(true);
+				    $target->sendMessage(C::GREEN . "Your flight was toggled on!");
+				    $sender->sendMessage(C::GREEN . "Flight for " . $target->getName() . " has been toggled on!");
+			    }
+		    }
+		    return false;
+	    }
+    }
 
     public function onEntityDamageEntity(EntityDamageByEntityEvent $event) : void {
-        $entity = $event->getEntity();
-		$damager = $event->getDamager();
+	    $entity = $event->getEntity();
+	    $damager = $event->getDamager();
 
-		if ($this->getConfig()->get("combatdisablefly") === true){
-			if($event instanceof EntityDamageByEntityEvent){
-				if($entity instanceof Player){
-					if(!$damager instanceof Player) return;
-					if($damager->isCreative()) return;
-					if($damager->getAllowFlight() === true){
-						$damager->setAllowFlight(false);
-						$damager->setFlying(false);
-						//$entity->sendMessage(C::RED . "You can't fly during combat!");
+	    if($this->getConfig()->get("combatdisablefly") === true){
+		    if($event instanceof EntityDamageByEntityEvent){
+			    if($entity instanceof Player){
+				    if(!$damager instanceof Player) return;
+				    if($damager->isCreative()) return;
+				    if($damager->getAllowFlight() === true){
+					    $damager->setAllowFlight(false);
+					    $damager->setFlying(false);
+					    //$entity->sendMessage(C::RED . "You can't fly during combat!");
 					}
 				}
 			}

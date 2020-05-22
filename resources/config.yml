@@ -1,11 +1,32 @@
-# Disables fly when a player joins
+# CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
+config-version: 2
+
+# Disables fly when a player joins.
 joindisablefly: true
 
-# Disables fly when a player is in combat
+# Disables fly when a player is in combat.
 combatdisablefly: true
 
-# List of worlds where you can't use fly in
-disabled-worlds:
+# Enable a fly UI when a player runs /fly? (COMING SOON)
+enableflyui: false
+payforfly: false # set true you want a player to pay for fly
+buyflycost: 100000 # cost of fly if payforfly is on
+
+# Would you like to time how long a player could use /fly? (COMING SOON)
+# timefly: false
+# flymins: 10 # amount of mins a player can fly for
+
+# Use whitelist or blacklist mode?
+mode: blacklist
+
+# (BLACKLIST) List of worlds where you can't use fly in.
+blacklisted-worlds:
  - "placeholder1"
  - "placeholder2"
  - "placeholder3"
+
+# (WHITELIST) List of worlds where you can use fly in. (WIP)
+whitelisted-worlds:
+ - "flyworld1"
+ - "flyworld2"
+ - "flyworld3"
