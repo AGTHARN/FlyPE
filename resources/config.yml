@@ -16,7 +16,7 @@ combatdisablefly: true
 # timefly: false
 # flymins: 10 # amount of mins a player can fly for
 
-# Use whitelist or blacklist mode? (true = whitelist, false = blacklist)
+# Use whitelist or blacklist mode?
 mode: blacklist
 
 # (BLACKLIST) List of worlds where you can't use fly in.
