@@ -68,15 +68,13 @@ class Main extends PluginBase implements Listener {
 					$entity->setAllowFlight(true);
 					return false;
 					} else {
-					if($entity->getAllowFlight() === true){
 						$entity->setFlying(false);
 						$entity->setAllowFlight(false);
 						$entity->sendMessage(C::RED . "Toggled your flight off!");
 						return false;
 					}
 				}
-			}
-		}else{
+		} else {
 			if($this->getConfig()->get("mode") === "whitelist"){
 				if(in_array($entity->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))){
 					if($entity->getAllowFlight() === false){
@@ -85,7 +83,6 @@ class Main extends PluginBase implements Listener {
 						$entity->setAllowFlight(true);
 						return false;
 					} else {
-						if($entity->getAllowFlight() === true){
 							$entity->setFlying(false);
 							$entity->setAllowFlight(false);
 							$entity->sendMessage(C::RED . "Toggled your flight off!");
@@ -95,7 +92,6 @@ class Main extends PluginBase implements Listener {
 					return false;
 				}
 			}
-		}
 		$entity->sendMessage(C::RED . "This world does not allow flight!");
 		return false;
 	}
