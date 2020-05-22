@@ -1,5 +1,5 @@
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 1
+config-version: 1.0.0
 
 # Disables fly when a player joins.
 joindisablefly: true
