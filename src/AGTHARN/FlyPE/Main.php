@@ -128,21 +128,59 @@ class Main extends PluginBase implements Listener {
 	
 	public function openflyui($player){
 		$formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+		$this->economy = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
+		
 		$form = $formapi->createSimpleForm(function (Player $player, int $data = null){
-			$result = $data;
-			switch($result){
-                case 0:
-				if($player instanceof Player) $this->levelcheck($player);
-                break;
-            }});
 			
-            $form->setTitle("§l§7< §6FlyUI §7>");
-            $form->addButton("§aToggle Fly");
-            $form->addButton("§cExit");
-            $form->sendToPlayer($player);
-            return $form;
+			switch($data){
+                case 0:
+				$cost = $this->getConfig()->get("buyflycost");
+				$playermoney = $this->economy->myMoney($player);
+				
+				if($this->getConfig()->get("payforfly") === true){
+				if($playermoney < $cost){
+					$player->sendMessage(C::RED . "You do not have enough money!");
+				} else {
+					$this->economy->reduceMoney($player, $cost);
+					$player->sendMessage(C::GREEN . "Successful purchase of fly!");
+					
+				if($player instanceof Player) $this->levelcheck($player);
+				}
+				} else {
+					if($this->getConfig()->get("payforfly") === false){
+						if($player instanceof Player) $this->levelcheck($player);
+					}
+				}
+				break;
+				
+				case 1:
+				break;
+			}
+			});
+			
+			if($this->getConfig()->get("payforfly") === true){
+				if($this->getConfig()->get("enableflyui") === true){
+					$cost = $this->getConfig()->get("buyflycost");
+					
+					$form->setTitle("§l§7< §2FlyUI §7>");
+					$form->addButton("§aToggle Fly §e(Costs $ {$cost})");
+					$form->addButton("§cExit");
+					$form->sendToPlayer($player);
+					return $form;
+			}
+			} else {
+				if($this->getConfig()->get("enableflyui") === true){
+					if($this->getConfig()->get("payforfly") === false){
+					$form->setTitle("§l§7< §6FlyUI §7>");
+					$form->addButton("§aToggle Fly");
+					$form->addButton("§cExit");
+					$form->sendToPlayer($player);
+					return $form;
+					}
+				}
+			}
 	}
-
+	
     public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) : bool{
 	    if($cmd->getName() === "fly"){
 		    if(!$sender instanceof Player){
@@ -150,6 +188,7 @@ class Main extends PluginBase implements Listener {
 			    return false;
 		    }
 			if($this->getConfig()->get("enableflyui") === true){
+				//$sender->sendMessage(C::GREEN . "THIS MESSAGE IS FOR DEBUG PURPOSES! IF YOU SEE IT PLEASE REPORT IT TO ME!");
 				if($sender instanceof Player) $this->openflyui($sender);
 				return false;
 			}
