@@ -1,4 +1,4 @@
-# FlyPE
+# FlyPE [![HitCount](http://hits.dwyl.com/AGTHARN/FlyPE/master.svg)](http://hits.dwyl.com/AGTHARN/FlyPE/master)
 FlyPE is a WIP fly plugin that allows you to fly in survival mode when you run the fly command! You can choose to allow fly to be used or not allow fly to be used in selected worlds of the config! You can also choose if you would like fly to be disabled when a player joins or leaves!
 
 # How do I use it?
