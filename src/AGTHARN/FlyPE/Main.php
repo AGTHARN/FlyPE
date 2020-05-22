@@ -26,7 +26,7 @@ class Main extends PluginBase implements Listener {
 	    
         $configversion = $this->config->get("config-version");
 	    
-	    if($configversion < "0.9.9"){
+	    if($configversion < "2"){
 		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
 		    $this->getServer()->getPluginManager()->disablePlugin($this);
 	    }
@@ -47,7 +47,6 @@ class Main extends PluginBase implements Listener {
 		    }
 	    }
     }
-
 	
 	private function levelcheck(Entity $entity) : bool{
 		if($entity->getGamemode() === Player::CREATIVE){
@@ -89,6 +88,7 @@ class Main extends PluginBase implements Listener {
 							return false;
 						}
 					}
+					$entity->sendMessage(C::RED . "This world does not allow flight!");
 					return false;
 				}
 			}
@@ -125,6 +125,23 @@ class Main extends PluginBase implements Listener {
 			}
 		}
 	}
+	
+	public function openflyui($player){
+		$formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+		$form = $formapi->createSimpleForm(function (Player $player, int $data = null){
+			$result = $data;
+			switch($result){
+                case 0:
+				if($player instanceof Player) $this->levelcheck($player);
+                break;
+            }});
+			
+            $form->setTitle("§l§7< §6FlyUI §7>");
+            $form->addButton("§aToggle Fly");
+            $form->addButton("§cExit");
+            $form->sendToPlayer($player);
+            return $form;
+	}
 
     public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) : bool{
 	    if($cmd->getName() === "fly"){
@@ -132,6 +149,10 @@ class Main extends PluginBase implements Listener {
 			    $sender->sendMessage("You can only use this command in-game!");
 			    return false;
 		    }
+			if($this->getConfig()->get("enableflyui") === true){
+				if($sender instanceof Player) $this->openflyui($sender);
+				return false;
+			}
 		    if(empty($args[0])){
 			    if($sender instanceof Player) $this->levelcheck($sender);
 		    }
