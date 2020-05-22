@@ -9,8 +9,8 @@ combatdisablefly: true
 
 # Enable a fly UI when a player runs /fly? (COMING SOON)
 enableflyui: false
-# payforfly: false # set true you want a player to pay for fly
-# buyflycost: 100000 # cost of fly if payforfly is on
+payforfly: false # set true you want a player to pay for fly
+buyflycost: 100000 # cost of fly if payforfly is on
 
 # Would you like to time how long a player could use /fly? (COMING SOON)
 # timefly: false
