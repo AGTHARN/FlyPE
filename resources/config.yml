@@ -16,17 +16,17 @@ combatdisablefly: true
 # timefly: false
 # flymins: 10 # amount of mins a player can fly for
 
-# Whitelist or blacklist mode? (COMING SOON)
-# mode: blacklist
+# Use whitelist or blacklist mode? (true = whitelist, false = blacklist)
+mode: blacklist
 
 # (BLACKLIST) List of worlds where you can't use fly in.
-disabled-worlds:
+blacklisted-worlds:
  - "placeholder1"
  - "placeholder2"
  - "placeholder3"
 
-# (WHITELIST) List of worlds where you can use fly in. (COMING SOON)
-# enabled-worlds:
-# - "flyworld1"
-# - "flyworld2"
-# - "flyworld3"
+# (WHITELIST) List of worlds where you can use fly in. (WIP)
+whitelisted-worlds:
+ - "flyworld1"
+ - "flyworld2"
+ - "flyworld3"
