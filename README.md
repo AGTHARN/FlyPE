@@ -13,7 +13,7 @@ To use it, [download the latest phar](https://poggit.pmmp.io/ci/AGTHARN/FlyPE/Fl
 - [x] Toggle fly for others
 - [x] A fly UI to toggle flight
 - [x] A permission to bypass the world checks
-- [ ] Option to enable buying of fly
+- [x] Option to enable buying of fly
 - [ ] Temporal fly time
 - [ ] Customisable messages
 
