@@ -42,33 +42,33 @@ class Main extends PluginBase implements Listener {
 		}
 	}
 	
-	private function levelcheck(Entity $sender) : bool{
-		if($sender->getGamemode() === Player::CREATIVE){
-			if($sender->getAllowFlight() === false){
-				$sender->sendMessage(C::RED . "You can't toggle fly in creative!");
+	private function levelcheck(Entity $entity) : bool{
+		if($entity->getGamemode() === Player::CREATIVE){
+			if($entity->getAllowFlight() === false){
+				$entity->sendMessage(C::RED . "You can't toggle fly in creative!");
 				return false;
 				}
-				if($sender->getAllowFlight() === true){
-				$sender->sendMessage(C::RED . "You can't disable fly in creative!");
+				if($entity->getAllowFlight() === true){
+				$entity->sendMessage(C::RED . "You can't disable fly in creative!");
 				return false;
 				}
 				}
-		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
-			if($sender->getAllowFlight() === false){
-				$sender->sendMessage(C::GREEN . "Toggled your flight on!");
-				$sender->setFlying(true);
-				$sender->setAllowFlight(true);
+		if(!in_array($entity->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
+			if($entity->getAllowFlight() === false){
+				$entity->sendMessage(C::GREEN . "Toggled your flight on!");
+				$entity->setFlying(true);
+				$entity->setAllowFlight(true);
 				return false;
 				}else{
-					if($sender->getAllowFlight() === true){
-						$sender->setFlying(false);
-						$sender->setAllowFlight(false);
-						$sender->sendMessage(C::RED . "Toggled your flight off!");
+					if($entity->getAllowFlight() === true){
+						$entity->setFlying(false);
+						$entity->setAllowFlight(false);
+						$entity->sendMessage(C::RED . "Toggled your flight off!");
 						return false;
 					}
 				}
 		}
-		$sender->sendMessage(C::RED . "This world does not allow flight!");
+		$entity->sendMessage(C::RED . "This world does not allow flight!");
 		return false;
 	}
 	
@@ -106,22 +106,25 @@ class Main extends PluginBase implements Listener {
                     $sender->sendMessage(C::RED . "Player could not be found!");
                     return false;
                 }
-				if($target->isCreative()) return false;
-					if($target->getAllowFlight() === true){
-					$target->setFlying(false);
-                    $target->setAllowFlight(false);
-                    $target->sendMessage(C::RED . "Your flight was toggled off!");
-                    $sender->sendMessage(C::RED . "Flight for " . $target->getName() . " has been toggled off!");
-					}else{
-						$target->setAllowFlight(true);
-						$target->setFlying(true);
-						$target->sendMessage(C::GREEN . "Your flight was toggled on!");
-						$sender->sendMessage(C::GREEN . "Flight for " . $target->getName() . " has been toggled on!");
-						}
+					if($target->getGamemode() === Player::CREATIVE){
+						$sender->sendMessage(C::RED . "Unable to toggle because player is in creative!"
+						return false;
 					}
-        return false;
+					if($target->getAllowFlight() === true){
+							$target->setFlying(false);
+							$target->setAllowFlight(false);
+							$target->sendMessage(C::RED . "Your flight was toggled off!");
+							$sender->sendMessage(C::RED . "Flight for " . $target->getName() . " has been toggled off!");
+							}else{
+								$target->setAllowFlight(true);
+								$target->setFlying(true);
+								$target->sendMessage(C::GREEN . "Your flight was toggled on!");
+								$sender->sendMessage(C::GREEN . "Flight for " . $target->getName() . " has been toggled on!");
+							}
+			}
+			return false;
 		}
-		}
+	}
 
     public function onEntityDamageEntity(EntityDamageByEntityEvent $event) : void {
         $entity = $event->getEntity();
@@ -135,7 +138,7 @@ class Main extends PluginBase implements Listener {
 					if($damager->getAllowFlight() === true){
 						$damager->setAllowFlight(false);
 						$damager->setFlying(false);
-						$sender->sendMessage(C::RED . "You can't fly during combat!");
+						//$entity->sendMessage(C::RED . "You can't fly during combat!");
 					}
 				}
 			}
