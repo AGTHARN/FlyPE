@@ -74,7 +74,7 @@ class Main extends PluginBase implements Listener {
 	
 	public function onLevelChange(EntityLevelChangeEvent $event) : void{
 		$sender = $event->getEntity();
-		if($sender->getGamemode() === Player::CREATIVE){
+		if($sender->hasPermission("flype.command.bypass")){
 			return;
 		}
 		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
