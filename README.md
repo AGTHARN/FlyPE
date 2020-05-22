@@ -11,10 +11,11 @@ To use it, [download the latest phar](https://poggit.pmmp.io/ci/AGTHARN/FlyPE/Fl
 - [x] Option to disable fly after joining
 - [x] Creative can't toggle fly
 - [x] Toggle fly for others
+- [x] A fly UI to toggle flight
 - [x] A permission to bypass the world checks
 - [ ] Option to enable buying of fly
-- [ ] A toggle fly UI
 - [ ] Temporal fly time
+- [ ] Customisable messages
 
 # Permissions
 + **flype.command** - Allows player to run the /fly command (Default: OP)
