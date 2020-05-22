@@ -27,7 +27,7 @@ class Main extends PluginBase implements Listener {
 	    
         $configversion = $this->config->get("config-version");
 	    
-	    if($configversion < "1.0.0"){
+	    if($configversion < "0.9.9"){
 		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
 		    $this->getServer()->getPluginManager()->disablePlugin($this);
 	    }
@@ -36,7 +36,7 @@ class Main extends PluginBase implements Listener {
     public function onPlayerJoin(PlayerJoinEvent $event){
         $player = $event->getPlayer();
 		
-		if ($this->getConfig()->get("joindisablefly") === true) {
+		if($this->getConfig()->get("joindisablefly") === true) {
 			if($player->getGamemode() === Player::CREATIVE){
 				return;
 				}else{
@@ -60,7 +60,8 @@ class Main extends PluginBase implements Listener {
 				return false;
 				}
 				}
-		if(!in_array($entity->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
+				if($this->getConfig()->get("mode") === "blacklist"){
+		if(!in_array($entity->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))){
 			if($entity->getAllowFlight() === false){
 				$entity->sendMessage(C::GREEN . "Toggled your flight on!");
 				$entity->setFlying(true);
@@ -74,26 +75,58 @@ class Main extends PluginBase implements Listener {
 						return false;
 					}
 				}
+				}
+				}else{
+					if($this->getConfig()->get("mode") === "whitelist"){
+						if(in_array($entity->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))){
+			if($entity->getAllowFlight() === false){
+				$entity->sendMessage(C::GREEN . "Toggled your flight on!");
+				$entity->setFlying(true);
+				$entity->setAllowFlight(true);
+				return false;
+				}else{
+					if($entity->getAllowFlight() === true){
+						$entity->setFlying(false);
+						$entity->setAllowFlight(false);
+						$entity->sendMessage(C::RED . "Toggled your flight off!");
+						return false;
+					}
+				}
+						return false;
+						}
+						}
 		}
 		$entity->sendMessage(C::RED . "This world does not allow flight!");
 		return false;
 	}
 	
 	public function onLevelChange(EntityLevelChangeEvent $event) : void{
-		$sender = $event->getEntity();
-		if($sender->hasPermission("flype.command.bypass")){
+		$entity = $event->getEntity();
+		if($entity->hasPermission("flype.command.bypass")){
 			return;
 		}
-		if($sender->getGamemode() === Player::CREATIVE){
+		if($entity->getGamemode() === Player::CREATIVE){
 			return;
 		}
-		if(!in_array($sender->getLevel()->getName(), $this->getConfig()->get("disabled-worlds"))){
-			if($sender->getAllowFlight() === true){
-			$sender->setFlying(false);
-			$sender->setAllowFlight(false);
-			$sender->sendMessage(C::RED . "This world does not allow flight!");
+		if($this->getConfig()->get("mode") === "blacklist"){
+		if(!in_array($entity->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))){
+			if($entity->getAllowFlight() === true){
+			$entity->setFlying(false);
+			$entity->setAllowFlight(false);
+			$entity->sendMessage(C::RED . "This world does not allow flight!");
 			return;
 			}
+		}
+		}
+		if($this->getConfig()->get("mode") === "whitelist"){
+		if(in_array($entity->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))){
+			if($entity->getAllowFlight() === true){
+			$entity->setFlying(false);
+			$entity->setAllowFlight(false);
+			$entity->sendMessage(C::RED . "This world does not allow flight!");
+			return;
+			}
+		}
 		}
 	}
 
@@ -140,7 +173,7 @@ class Main extends PluginBase implements Listener {
         $entity = $event->getEntity();
 		$damager = $event->getDamager();
 
-		if ($this->getConfig()->get("combatdisablefly") === true){
+		if($this->getConfig()->get("combatdisablefly") === true){
 			if($event instanceof EntityDamageByEntityEvent){
 				if($entity instanceof Player){
 					if(!$damager instanceof Player) return;
