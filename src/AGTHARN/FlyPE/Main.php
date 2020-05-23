@@ -38,15 +38,13 @@ class Main extends PluginBase implements Listener {
         $player = $event->getPlayer();
 		
 	    if($this->getConfig()->get("joindisablefly") === true) {
-		    if($player->getGamemode() === Player::CREATIVE){
-			    return;
-			    } else {
+		    if($player->getGamemode() === Player::CREATIVE) return;
 			    if($player->getAllowFlight() === true){
 				    $player->setFlying(false);
 				    $player->setAllowFlight(false);
 				    $player->sendMessage(C::RED . "Your flight has been disabled");
+				    return;
 			    }
-		    }
 	    }
     }
 	
@@ -103,9 +101,7 @@ class Main extends PluginBase implements Listener {
 		if($entity->hasPermission("flype.command.bypass")){
 			return;
 		}
-		if($entity->getGamemode() === Player::CREATIVE){
-			return;
-		}
+		if($entity->getGamemode() === Player::CREATIVE) return;
 		if($this->getConfig()->get("mode") === "blacklist"){
 			if(!in_array($entity->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))){
 				if($entity->getAllowFlight() === true){
