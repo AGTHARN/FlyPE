@@ -6,6 +6,9 @@ projects:
   FlyPE:
     path: ""
     icon: icon.png
+    libs:
+    - src: jojoe77777/FormAPI/libFormAPI
+      version: ^1.3
     lint:
         phpstan: false
 ...
