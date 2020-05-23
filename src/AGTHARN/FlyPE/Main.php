@@ -152,9 +152,6 @@ class Main extends PluginBase implements Listener {
 					}
 				}
 				break;
-				
-				case 1:
-				break;
 			}
 			});
 			
@@ -188,7 +185,6 @@ class Main extends PluginBase implements Listener {
 			    return false;
 		    }
 			if($this->getConfig()->get("enableflyui") === true){
-				//$sender->sendMessage(C::GREEN . "THIS MESSAGE IS FOR DEBUG PURPOSES! IF YOU SEE IT PLEASE REPORT IT TO ME!");
 				if($sender instanceof Player) $this->openflyui($sender);
 				return false;
 			}
@@ -205,21 +201,14 @@ class Main extends PluginBase implements Listener {
 				    $sender->sendMessage(C::RED . "Player could not be found!");
 				    return false;
 			    }
-			    if($target->getGamemode() === Player::CREATIVE){
-				    $sender->sendMessage(C::RED . "Unable to toggle because player is in creative!");
-				    return false;
-			    }
-			    if($target->getAllowFlight() === true){
-				    $target->setFlying(false);
-				    $target->setAllowFlight(false);
-				    $target->sendMessage(C::RED . "Your flight was toggled off!");
-				    $sender->sendMessage(C::RED . "Flight for " . $target->getName() . " has been toggled off!");
-				    }else{
-				    $target->setAllowFlight(true);
-				    $target->setFlying(true);
-				    $target->sendMessage(C::GREEN . "Your flight was toggled on!");
-				    $sender->sendMessage(C::GREEN . "Flight for " . $target->getName() . " has been toggled on!");
-			    }
+			    if($target instanceof Player) $this->levelcheck($target);
+				if($target->getAllowFlight() === false){
+					$sender->sendMessage(C::RED . "Flight for " . $target->getName() . " has been toggled off!");
+				} else {
+					if($target->getAllowFlight() === true){
+						$sender->sendMessage(C::GREEN . "Flight for " . $target->getName() . " has been toggled on!");
+					}
+				}
 		    }
 		    return false;
 	    }
@@ -237,7 +226,7 @@ class Main extends PluginBase implements Listener {
 				    if($damager->getAllowFlight() === true){
 					    $damager->setAllowFlight(false);
 					    $damager->setFlying(false);
-					    //$entity->sendMessage(C::RED . "You can't fly during combat!");
+					    $damager->sendMessage(C::RED . "You can't fly during combat!");
 					}
 				}
 			}
