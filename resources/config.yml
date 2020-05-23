@@ -1,32 +1,52 @@
+##### VERSION #####
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
 config-version: 2
+###################
 
-# Disables fly when a player joins.
+##### FLY SETTINGS #####
+# If set to true, fly is disabled when a player joins.
+# If set to false, fly wouldn't be disabled when a player joins.
 joindisablefly: true
 
-# Disables fly when a player is in combat.
+# If set to true, fly is disabled when a punches another player.
+# If set to false, fly wouldn't be disabled when a punches another player.
 combatdisablefly: true
+#######################
 
-# Enable a fly UI when a player runs /fly?
+##### FLY UI #####
+# If set to true, a UI would show up when a player runs the /fly command.
+# If set to false, everything would be normal and player would be able to toggle flight.
 enableflyui: false
-payforfly: false # set true you want a player to pay for fly
-buyflycost: 100000 # cost of fly if payforfly is on
 
-# Would you like to time how long a player could use /fly? (COMING SOON)
+# If set to true and enableflyui is set to true, players would have to pay to enable and disable fly. (NOTE THAT YOU NEED THE ECONOMYAPI PLUGIN)
+# If set to true and enableflyui is set to false, everything would be normal and player would be able to toggle flight.
+# If set to false and enableflyui is set to true, players would not have to pay for fly.
+payforfly: false
+
+# If payforfly is set to true, set this to the amount of money a player needs to pay for fly. (1800, 4500, 8500 etc.)
+buyflycost: 100000
+##################
+
+##### TEMPORAL FLY (COMING SOON) #####
+# Would you like to time how long a player could use /fly?
 # timefly: false
 # flymins: 10 # amount of mins a player can fly for
+######################################
 
-# Use whitelist or blacklist mode?
+##### BLACKLIST OR WHITELIST WORLDS #####
+# If set to blacklist, players that are in the worlds listed in blacklisted-worlds wouldn't be able to run /fly.
+# If set to whitelist, players that are in the worlds listed in whitelisted-worlds would be able to run /fly.
 mode: blacklist
 
-# (BLACKLIST) List of worlds where you can't use fly in.
+# (BLACKLIST) These worlds only apply if the mode is set to blacklist.
 blacklisted-worlds:
  - "placeholder1"
  - "placeholder2"
  - "placeholder3"
-
-# (WHITELIST) List of worlds where you can use fly in.
+ 
+# (WHITELIST) These worlds only apply if the mode is set to whitelist.
 whitelisted-worlds:
  - "flyworld1"
  - "flyworld2"
  - "flyworld3"
+ #########################################
