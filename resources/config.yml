@@ -7,7 +7,7 @@ joindisablefly: true
 # Disables fly when a player is in combat.
 combatdisablefly: true
 
-# Enable a fly UI when a player runs /fly? (COMING SOON)
+# Enable a fly UI when a player runs /fly?
 enableflyui: false
 payforfly: false # set true you want a player to pay for fly
 buyflycost: 100000 # cost of fly if payforfly is on
