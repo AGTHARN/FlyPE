@@ -143,8 +143,6 @@ class Main extends PluginBase implements Listener {
 	}
 	
 	public function openflyui($player){
-		$this->economy = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
-		
 		$form = new SimpleForm(function (Player $player, int $data = null){
 			
 			switch($data){
