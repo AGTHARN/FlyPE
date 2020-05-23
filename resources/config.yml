@@ -36,6 +36,7 @@ buyflycost: 100000
 ##### BLACKLIST OR WHITELIST WORLDS #####
 # If set to blacklist, players that are in the worlds listed in blacklisted-worlds wouldn't be able to run /fly.
 # If set to whitelist, players that are in the worlds listed in whitelisted-worlds would be able to run /fly.
+# If set to both (WARNING), players wouldn't be able to toggle fly and it just ruins the purpose the plugin. (added it for fun ig)
 mode: blacklist
 
 # (BLACKLIST) These worlds only apply if the mode is set to blacklist.
