@@ -34,4 +34,4 @@ You can find the config file [here](https://github.com/AGTHARN/FlyPE/blob/master
 + Name: FlyPE
 + Author: AGTHARN
 + Version: 1.0.0
-+ Api: [3.0.0, 4.0.0]
++ Api: 3.0.0
