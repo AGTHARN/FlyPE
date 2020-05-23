@@ -13,6 +13,8 @@ use pocketmine\utils\TextFormat as C;
 use pocketmine\event\Listener;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
+use AGTHARN\FlyPE\libs\jojoe77777\FormAPI\SimpleForm;
+use onebone\economyapi\EconomyAPI;
 
 class Main extends PluginBase implements Listener {
 
@@ -127,21 +129,20 @@ class Main extends PluginBase implements Listener {
 	}
 	
 	public function openflyui($player){
-		$formapi = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
 		$this->economy = $this->getServer()->getPluginManager()->getPlugin("EconomyAPI");
 		
-		$form = $formapi->createSimpleForm(function (Player $player, int $data = null){
+		$form = new SimpleForm(function (Player $player, int $data = null){
 			
 			switch($data){
                 case 0:
 				$cost = $this->getConfig()->get("buyflycost");
-				$playermoney = $this->economy->myMoney($player);
+				$playermoney = EconomyAPI::getInstance()->myMoney($player);
 				
 				if($this->getConfig()->get("payforfly") === true){
 				if($playermoney < $cost){
 					$player->sendMessage(C::RED . "You do not have enough money!");
 				} else {
-					$this->economy->reduceMoney($player, $cost);
+					EconomyAPI::getInstance()->reduceMoney($player, $cost);
 					$player->sendMessage(C::GREEN . "Successful purchase of fly!");
 					
 				if($player instanceof Player) $this->levelcheck($player);
