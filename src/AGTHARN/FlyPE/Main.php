@@ -48,7 +48,45 @@ class Main extends PluginBase implements Listener {
 	    }
     }
 	
-	private function levelcheck(Entity $entity) : bool{
+	public function BlacklistedWorldCheck($entity){
+		if(!in_array($entity->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))){
+			if($entity->getAllowFlight() === false){
+				$entity->sendMessage(C::GREEN . "Toggled your flight on!");
+				$entity->setFlying(true);
+				$entity->setAllowFlight(true);
+				return false;
+				} else {
+					$entity->setFlying(false);
+					$entity->setAllowFlight(false);
+					$entity->sendMessage(C::RED . "Toggled your flight off!");
+					return false;
+				}
+		} else {
+			$entity->sendMessage(C::RED . "This world does not allow flight!");
+			return false;
+		}
+	}
+	
+	public function WhitelistedWorldCheck($entity){
+		if(in_array($entity->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))){
+			if($entity->getAllowFlight() === false){
+				$entity->sendMessage(C::GREEN . "Toggled your flight on!");
+				$entity->setFlying(true);
+				$entity->setAllowFlight(true);
+				return false;
+			} else {
+				$entity->setFlying(false);
+				$entity->setAllowFlight(false);
+				$entity->sendMessage(C::RED . "Toggled your flight off!");
+				return false;
+				}
+		} else {
+			$entity->sendMessage(C::RED . "This world does not allow flight!");
+			return false;
+		}
+	}
+	
+	private function CheckLevel(Entity $entity) : bool{
 		if($entity->getGamemode() === Player::CREATIVE){
 			if($entity->getAllowFlight() === false){
 				$entity->sendMessage(C::RED . "You can't toggle fly in creative!");
@@ -60,40 +98,14 @@ class Main extends PluginBase implements Listener {
 			}
 		}
 		if($this->getConfig()->get("mode") === "blacklist"){
-			if(!in_array($entity->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))){
-				if($entity->getAllowFlight() === false){
-					$entity->sendMessage(C::GREEN . "Toggled your flight on!");
-					$entity->setFlying(true);
-					$entity->setAllowFlight(true);
-					return false;
-					} else {
-						$entity->setFlying(false);
-						$entity->setAllowFlight(false);
-						$entity->sendMessage(C::RED . "Toggled your flight off!");
-						return false;
-					}
-				}
+			if($entity instanceof Player) $this->BlacklistedWorldCheck($entity);
+			return false;
 		} else {
 			if($this->getConfig()->get("mode") === "whitelist"){
-				if(in_array($entity->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))){
-					if($entity->getAllowFlight() === false){
-						$entity->sendMessage(C::GREEN . "Toggled your flight on!");
-						$entity->setFlying(true);
-						$entity->setAllowFlight(true);
-						return false;
-					} else {
-							$entity->setFlying(false);
-							$entity->setAllowFlight(false);
-							$entity->sendMessage(C::RED . "Toggled your flight off!");
-							return false;
-						}
-					}
-					$entity->sendMessage(C::RED . "This world does not allow flight!");
-					return false;
+				if($entity instanceof Player) $this->WhitelistedWorldCheck($entity);
+				return false;
 				}
 			}
-		$entity->sendMessage(C::RED . "This world does not allow flight!");
-		return false;
 	}
 	
 	public function onLevelChange(EntityLevelChangeEvent $event) : void{
@@ -141,11 +153,11 @@ class Main extends PluginBase implements Listener {
 					EconomyAPI::getInstance()->reduceMoney($player, $cost);
 					$player->sendMessage(C::GREEN . "Successful purchase of fly!");
 					
-				if($player instanceof Player) $this->levelcheck($player);
+				if($player instanceof Player) $this->CheckLevel($player);
 				}
 				} else {
 					if($this->getConfig()->get("payforfly") === false){
-						if($player instanceof Player) $this->levelcheck($player);
+						if($player instanceof Player) $this->CheckLevel($player);
 					}
 				}
 				break;
@@ -186,7 +198,7 @@ class Main extends PluginBase implements Listener {
 				return false;
 			}
 		    if(empty($args[0])){
-			    if($sender instanceof Player) $this->levelcheck($sender);
+			    if($sender instanceof Player) $this->CheckLevel($sender);
 		    }
 		    if(isset($args[0])){
 			    $target = $this->getServer()->getPlayer($args[0]);
@@ -198,7 +210,7 @@ class Main extends PluginBase implements Listener {
 				    $sender->sendMessage(C::RED . "Player could not be found!");
 				    return false;
 			    }
-			    if($target instanceof Player) $this->levelcheck($target);
+			    if($target instanceof Player) $this->CheckLevel($target);
 				if($target->getAllowFlight() === false){
 					$sender->sendMessage(C::RED . "Flight for " . $target->getName() . " has been toggled off!");
 				} else {
