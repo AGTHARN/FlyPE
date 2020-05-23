@@ -223,7 +223,7 @@ class Main extends PluginBase implements Listener {
 		    if($event instanceof EntityDamageByEntityEvent){
 			    if($entity instanceof Player){
 				    if(!$damager instanceof Player) return;
-				    if($damager->isCreative()) return;
+				    if($damager->getGamemode() === Player::CREATIVE) return;
 				    if($damager->getAllowFlight() === true){
 					    $damager->setAllowFlight(false);
 					    $damager->setFlying(false);
