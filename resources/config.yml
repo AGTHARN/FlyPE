@@ -25,7 +25,7 @@ blacklisted-worlds:
  - "placeholder2"
  - "placeholder3"
 
-# (WHITELIST) List of worlds where you can use fly in. (WIP)
+# (WHITELIST) List of worlds where you can use fly in.
 whitelisted-worlds:
  - "flyworld1"
  - "flyworld2"
