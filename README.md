@@ -5,9 +5,9 @@
 # How do I use it?
 To use it, [download the latest phar](https://poggit.pmmp.io/ci/AGTHARN/FlyPE/FlyPE) and put it in the plugins folder. Restart your server and use /fly ingame to toggle flight! Make sure to also check out the config in your plugins data folder!
 
-# Dependants
-+ [FormAPI](https://poggit.pmmp.io/p/FormAPI/1.3.0)
+# Requirements
 + [EconomyAPI](https://poggit.pmmp.io/p/EconomyAPI/5.7.2)
+(Only required if you have the payforfly config on)
 
 # Features
 - [x] Blacklist fly in selected worlds
