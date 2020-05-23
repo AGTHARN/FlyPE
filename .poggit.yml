@@ -5,6 +5,7 @@ branches:
 projects:
   FlyPE:
     path: ""
+    icon: icon.png
     lint:
         phpstan: false
 ...
