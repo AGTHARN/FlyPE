@@ -32,6 +32,7 @@ use pocketmine\event\Listener;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use AGTHARN\FlyPE\libs\jojoe77777\FormAPI\SimpleForm;
+use AGTHARN\FlyPE\libs\JackMD\UpdateNotifier\UpdateNotifier;
 use onebone\economyapi\EconomyAPI;
 
 class Main extends PluginBase implements Listener {
@@ -53,6 +54,7 @@ class Main extends PluginBase implements Listener {
 	    if($this->getConfig()->get("payforfly") === true){
 		    $this->getLogger()->warning("The payforfly config is on! Make sure you have the EconomyAPI plugin installed!");
 	    }
+	    UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
     }
 
     public function onPlayerJoin(PlayerJoinEvent $event){
