@@ -19,8 +19,8 @@ To use it, [download the latest phar](https://poggit.pmmp.io/ci/AGTHARN/FlyPE/Fl
 - [x] A fly UI to toggle flight
 - [x] A permission to bypass the world checks
 - [x] Option to enable buying of fly
+- [x] Customisable messages
 - [ ] Temporal fly time
-- [ ] Customisable messages
 
 # Permissions
 + **flype.command** - Allows player to run the /fly command (Default: OP)
@@ -33,5 +33,5 @@ You can find the config file [here](https://github.com/AGTHARN/FlyPE/blob/master
 # Plugin Info
 + Name: FlyPE
 + Author: AGTHARN
-+ Version: 1.0.0
++ Version: 1.0.2
 + Api: 3.0.0
