@@ -23,9 +23,12 @@ To use it, [download the latest phar](https://poggit.pmmp.io/ci/AGTHARN/FlyPE/Fl
 - [ ] Temporal fly time
 
 # Permissions
-+ **flype.command** - Allows player to run the /fly command (Default: OP)
-+ **flype.command.others** - Allows player to run /fly on others (Default: OP)
-+ **flype.command.bypass** - Allows player to bypass checks when switching to a different world (Default: OP)
+
+Permission           | Description                                                        | Default |
+-------------------- | ------------------------------------------------------------------ | ------- |
+flype.command        | Allows player to run the fly command                               | OP      |
+flype.command.others | Allows player to run the fly command on others                     | OP      |
+flype.command.bypass | Allows player to bypass checks when switching to a different world | OP      |
 
 # Config File
 You can find the config file [here](https://github.com/AGTHARN/FlyPE/blob/master/resources/config.yml)!
