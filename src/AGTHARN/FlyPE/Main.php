@@ -50,6 +50,9 @@ class Main extends PluginBase implements Listener {
 		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
 		    $this->getServer()->getPluginManager()->disablePlugin($this);
 	    }
+	    if($this->getConfig()->get("payforfly") === true){
+		    $this->getLogger()->warning("The payforfly config is on! Make sure you have the EconomyAPI plugin installed!");
+	    }
     }
 
     public function onPlayerJoin(PlayerJoinEvent $event){
