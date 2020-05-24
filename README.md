@@ -4,7 +4,7 @@
 FlyPE is a fly plugin for pocketmine that allows you to fly in survival mode when you run the fly command! You can choose to allow fly to be used or not allow fly to be used in selected worlds in the config! And there are more features listed below!
 
 # How do I use it?
-To use it, [download the latest phar](https://poggit.pmmp.io/ci/AGTHARN/FlyPE/FlyPE) and put it in the plugins folder. Restart your server and use /fly ingame to toggle flight! Make sure to also check out the config in your plugins data folder!
+To use it, [download the latest phar](https://poggit.pmmp.io/ci/AGTHARN/FlyPE/FlyPE) and put it in the plugins folder. Restart your server and make sure that you have OP or the permission to use /fly ingame to toggle flight! After that, make sure to also check out the config in your plugins data folder and edit it if you feel like wanting to do so!
 
 # Requirements
 + [EconomyAPI](https://poggit.pmmp.io/p/EconomyAPI/5.7.2)
