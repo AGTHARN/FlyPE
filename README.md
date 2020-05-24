@@ -36,5 +36,5 @@ You can find the config file [here](https://github.com/AGTHARN/FlyPE/blob/master
 # Plugin Info
 + Name: FlyPE
 + Author: AGTHARN
-+ Version: 1.0.2
++ Version: 1.1.0
 + Api: 3.0.0
