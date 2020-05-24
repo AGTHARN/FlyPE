@@ -10,7 +10,7 @@ softdepend:
 commands:
   fly:
     permission: "flype.command"
-    description: "fly command"
+    description: "Fly command to toggle flight"
 
 permissions:
   flype.command:
