@@ -1,9 +1,13 @@
 ##### VERSION #####
+
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 2
+config-version: 3
+
 ###################
 
+
 ##### FLY SETTINGS #####
+
 # If set to true, fly is disabled when a player joins.
 # If set to false, fly wouldn't be disabled when a player joins.
 joindisablefly: true
@@ -11,9 +15,12 @@ joindisablefly: true
 # If set to true, fly is disabled when a punches another player.
 # If set to false, fly wouldn't be disabled when a punches another player.
 combatdisablefly: true
+
 #######################
 
+
 ##### FLY UI #####
+
 # If set to true, a UI would show up when a player runs the /fly command.
 # If set to false, everything would be normal and player would be able to toggle flight.
 enableflyui: false
@@ -25,15 +32,21 @@ payforfly: false
 
 # If payforfly is set to true, set this to the amount of money a player needs to pay for fly. (1800, 4500, 8500 etc.)
 buyflycost: 100000
+
 ##################
 
+
 ##### TEMPORAL FLY (COMING SOON) #####
+
 # Would you like to time how long a player could use /fly?
 # timefly: false
 # flymins: 10 # amount of mins a player can fly for
+
 ######################################
 
+
 ##### BLACKLIST OR WHITELIST WORLDS #####
+
 # If set to blacklist, players that are in the worlds listed in blacklisted-worlds wouldn't be able to run /fly.
 # If set to whitelist, players that are in the worlds listed in whitelisted-worlds would be able to run /fly.
 # If set to both (WARNING), players wouldn't be able to toggle fly and it just ruins the purpose the plugin. (added it for fun ig)
@@ -50,4 +63,46 @@ whitelisted-worlds:
  - "flyworld1"
  - "flyworld2"
  - "flyworld3"
- #########################################
+ 
+#########################################
+ 
+ 
+##### MESSAGES #####
+
+# The message a player gets if joindisablefly is set to true and player is flying.
+onjoin-flight-disabled: "Your flight has been disabled!"
+
+# The message a player gets for toggling on flight.
+toggled-flight-on: "Toggled your flight on!"
+
+# The message a player gets for toggling off flight.
+toggled-flight-off: "Toggled your flight off!"
+
+# The message a player gets when they toggle on flight for others.
+flight-for-other-on: "Flight for {$targetname} has been toggled on!"
+
+# The message a player gets when they toggle off flight for others.
+flight-for-other-off: "Flight for {$targetname} has been toggled off!"
+
+# The message a player gets when the player stated could not be found.
+player-cant-be-found: "Player could not be found!"
+
+# The message a player gets when they try to toggle flight for others without permission.
+cant-toggle-flight-others: "You do not have permission to toggle flight for others!"
+ 
+# The message a player gets when they try to toggle on flight in a restricted world.
+flight-not-allowed: "This world does not allow flight!"
+
+# The message a player gets when they try to toggle off flight in creative mode.
+disable-fly-creative: "You can't disable fly in creative!"
+
+# The message a player gets when they attack a player.
+combat-fly-disable: "You can't fly during combat!"
+
+# The message a player gets when they do not have enough money to toggle flight.
+not-enough-money: "You do not have enough money!"
+
+# The message a player gets when they have successfully purchased flight.
+buy-fly-successful: "Successful purchase of fly!"
+
+ ####################
