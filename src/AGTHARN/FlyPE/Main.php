@@ -60,7 +60,6 @@ class Main extends PluginBase implements Listener {
 			    if($player->getAllowFlight() === true){
 				    $player->setFlying(false);
 				    $player->setAllowFlight(false);
-				    //$player->sendMessage(C::RED . "Your flight has been disabled!");
 					$player->sendMessage(C::RED . $this->getConfig()->get("onjoin-flight-disabled"));
 				    return;
 			    }
@@ -70,7 +69,6 @@ class Main extends PluginBase implements Listener {
 	public function BlacklistedWorldCheck($entity){
 		if(!in_array($entity->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))){
 			if($entity->getAllowFlight() === false){
-				//$entity->sendMessage(C::GREEN . "Toggled your flight on!");
 				$entity->sendMessage(C::GREEN . $this->getConfig()->get("toggled-flight-on"));
 				$entity->setFlying(true);
 				$entity->setAllowFlight(true);
@@ -78,12 +76,10 @@ class Main extends PluginBase implements Listener {
 				} else {
 					$entity->setFlying(false);
 					$entity->setAllowFlight(false);
-					//$entity->sendMessage(C::RED . "Toggled your flight off!");
 					$entity->sendMessage(C::RED . $this->getConfig()->get("toggled-flight-off"));
 					return false;
 				}
 		} else {
-			//$entity->sendMessage(C::RED . "This world does not allow flight!");
 			$entity->sendMessage(C::RED . $this->getConfig()->get("flight-not-allowed"));
 			return false;
 		}
@@ -92,7 +88,6 @@ class Main extends PluginBase implements Listener {
 	public function WhitelistedWorldCheck($entity){
 		if(in_array($entity->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))){
 			if($entity->getAllowFlight() === false){
-				//$entity->sendMessage(C::GREEN . "Toggled your flight on!");
 				$entity->sendMessage(C::GREEN . $this->getConfig()->get("toggled-flight-on"));
 				$entity->setFlying(true);
 				$entity->setAllowFlight(true);
@@ -100,12 +95,10 @@ class Main extends PluginBase implements Listener {
 			} else {
 				$entity->setFlying(false);
 				$entity->setAllowFlight(false);
-				//$entity->sendMessage(C::RED . "Toggled your flight off!");
 				$entity->sendMessage(C::RED . $this->getConfig()->get("toggled-flight-off"));
 				return false;
 				}
 		} else {
-			//$entity->sendMessage(C::RED . "This world does not allow flight!");
 			$entity->sendMessage(C::RED . $this->getConfig()->get("flight-not-allowed"));
 			return false;
 		}
@@ -114,7 +107,6 @@ class Main extends PluginBase implements Listener {
 	private function CheckLevel(Entity $entity) : bool{
 		if($entity->getGamemode() === Player::CREATIVE){
 			if($entity->getAllowFlight() === true){
-				//$entity->sendMessage(C::RED . "You can't disable fly in creative!");
 				$entity->sendMessage(C::RED . $this->getConfig()->get("disable-fly-creative"));
 				return false;
 			}
@@ -147,7 +139,6 @@ class Main extends PluginBase implements Listener {
 				if($entity->getAllowFlight() === true){
 					$entity->setFlying(false);
 					$entity->setAllowFlight(false);
-					//$entity->sendMessage(C::RED . "This world does not allow flight!");
 					$entity->sendMessage(C::RED . $this->getConfig()->get("flight-not-allowed"));
 					return;
 				}
@@ -158,7 +149,6 @@ class Main extends PluginBase implements Listener {
 				if($entity->getAllowFlight() === true){
 					$entity->setFlying(false);
 					$entity->setAllowFlight(false);
-					//$entity->sendMessage(C::RED . "This world does not allow flight!");
 					$entity->sendMessage(C::RED . $this->getConfig()->get("flight-not-allowed"));
 					return;
 				}
@@ -176,11 +166,9 @@ class Main extends PluginBase implements Listener {
 				
 				if($this->getConfig()->get("payforfly") === true){
 				if($playermoney < $cost){
-					//$player->sendMessage(C::RED . "You do not have enough money!");
 					$player->sendMessage(C::RED . $this->getConfig()->get("not-enough-money"));
 				} else {
 					EconomyAPI::getInstance()->reduceMoney($player, $cost);
-					//$player->sendMessage(C::GREEN . "Successful purchase of fly!");
 					$player->sendMessage(C::GREEN . $this->getConfig()->get("buy-fly-successful"));
 					
 				if($player instanceof Player) $this->CheckLevel($player);
@@ -234,22 +222,18 @@ class Main extends PluginBase implements Listener {
 			    $target = $this->getServer()->getPlayer($args[0]);
 				$targetname = $target->getName();
 			    if(!$sender->hasPermission("flype.command.others")){
-				    //$sender->sendMessage(C::RED . "You do not have permission to toggle flight for others!");
 					$sender->sendMessage(C::RED . $this->getConfig()->get("cant-toggle-flight-others"));
 				    return false;
 			    }
 			    if(!$target instanceof Player){
-				    //$sender->sendMessage(C::RED . "Player could not be found!");
 					$sender->sendMessage(C::RED . $this->getConfig()->get("player-cant-be-found"));
 				    return false;
 			    }
 			    if($target instanceof Player) $this->CheckLevel($target);
 				if($target->getAllowFlight() === false){
-					//$sender->sendMessage(C::RED . "Flight for " . $target->getName() . " has been toggled off!");
 					$sender->sendMessage(C::RED . $this->getConfig()->get("flight-for-other-off"));
 				} else {
 					if($target->getAllowFlight() === true){
-						//$sender->sendMessage(C::GREEN . "Flight for " . $target->getName() . " has been toggled on!");
 						$sender->sendMessage(C::GREEN . $this->getConfig()->get("flight-for-other-on"));
 					}
 				}
@@ -270,7 +254,6 @@ class Main extends PluginBase implements Listener {
 				    if($damager->getAllowFlight() === true){
 					    $damager->setAllowFlight(false);
 					    $damager->setFlying(false);
-					    //$damager->sendMessage(C::RED . "You can't fly during combat!");
 						$damager->sendMessage(C::RED . $this->getConfig()->get("combat-fly-disable"));
 					}
 				}
