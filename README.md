@@ -19,6 +19,8 @@ To use it, [download the latest phar](https://poggit.pmmp.io/ci/AGTHARN/FlyPE/Fl
 - [x] Able to toggle fly for other players
 - [x] An option to allow a fly UI to toggle flight
 - [x] An option to enable buying of fly
+- [x] An option to disable dropping items
+- [x] An option to disable picking up items
 - [x] Customisable messages
 - [ ] Temporal fly time
 
