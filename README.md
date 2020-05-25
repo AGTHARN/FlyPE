@@ -21,6 +21,7 @@ To use it, [download the latest phar](https://poggit.pmmp.io/ci/AGTHARN/FlyPE/Fl
 - [x] An option to enable buying of fly
 - [x] An option to disable dropping items
 - [x] An option to disable picking up items
+- [x] An option to disable eating
 - [x] Customisable messages
 - [ ] Temporal fly time
 
@@ -43,5 +44,5 @@ You can find the config file [here](https://github.com/AGTHARN/FlyPE/blob/master
 # Plugin Info
 + Name: FlyPE
 + Author: AGTHARN
-+ Version: 1.1.0
++ Version: 2.0.0
 + Api: 3.0.0
