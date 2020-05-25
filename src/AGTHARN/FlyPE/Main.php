@@ -259,7 +259,7 @@ class Main extends PluginBase implements Listener {
 			}
 	}
 	
-	public function DisableItemDrop(PlayerDropItenEvent $event){
+	public function DisableItemDrop(PlayerDropItemEvent $event){
 		$player = $event->getPlayer();
 		 if($this->getConfig()->get("item-dropping") === false){
 			 if($player->getAllowFlight() === true){
