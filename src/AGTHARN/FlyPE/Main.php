@@ -298,6 +298,17 @@ class Main extends PluginBase implements Listener {
 			}
 		}
 	}
+	
+	public function onEntityEat(EntityEatEvent $event){
+		$player = $event->getPlayer();
+		$entity = $event->getEntity();
+		if($entity->getGamemode() === Player::CREATIVE) return;
+		if($this->getConfig()->get("player-eating") === false){
+			if($player->getAllowFlight() === true){
+				$event->setCancelled();
+			}
+		}
+	}
 
     public function onEntityDamageEntity(EntityDamageByEntityEvent $event) : void {
 	    $entity = $event->getEntity();
