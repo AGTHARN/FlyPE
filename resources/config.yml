@@ -24,13 +24,21 @@ item-dropping: true
 # If set to false, players would not be able to pick up items while they are in flight mode.
 picking-up-items: true
 
+# If set to true, players would be able to break blocks while they are in flight mode.
+# If set to false, players would not be able to break blocks while they are in flight mode.
+block-breaking: true
+
+# If set to true, players would be able to place blocks while they are in flight mode.
+# If set to false, players would not be able to place blocks while they are in flight mode.
+block-placing: true
+
 #######################
 
 
 ##### FLY UI #####
 
 # If set to true, a UI would show up when a player runs the /fly command.
-# If set to false, everything would be normal and player would be able to toggle flight.
+# If set to false, everything would be normal and players would be able to toggle flight normally.
 enableflyui: false
 
 # If set to true and enableflyui is set to true, players would have to pay to enable and disable fly. (NOTE THAT YOU NEED THE ECONOMYAPI PLUGIN)
