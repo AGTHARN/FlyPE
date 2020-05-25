@@ -250,6 +250,14 @@ class Main extends PluginBase implements Listener {
 		    return false;
 	    }
     }
+	public function EntityPickupItem(InventoryPickupItemEvent $event) {
+		$player = $event->getEntity()
+			if($this->getConfig()->get("picking-up-items") === false){
+				if($player->getAllowFlight() === true){
+					$event->setCancelled();
+				}
+			}
+	}
 
     public function onEntityDamageEntity(EntityDamageByEntityEvent $event) : void {
 	    $entity = $event->getEntity();
