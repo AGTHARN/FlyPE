@@ -261,15 +261,22 @@ class Main extends PluginBase implements Listener {
 	    if($this->getConfig()->get("combatdisablefly") === true){
 		    if($event instanceof EntityDamageByEntityEvent){
 			    if($entity instanceof Player){
-				    if(!$damager instanceof Player) return;
-				    if($damager->getGamemode() === Player::CREATIVE) return;
-				    if($damager->getAllowFlight() === true){
-					    $damager->setAllowFlight(false);
-					    $damager->setFlying(false);
-						$damager->sendMessage(C::RED . $this->getConfig()->get("combat-fly-disable"));
-					}
-				}
-			}
-		}
-	}
+				    if(!$damager instanceof Player){
+					    if($damager->getGamemode() === Player::CREATIVE) return;
+					    if($entity->getGamemode() === Player::CREATIVE) return;
+					    if($damager->getAllowFlight() === true){
+						    $damager->setAllowFlight(false);
+						    $damager->setFlying(false);
+						    $damager->sendMessage(C::RED . $this->getConfig()->get("combat-fly-disable"));
+					    }
+					    if($entity->getAllowFlight() === true){
+						    $entity->setAllowFlight(false);
+						    $entity->setFlying(false);
+						    $entity->sendMessage(C::RED . $this->getConfig()->get("combat-fly-disable"));
+					    }
+				    }
+			    }
+		    }
+	    }
+    }
 }
