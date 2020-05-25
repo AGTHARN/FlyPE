@@ -255,22 +255,48 @@ class Main extends PluginBase implements Listener {
 		    return false;
 	    }
     }
-	public function EntityPickupItem(InventoryPickupItemEvent $event){
+	public function onInventoryPickupItem(InventoryPickupItemEvent $event){
 		$player = $event->getPlayer();
-			if($this->getConfig()->get("picking-up-items") === false){
-				if($player->getAllowFlight() === true){
-					$event->setCancelled();
-				}
+		$entity = $event->getEntity();
+		if($entity->getGamemode() === Player::CREATIVE) return;
+		if($this->getConfig()->get("picking-up-items") === false){
+			if($player->getAllowFlight() === true){
+				$event->setCancelled();
 			}
+		}
 	}
 	
-	public function DisableItemDrop(PlayerDropItemEvent $event){
+	public function onPlayerDropItem(PlayerDropItemEvent $event){
 		$player = $event->getPlayer();
-		 if($this->getConfig()->get("item-dropping") === false){
-			 if($player->getAllowFlight() === true){
-					$event->setCancelled();
+		$entity = $event->getEntity();
+		if($entity->getGamemode() === Player::CREATIVE) return;
+		if($this->getConfig()->get("item-dropping") === false){
+			if($player->getAllowFlight() === true){
+				$event->setCancelled();
 			 }
 		 }
+	}
+	
+	public function onBlockBreak(BlockBreakEvent $event){
+		$player = $event->getPlayer();
+		$entity = $event->getEntity();
+		if($entity->getGamemode() === Player::CREATIVE) return;
+		if($this->getConfig()->get("block-breaking") === false){
+			if($player->getAllowFlight() === true){
+				$event->setCancelled();
+			}
+		}
+	}
+	
+	public function onBlockPlace(BlockPlaceEvent $event){
+		$player = $event->getPlayer();
+		$entity = $event->getEntity();
+		if($entity->getGamemode() === Player::CREATIVE) return;
+		if($this->getConfig()->get("block-placing") === false){
+			if($player->getAllowFlight() === true){
+				$event->setCancelled();
+			}
+		}
 	}
 
     public function onEntityDamageEntity(EntityDamageByEntityEvent $event) : void {
