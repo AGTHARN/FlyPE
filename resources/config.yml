@@ -32,6 +32,10 @@ block-breaking: true
 # If set to false, players would not be able to place blocks while they are in flight mode.
 block-placing: true
 
+# If set to true, players would be able to eat while they are in flight mode.
+# If set to false, players would not be able to eat while they are in flight mode.
+player-eating: true
+
 #######################
 
 
