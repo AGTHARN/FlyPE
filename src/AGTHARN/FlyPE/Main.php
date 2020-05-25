@@ -32,7 +32,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
-use pocketmine\event\entity\EntityEatEvent;
+use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\inventory\InventoryPickupItemEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -300,7 +300,7 @@ class Main extends PluginBase implements Listener {
 		}
 	}
 	
-	public function onEntityEat(EntityEatEvent $event){
+	public function onPlayerItemConsume(PlayerItemConsumeEvent $event){
 		$player = $event->getPlayer();
 		$entity = $event->getEntity();
 		if($entity->getGamemode() === Player::CREATIVE) return;
