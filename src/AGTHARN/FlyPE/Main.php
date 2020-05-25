@@ -64,7 +64,7 @@ class Main extends PluginBase implements Listener {
     public function onPlayerJoin(PlayerJoinEvent $event){
         $player = $event->getPlayer();
 		
-	    if($this->getConfig()->get("joindisablefly") === true) {
+	    if($this->getConfig()->get("joindisablefly") === true){
 		    if($player->getGamemode() === Player::CREATIVE) return;
 			    if($player->getAllowFlight() === true){
 				    $player->setFlying(false);
@@ -250,13 +250,22 @@ class Main extends PluginBase implements Listener {
 		    return false;
 	    }
     }
-	public function EntityPickupItem(InventoryPickupItemEvent $event) {
-		$player = $event->getEntity()
+	public function EntityPickupItem(InventoryPickupItemEvent $event){
+		$player = $event->getPlayer();
 			if($this->getConfig()->get("picking-up-items") === false){
 				if($player->getAllowFlight() === true){
 					$event->setCancelled();
 				}
 			}
+	}
+	
+	public function DisableItemDrop(PlayerDropItenEvent $event){
+		$player = $event->getPlayer();
+		 if($this->getConfig()->get("item-dropping") === false){
+			 if($player->getAllowFlight() === true){
+					$event->setCancelled();
+			 }
+		 }
 	}
 
     public function onEntityDamageEntity(EntityDamageByEntityEvent $event) : void {
