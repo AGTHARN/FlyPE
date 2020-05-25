@@ -16,6 +16,14 @@ joindisablefly: true
 # If set to false, fly wouldn't be disabled when a punches another player.
 combatdisablefly: true
 
+# If set to true, players would be able to drop items while they are in flight mode.
+# If set to false, players would not be able to drop items while they are in flight mode.
+item-dropping: true
+
+# If set to true, players would be able to pick up items while they are in flight mode.
+# If set to false, players would not be able to pick up items while they are in flight mode.
+picking-up-items: true
+
 #######################
 
 
