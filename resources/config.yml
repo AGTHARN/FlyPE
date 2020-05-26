@@ -45,7 +45,7 @@ player-eating: true
 # If set to false, everything would be normal and players would be able to toggle flight normally.
 enableflyui: false
 
-# If set to true and enableflyui is set to true, players would have to pay to enable and disable fly. (NOTE THAT YOU NEED THE ECONOMYAPI PLUGIN)
+# If set to true and enableflyui is set to true, players would have to pay to enable fly. (NOTE THAT YOU NEED THE ECONOMYAPI PLUGIN)
 # If set to true and enableflyui is set to false, everything would be normal and player would be able to toggle flight.
 # If set to false and enableflyui is set to true, players would not have to pay for fly.
 payforfly: false
