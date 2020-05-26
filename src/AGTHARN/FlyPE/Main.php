@@ -44,8 +44,8 @@ use pocketmine\event\Listener;
 use pocketmine\Player;
 use pocketmine\item\Item;
 use pocketmine\plugin\PluginBase;
-use AGTHARN\FlyPE\libs\jojoe77777\FormAPI\SimpleForm;
-use AGTHARN\FlyPE\libs\JackMD\UpdateNotifier\UpdateNotifier;
+use jojoe77777\FormAPI\SimpleForm;
+use JackMD\UpdateNotifier\UpdateNotifier;
 use onebone\economyapi\EconomyAPI;
 
 class Main extends PluginBase implements Listener {
