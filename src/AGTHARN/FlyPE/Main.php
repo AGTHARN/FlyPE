@@ -42,6 +42,7 @@ use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat as C;
 use pocketmine\event\Listener;
 use pocketmine\Player;
+use pocketmine\item\Item;
 use pocketmine\plugin\PluginBase;
 use AGTHARN\FlyPE\libs\jojoe77777\FormAPI\SimpleForm;
 use AGTHARN\FlyPE\libs\JackMD\UpdateNotifier\UpdateNotifier;
