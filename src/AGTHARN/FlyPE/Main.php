@@ -31,7 +31,7 @@ use pocketmine\utils\TextFormat as C;
 use pocketmine\event\Listener;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
-use AGTHARN\FlyPE\libs\jojoe77777\FormAPI\SimpleForm;
+use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
 
 class Main extends PluginBase implements Listener {
