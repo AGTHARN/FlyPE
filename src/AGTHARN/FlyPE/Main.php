@@ -269,7 +269,7 @@ class Main extends PluginBase implements Listener {
 	}
 	
 	public function onPlayerDropItem(PlayerDropItemEvent $event){
-		$player = $event->getPlayer()
+		$player = $event->getPlayer();
 		if($player->getGamemode() === Player::CREATIVE) return;
 		if($this->getConfig()->get("item-dropping") === false){
 			if($player->getAllowFlight() === true){
