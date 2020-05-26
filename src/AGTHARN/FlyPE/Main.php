@@ -258,7 +258,8 @@ class Main extends PluginBase implements Listener {
 	    }
     }
 	public function onInventoryPickupItem(InventoryPickupItemEvent $event){
-		$player = $event->getPlayer();
+		$inventory = $event->getInventory();
+		$player = $inventory->getHolder();
 		if($player->getGamemode() === Player::CREATIVE) return;
 		if($this->getConfig()->get("picking-up-items") === false){
 			if($player->getAllowFlight() === true){
@@ -268,7 +269,8 @@ class Main extends PluginBase implements Listener {
 	}
 	
 	public function onPlayerDropItem(PlayerDropItemEvent $event){
-		$player = $event->getPlayer();
+		$inventory = $event->getInventory();
+		$player = $inventory->getHolder();
 		if($player->getGamemode() === Player::CREATIVE) return;
 		if($this->getConfig()->get("item-dropping") === false){
 			if($player->getAllowFlight() === true){
