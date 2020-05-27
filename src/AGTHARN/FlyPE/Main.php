@@ -196,11 +196,7 @@ class Main extends PluginBase implements Listener {
 					$cost = $this->getConfig()->get("buyflycost");
 					
 					$form->setTitle("§l§7< §2FlyUI §7>");
-					if($player->getAllowFlight() === false){
-						$form->addButton("§aEnable Fly §e(Costs $ {$cost})");
-					} elseif($player->getAllowFlight() === true){
-							$form->addButton("§aDisable Fly");
-						}
+					$form->addButton("§aEnable Fly §e(Costs $ {$cost})");
 					$form->addButton("§cExit");
 					$form->sendToPlayer($player);
 					return $form;
