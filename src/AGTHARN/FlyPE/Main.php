@@ -130,18 +130,14 @@ class Main extends PluginBase implements Listener {
 		if($this->getConfig()->get("mode") === "blacklist"){
 			if($entity instanceof Player) $this->BlacklistedWorldCheck($entity);
 			return false;
-		} else {
-			if($this->getConfig()->get("mode") === "whitelist"){
+		} elseif($this->getConfig()->get("mode") === "whitelist"){
 				if($entity instanceof Player) $this->WhitelistedWorldCheck($entity);
 				return false;
-				} else {
-					if($this->getConfig()->get("mode") === "both"){
+				} elseif($this->getConfig()->get("mode") === "both"){
 						if($entity instanceof Player) $this->BlacklistedWorldCheck($entity);
 						if($entity instanceof Player) $this->WhitelistedWorldCheck($entity);
 						return false;
-					}
 				}
-		}
 	}
 	
 	public function onLevelChange(EntityLevelChangeEvent $event) : void{
@@ -183,20 +179,14 @@ class Main extends PluginBase implements Listener {
 				if($this->getConfig()->get("payforfly") === true){
 				if($playermoney < $cost){
 					$player->sendMessage(C::RED . $this->getConfig()->get("not-enough-money"));
-				} else {
-					if($player->getAllowFlight() === false){
+				} elseif($player->getAllowFlight() === false){
 						EconomyAPI::getInstance()->reduceMoney($player, $cost);
 						$player->sendMessage(C::GREEN . $this->getConfig()->get("buy-fly-successful"));
 						if($player instanceof Player) $this->CheckLevel($player);
-					} else {
+					} elseif($player instanceof Player) $this->CheckLevel($player);
+				} elseif($this->getConfig()->get("payforfly") === false){
 						if($player instanceof Player) $this->CheckLevel($player);
 					}
-				}
-				} else {
-					if($this->getConfig()->get("payforfly") === false){
-						if($player instanceof Player) $this->CheckLevel($player);
-					}
-				}
 				break;
 			}
 			});
@@ -208,16 +198,14 @@ class Main extends PluginBase implements Listener {
 					$form->setTitle("§l§7< §2FlyUI §7>");
 					if($player->getAllowFlight() === false){
 						$form->addButton("§aEnable Fly §e(Costs $ {$cost})");
-					} else {
-						if($player->getAllowFlight() === true){
+					} elseif($player->getAllowFlight() === true){
 							$form->addButton("§aDisable Fly");
 						}
 					$form->addButton("§cExit");
 					$form->sendToPlayer($player);
 					return $form;
 			}
-			} else {
-				if($this->getConfig()->get("enableflyui") === true){
+			} elseif($this->getConfig()->get("enableflyui") === true){
 					if($this->getConfig()->get("payforfly") === false){
 					$form->setTitle("§l§7< §6FlyUI §7>");
 					$form->addButton("§aToggle Fly");
@@ -226,7 +214,6 @@ class Main extends PluginBase implements Listener {
 					return $form;
 					}
 				}
-			}
 	}
 	
     public function onCommand(CommandSender $sender, Command $cmd, $label, array $args) : bool{
@@ -258,11 +245,9 @@ class Main extends PluginBase implements Listener {
 			    if($target instanceof Player) $this->CheckLevel($target);
 				if($target->getAllowFlight() === false){
 					$sender->sendMessage(C::RED . $messageoff);
-				} else {
-					if($target->getAllowFlight() === true){
+				} elseif($target->getAllowFlight() === true){
 						$sender->sendMessage(C::GREEN . $messageon);
 					}
-				}
 		    }
 		    return false;
 	    }
