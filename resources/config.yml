@@ -1,3 +1,10 @@
+#  ______ _  __     _______  ______ 
+# |  ____| | \ \   / /  __ \|  ____|
+# | |__  | |  \ \_/ /| |__) | |__   
+# |  __| | |   \   / |  ___/|  __|  
+# | |    | |____| |  | |    | |____ 
+# |_|    |______|_|  |_|    |______|
+
 ##### VERSION #####
 
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
@@ -74,9 +81,9 @@ mode: blacklist
 
 # (BLACKLIST) These worlds only apply if the mode is set to blacklist.
 blacklisted-worlds:
- - "placeholder1"
- - "placeholder2"
- - "placeholder3"
+ - "noflyworld1"
+ - "noflyworld2"
+ - "noflyworld3"
  
 # (WHITELIST) These worlds only apply if the mode is set to whitelist.
 whitelisted-worlds:
