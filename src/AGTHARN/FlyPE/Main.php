@@ -184,7 +184,7 @@ class Main extends PluginBase implements Listener {
 				if($playermoney < $cost){
 					$player->sendMessage(C::RED . $this->getConfig()->get("not-enough-money"));
 				} else {
-					if($target->getAllowFlight() === false){
+					if($player->getAllowFlight() === false){
 						EconomyAPI::getInstance()->reduceMoney($player, $cost);
 						$player->sendMessage(C::GREEN . $this->getConfig()->get("buy-fly-successful"));
 						if($player instanceof Player) $this->CheckLevel($player);
