@@ -130,12 +130,10 @@ class Main extends PluginBase implements Listener {
 		if($this->getConfig()->get("mode") === "blacklist"){
 			if($entity instanceof Player) $this->BlacklistedWorldCheck($entity);
 			return false;
-		}
-		if($this->getConfig()->get("mode") === "whitelist"){
+		}elseif($this->getConfig()->get("mode") === "whitelist"){
 			if($entity instanceof Player) $this->WhitelistedWorldCheck($entity);
 			return false;
-		}
-		if($this->getConfig()->get("mode") === "both"){
+		}elseif($this->getConfig()->get("mode") === "both"){
 			if($entity instanceof Player) $this->BlacklistedWorldCheck($entity);
 			if($entity instanceof Player) $this->WhitelistedWorldCheck($entity);
 			return false;
