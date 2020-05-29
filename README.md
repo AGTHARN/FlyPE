@@ -63,7 +63,7 @@ You can find the config file for v1.0.1 [here](https://pastebin.com/raw/RD19kW5s
 + ![Config v3](https://img.shields.io/badge/Config-v3-orange?style=for-the-badge)
 You can find the config file for v2.0.0 [here](https://pastebin.com/raw/qgu9u1eJ)!
 
-# Plugin Info
+### Plugin Info
 + Name: FlyPE
 + Author: AGTHARN
 + Version: 2.0.0
