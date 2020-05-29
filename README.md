@@ -1,5 +1,5 @@
 # FlyPE [![HitCount](http://hits.dwyl.com/AGTHARN/FlyPE/master.svg)](http://hits.dwyl.com/AGTHARN/FlyPE/master) [![GitHub license](https://img.shields.io/github/license/AGTHARN/FlyPE)](https://github.com/AGTHARN/FlyPE/blob/master/LICENSE)
-![flypeicon](https://user-images.githubusercontent.com/63234276/82717419-895d2380-9cce-11ea-9d7e-0981d91c75fa.jpg)
+![flypeicon](https://user-images.githubusercontent.com/63234276/83244825-78327c00-a1d2-11ea-81b9-0614e524ed08.jpg)
 + FlyPE is a fly plugin for pocketmine that allows you to fly in survival mode when you run the fly command! You can choose to allow fly to be used or not allow fly to be used in selected worlds in the config! And there are more features listed below!
 
 # How do I use it?
