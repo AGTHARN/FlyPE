@@ -60,7 +60,7 @@ class Main extends PluginBase implements Listener {
 	    
         $configversion = $this->config->get("config-version");
 	    
-	    if($configversion < "1"){
+	    if($configversion < "2"){
 		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
 		    $this->getServer()->getPluginManager()->disablePlugin($this);
 		    //im sorry dylan
