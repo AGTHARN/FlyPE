@@ -55,12 +55,9 @@ flype.command.bypass | Allows player to bypass checks when switching to a differ
 These are the config versions of FlyPE. To find your config version, open the **config.yml** file in FlyPE's plugin data folder and find the header, **"VERSION"**.
 
 + ![Config v1](https://img.shields.io/badge/Config-v1-orange?style=for-the-badge)
-None.
-
-+ ![Config v2](https://img.shields.io/badge/Config-v2-orange?style=for-the-badge)
 You can find the config file for v1.0.1 [here](https://pastebin.com/raw/RD19kW5s)!
 
-+ ![Config v3](https://img.shields.io/badge/Config-v3-orange?style=for-the-badge)
++ ![Config v2](https://img.shields.io/badge/Config-v2-orange?style=for-the-badge)
 You can find the config file for v2.0.0 [here](https://pastebin.com/raw/qgu9u1eJ)!
 
 ### Plugin Info
