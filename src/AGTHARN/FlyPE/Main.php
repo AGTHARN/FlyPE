@@ -251,7 +251,7 @@ class Main extends PluginBase implements Listener {
 	public function onInventoryPickupItem(InventoryPickupItemEvent $event){
 		$inventory = $event->getInventory();
 		$player = $inventory->getHolder();
-		if($player instanceof Player) return;
+		if(!$player instanceof Player) return;
 		if($player->getGamemode() === Player::CREATIVE) return;
 		if($this->getConfig()->get("picking-up-items") === false){
 			if($player->getAllowFlight() === true){
@@ -262,7 +262,7 @@ class Main extends PluginBase implements Listener {
 	
 	public function onPlayerDropItem(PlayerDropItemEvent $event){
 		$player = $event->getPlayer();
-		if($player instanceof Player) return;
+		if(!$player instanceof Player) return;
 		if($player->getGamemode() === Player::CREATIVE) return;
 		if($this->getConfig()->get("item-dropping") === false){
 			if($player->getAllowFlight() === true){
@@ -273,7 +273,7 @@ class Main extends PluginBase implements Listener {
 	
 	public function onBlockBreak(BlockBreakEvent $event){
 		$player = $event->getPlayer();
-		if($player instanceof Player) return;
+		if(!$player instanceof Player) return;
 		if($player->getGamemode() === Player::CREATIVE) return;
 		if($this->getConfig()->get("block-breaking") === false){
 			if($player->getAllowFlight() === true){
@@ -284,7 +284,7 @@ class Main extends PluginBase implements Listener {
 	
 	public function onBlockPlace(BlockPlaceEvent $event){
 		$player = $event->getPlayer();
-		if($player instanceof Player) return;
+		if(!$player instanceof Player) return;
 		if($player->getGamemode() === Player::CREATIVE) return;
 		if($this->getConfig()->get("block-placing") === false){
 			if($player->getAllowFlight() === true){
@@ -295,7 +295,7 @@ class Main extends PluginBase implements Listener {
 	
 	public function onPlayerItemConsume(PlayerItemConsumeEvent $event){
 		$player = $event->getPlayer();
-		if($player instanceof Player) return;
+		if(!$player instanceof Player) return;
 		if($player->getGamemode() === Player::CREATIVE) return;
 		if($this->getConfig()->get("player-eating") === false){
 			if($player->getAllowFlight() === true){
