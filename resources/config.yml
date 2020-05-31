@@ -1,9 +1,20 @@
+#  ______ _  __     _______  ______ 
+# |  ____| | \ \   / /  __ \|  ____|
+# | |__  | |  \ \_/ /| |__) | |__   
+# |  __| | |   \   / |  ___/|  __|  
+# | |    | |____| |  | |    | |____ 
+# |_|    |______|_|  |_|    |______|
+
 ##### VERSION #####
+
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 1
+config-version: 2
+
 ###################
 
+
 ##### FLY SETTINGS #####
+
 # If set to true, fly is disabled when a player joins.
 # If set to false, fly wouldn't be disabled when a player joins.
 joindisablefly: true
@@ -11,29 +22,58 @@ joindisablefly: true
 # If set to true, fly is disabled when a punches another player.
 # If set to false, fly wouldn't be disabled when a punches another player.
 combatdisablefly: true
+
+# If set to true, players would be able to drop items while they are in flight mode.
+# If set to false, players would not be able to drop items while they are in flight mode.
+item-dropping: true
+
+# If set to true, players would be able to pick up items while they are in flight mode.
+# If set to false, players would not be able to pick up items while they are in flight mode.
+picking-up-items: true
+
+# If set to true, players would be able to break blocks while they are in flight mode.
+# If set to false, players would not be able to break blocks while they are in flight mode.
+block-breaking: true
+
+# If set to true, players would be able to place blocks while they are in flight mode.
+# If set to false, players would not be able to place blocks while they are in flight mode.
+block-placing: true
+
+# If set to true, players would be able to eat while they are in flight mode.
+# If set to false, players would not be able to eat while they are in flight mode.
+player-eating: true
+
 #######################
 
+
 ##### FLY UI #####
+
 # If set to true, a UI would show up when a player runs the /fly command.
-# If set to false, everything would be normal and player would be able to toggle flight.
+# If set to false, everything would be normal and players would be able to toggle flight normally.
 enableflyui: false
 
-# If set to true and enableflyui is set to true, players would have to pay to enable and disable fly. (NOTE THAT YOU NEED THE ECONOMYAPI PLUGIN)
+# If set to true and enableflyui is set to true, players would have to pay to enable fly. (NOTE THAT YOU NEED THE ECONOMYAPI PLUGIN)
 # If set to true and enableflyui is set to false, everything would be normal and player would be able to toggle flight.
 # If set to false and enableflyui is set to true, players would not have to pay for fly.
 payforfly: false
 
 # If payforfly is set to true, set this to the amount of money a player needs to pay for fly. (1800, 4500, 8500 etc.)
 buyflycost: 100000
+
 ##################
 
+
 ##### TEMPORAL FLY (COMING SOON) #####
+
 # Would you like to time how long a player could use /fly?
 # timefly: false
 # flymins: 10 # amount of mins a player can fly for
+
 ######################################
 
+
 ##### BLACKLIST OR WHITELIST WORLDS #####
+
 # If set to blacklist, players that are in the worlds listed in blacklisted-worlds wouldn't be able to run /fly.
 # If set to whitelist, players that are in the worlds listed in whitelisted-worlds would be able to run /fly.
 # If set to both (WARNING), players wouldn't be able to toggle fly and it just ruins the purpose the plugin. (added it for fun ig)
@@ -41,13 +81,55 @@ mode: blacklist
 
 # (BLACKLIST) These worlds only apply if the mode is set to blacklist.
 blacklisted-worlds:
- - "placeholder1"
- - "placeholder2"
- - "placeholder3"
+ - "noflyworld1"
+ - "noflyworld2"
+ - "noflyworld3"
  
 # (WHITELIST) These worlds only apply if the mode is set to whitelist.
 whitelisted-worlds:
  - "flyworld1"
  - "flyworld2"
  - "flyworld3"
- #########################################
+ 
+#########################################
+ 
+ 
+##### MESSAGES #####
+
+# The message a player gets if joindisablefly is set to true and player is flying.
+onjoin-flight-disabled: "Your flight has been disabled!"
+
+# The message a player gets for toggling on flight.
+toggled-flight-on: "Toggled your flight on!"
+
+# The message a player gets for toggling off flight.
+toggled-flight-off: "Toggled your flight off!"
+
+# The message a player gets when they toggle on flight for others.
+flight-for-other-on: "Flight for {name} has been toggled on!"
+
+# The message a player gets when they toggle off flight for others.
+flight-for-other-off: "Flight for {name} has been toggled off!"
+
+# The message a player gets when the player stated could not be found.
+player-cant-be-found: "Player could not be found!"
+
+# The message a player gets when they try to toggle flight for others without permission.
+cant-toggle-flight-others: "You do not have permission to toggle flight for others!"
+ 
+# The message a player gets when they try to toggle on flight in a restricted world.
+flight-not-allowed: "This world does not allow flight!"
+
+# The message a player gets when they try to toggle off flight in creative mode.
+disable-fly-creative: "You can't disable fly in creative!"
+
+# The message a player gets when they attack a player.
+combat-fly-disable: "You can't fly during combat!"
+
+# The message a player gets when they do not have enough money to toggle flight.
+not-enough-money: "You do not have enough money!"
+
+# The message a player gets when they have successfully purchased flight.
+buy-fly-successful: "Successful purchase of fly!"
+
+ ####################
