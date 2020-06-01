@@ -5,7 +5,6 @@ branches:
 projects:
   FlyPE:
     path: ""
-    icon: "flypeicon.png"
     libs:
     - src: jojoe77777/FormAPI/libFormAPI
       version: ^1.3
