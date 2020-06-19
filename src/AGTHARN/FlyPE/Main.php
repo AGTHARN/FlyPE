@@ -180,11 +180,7 @@ class Main extends PluginBase implements Listener {
 				if($playermoney < $cost){
 					$player->sendMessage(C::RED . $this->getConfig()->get("not-enough-money"));
 				} elseif($player->getAllowFlight() === false){
-					if($this->getConfig()->get("mode") === "whitelist" and !in_array($player->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))){
-						$player->sendMessage(C::RED . $this->getConfig()->get("flight-not-allowed"));
-						return;
-					}
-					if($this->getConfig()->get("mode") === "blacklist" and in_array($player->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))){
+					if($this->getConfig()->get("mode") === "whitelist" and !in_array($player->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds")) || $this->getConfig()->get("mode") === "blacklist" and in_array($player->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))){
 						$player->sendMessage(C::RED . $this->getConfig()->get("flight-not-allowed"));
 						return;
 					}
