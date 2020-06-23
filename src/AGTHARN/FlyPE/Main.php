@@ -142,6 +142,7 @@ class Main extends PluginBase implements Listener {
 	
 	public function onLevelChange(EntityLevelChangeEvent $event) : void{
 		$entity = $event->getEntity();
+		if(!$entity instanceof Player) return;
 		if($entity->hasPermission("flype.command.bypass")){
 			return;
 		}
