@@ -239,6 +239,7 @@ class Main extends PluginBase implements Listener {
 			    $targetname = $target->getName();
 			    if ($targetname == null) {
 				    $sender->sendMessage(C::RED . "That is not a valid player!");
+				    return;
 			    }
 			    $messageoff = str_replace("{name}", $targetname, $this->getConfig()->get("flight-for-other-off"));
 			    $messageon = str_replace("{name}", $targetname, $this->getConfig()->get("flight-for-other-on"));
