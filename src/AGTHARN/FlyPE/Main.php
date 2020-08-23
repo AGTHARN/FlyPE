@@ -237,6 +237,9 @@ class Main extends PluginBase implements Listener {
 		    if(isset($args[0])){
 			    $target = $this->getServer()->getPlayer($args[0]);
 			    $targetname = $target->getName();
+			    if ($targetname == null) {
+				    $sender->sendMessage(C::RED . "That is not a valid player!");
+			    }
 			    $messageoff = str_replace("{name}", $targetname, $this->getConfig()->get("flight-for-other-off"));
 			    $messageon = str_replace("{name}", $targetname, $this->getConfig()->get("flight-for-other-on"));
 			    if(!$sender->hasPermission("flype.command.others")){
