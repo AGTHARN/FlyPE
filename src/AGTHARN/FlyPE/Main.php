@@ -50,7 +50,12 @@ use JackMD\UpdateNotifier\UpdateNotifier;
 use onebone\economyapi\EconomyAPI;
 
 class Main extends PluginBase implements Listener {
-
+	
+	/**
+	 * onEnable
+	 *
+	 * @return void
+	 */
 	public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 	    
@@ -60,7 +65,16 @@ class Main extends PluginBase implements Listener {
 	    }
 	    UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
 	}
-	
+		
+	/**
+	 * onCommand
+	 *
+	 * @param  CommandSender $sender
+	 * @param  Command $cmd
+	 * @param  $label
+	 * @param  array $args
+	 * @return bool
+	 */
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $args): bool {
 	    if ($cmd->getName() === "fly") {
 		    if (!$sender instanceof Player) {
@@ -102,7 +116,13 @@ class Main extends PluginBase implements Listener {
 		    return false;
 	    }
 	}
-	
+		
+	/**
+	 * openFlyUI
+	 *
+	 * @param  Playeer $player
+	 * @return void
+	 */
 	public function openFlyUI(Player $player) {
 		$form = new SimpleForm(function (Player $player, $data) {
             
@@ -157,23 +177,35 @@ class Main extends PluginBase implements Listener {
 			}
 		}
 	}
-
-	private function doLevelChecks(Entity $entity): bool {
-		if ($entity->getGamemode() === Player::CREATIVE && $entity->getAllowFlight() === true) {
-			$entity->sendMessage(C::RED . $this->getConfig()->get("disable-fly-creative"));
+	
+	/**
+	 * doLevelChecks
+	 *
+	 * @param  Player $player
+	 * @return bool
+	 */
+	private function doLevelChecks(Player $player): bool {
+		if ($player->getGamemode() === Player::CREATIVE && $player->getAllowFlight() === true) {
+			$player->sendMessage(C::RED . $this->getConfig()->get("disable-fly-creative"));
 			return false;
 		}
 
-		if ($this->getConfig()->get("mode") === "blacklist" && !in_array($entity->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))) {
+		if ($this->getConfig()->get("mode") === "blacklist" && !in_array($player->getLevel()->getName(), $this->getConfig()->get("blacklisted-worlds"))) {
 			return true;
 		}
-		if ($this->getConfig()->get("mode") === "whitelist" && in_array($entity->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))) {
+		if ($this->getConfig()->get("mode") === "whitelist" && in_array($player->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))) {
 			return true;
 		}
-		$entity->sendMessage(C::RED . $this->getConfig()->get("flight-not-allowed"));
+		$player->sendMessage(C::RED . $this->getConfig()->get("flight-not-allowed"));
 		return false;
 	}
-
+	
+	/**
+	 * toggleFlight
+	 *
+	 * @param  Player $player
+	 * @return void
+	 */
 	public function toggleFlight(Player $player) {
 		if ($player->getAllowFlight() === true) {
 			$player->setAllowFlight(false);
@@ -185,7 +217,13 @@ class Main extends PluginBase implements Listener {
             $player->sendMessage(C::GREEN . $this->getConfig()->get("toggled-flight-on"));
 		}
 	}
-
+	
+	/**
+	 * onPlayerJoin
+	 *
+	 * @param  PlayerJoinEvent $event
+	 * @return void
+	 */
 	public function onPlayerJoin(PlayerJoinEvent $event): void {
 		$player = $event->getPlayer();
 		
@@ -196,7 +234,13 @@ class Main extends PluginBase implements Listener {
 			return;
 		}
 	}
-
+	
+	/**
+	 * onLevelChange
+	 *
+	 * @param  EntityLevelChangeEvent $event
+	 * @return void
+	 */
 	public function onLevelChange(EntityLevelChangeEvent $event): void {
 		$entity = $event->getEntity();
 
@@ -207,7 +251,13 @@ class Main extends PluginBase implements Listener {
 			$this->toggleFlight($player);
 		}
 	}
-	
+		
+	/**
+	 * onInventoryPickupItem
+	 *
+	 * @param  InventoryPickupItemEvent $event
+	 * @return void
+	 */
 	public function onInventoryPickupItem(InventoryPickupItemEvent $event): void {
 		$inventory = $event->getInventory();
 		$player = $inventory->getHolder();
@@ -217,7 +267,13 @@ class Main extends PluginBase implements Listener {
 			$event->setCancelled();
 		}
 	}
-	
+		
+	/**
+	 * onPlayerDropItem
+	 *
+	 * @param  PlayerDropItemEvent $event
+	 * @return void
+	 */
 	public function onPlayerDropItem(PlayerDropItemEvent $event): void {
 		$player = $event->getPlayer();
 		
@@ -226,7 +282,13 @@ class Main extends PluginBase implements Listener {
 			$event->setCancelled();
 		 }
 	}
-	
+		
+	/**
+	 * onBlockBreak
+	 *
+	 * @param  BlockBreakEvent $event
+	 * @return void
+	 */
 	public function onBlockBreak(BlockBreakEvent $event): void {
 		$player = $event->getPlayer();
 		
@@ -235,7 +297,13 @@ class Main extends PluginBase implements Listener {
 			$event->setCancelled();
 		}
 	}
-	
+		
+	/**
+	 * onBlockPlace
+	 *
+	 * @param  BlockPlaceEvent $event
+	 * @return void
+	 */
 	public function onBlockPlace(BlockPlaceEvent $event): void {
 		$player = $event->getPlayer();
 		
@@ -244,7 +312,13 @@ class Main extends PluginBase implements Listener {
 			$event->setCancelled();
 		}
 	}
-	
+		
+	/**
+	 * onPlayerItemConsume
+	 *
+	 * @param  PlayerItemConsumeEvent $event
+	 * @return void
+	 */
 	public function onPlayerItemConsume(PlayerItemConsumeEvent $event): void {
 		$player = $event->getPlayer();
 		
@@ -253,7 +327,13 @@ class Main extends PluginBase implements Listener {
 			$event->setCancelled();
 		}
 	}
-
+    
+    /**
+     * onEntityDamageEntity
+     *
+     * @param  EntityDamageByEntityEvent $event
+     * @return void
+     */
     public function onEntityDamageEntity(EntityDamageByEntityEvent $event): void {
 	    $entity = $event->getEntity();
 	    $damager = $event->getDamager();
