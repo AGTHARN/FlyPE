@@ -114,8 +114,8 @@ class Main extends PluginBase implements Listener {
 					}
 				}
 		    }
-		    return false;
 	    }
+		return false;
 	}
 		
 	/**
@@ -159,7 +159,8 @@ class Main extends PluginBase implements Listener {
 			break;
 		}
 		});
-			
+		
+		/** @phpstan-ignore-next-line */
 		if ($this->getConfig()->get("enableflyui") === true && $this->getConfig()->get("payforfly") === true) {
 			$cost = $this->getConfig()->get("buyflycost");
 					
@@ -262,6 +263,7 @@ class Main extends PluginBase implements Listener {
 	 */
 	public function onInventoryPickupItem(InventoryPickupItemEvent $event): void {
 		$inventory = $event->getInventory();
+		/** @phpstan-ignore-next-line */
 		$player = $event->getInventory()->getHolder();
 
 		if (!$player instanceof Player || $player->getGamemode() === Player::CREATIVE) return;
