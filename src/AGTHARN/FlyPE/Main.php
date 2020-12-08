@@ -99,7 +99,7 @@ class Main extends PluginBase implements Listener {
 				}
 				$targetName = $target->getName();
 
-			    if(!$sender->hasPermission("flype.command.others")){
+			    if (!$sender->hasPermission("flype.command.others")) {
 					$sender->sendMessage(C::RED . $this->getConfig()->get("cant-toggle-flight-others"));
 				    return false;
 				}
@@ -107,7 +107,7 @@ class Main extends PluginBase implements Listener {
 				if ($this->doLevelChecks($target) === true) {
 					$this->toggleFlight($target);
 
-					if($target->getAllowFlight() === true) {
+					if ($target->getAllowFlight() === true) {
 						$sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, $this->getConfig()->get("flight-for-other-on")));
 					} else {
 						$sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->getConfig()->get("flight-for-other-off")));
@@ -140,10 +140,10 @@ class Main extends PluginBase implements Listener {
 					$player->sendMessage(C::RED . $this->getConfig()->get("not-enough-money"));
 				}
 				if ($player->getAllowFlight() === false) {
-					EconomyAPI::getInstance()->reduceMoney($player, $cost);
 					$player->sendMessage(C::GREEN . $this->getConfig()->get("buy-fly-successful"));
 					if ($this->doLevelChecks($player) === true) {
 						$this->toggleFlight($player);
+						EconomyAPI::getInstance()->reduceMoney($player, $cost);
 					}
 				} else {
 					if ($this->doLevelChecks($player) === false) {
