@@ -54,7 +54,7 @@ class Main extends PluginBase implements Listener {
 	public function onEnable() {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 	    
-		if($this->config->get("config-version") < "2") {
+		if ($this->getConfig()->get("config-version") < "2") {
 		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
 		    $this->getServer()->getPluginManager()->disablePlugin($this);
 	    }
@@ -104,30 +104,33 @@ class Main extends PluginBase implements Listener {
 	}
 	
 	public function openFlyUI(Player $player) {
-		$form = new SimpleForm(function (Player $player, int $data = null) {
+		$form = new SimpleForm(function (Player $player, $data) {
+            
+        if ($data === null) {
+            return;
+        }
 			
 		switch ($data) {
             case 0:
 			$cost = $this->getConfig()->get("buyflycost");
-			$playermoney = EconomyAPI::getInstance()->myMoney($player);
 				
 			if ($this->getConfig()->get("payforfly") === true) {
-				if ($playermoney < $cost) {
+				if (EconomyAPI::getInstance()->myMoney($player) < $cost) {
 					$player->sendMessage(C::RED . $this->getConfig()->get("not-enough-money"));
 				}
 				if ($player->getAllowFlight() === false) {
 					EconomyAPI::getInstance()->reduceMoney($player, $cost);
 					$player->sendMessage(C::GREEN . $this->getConfig()->get("buy-fly-successful"));
 					if ($this->doLevelChecks($player) === true) {
-						$this->toggleFlight();
+						$this->toggleFlight($player);
 					}
 				} else {
 					if ($this->doLevelChecks($player) === false) {
-						$this->toggleFlight();
+						$this->toggleFlight($player);
 					}
 				}
 			} else {
-				$this->toggleFlight();
+				$this->toggleFlight($player);
 			}
 			break;
 			case 1:
@@ -173,11 +176,13 @@ class Main extends PluginBase implements Listener {
 
 	public function toggleFlight(Player $player) {
 		if ($player->getAllowFlight() === true) {
-			$entity->setAllowFlight(false);
-			$entity->setFlying(false);
+			$player->setAllowFlight(false);
+			$player->setFlying(false);
+            $player->sendMessage(C::GREEN . $this->getConfig()->get("toggled-flight-off"));
 		} else {
-			$entity->setAllowFlight(true);
-			$entity->setFlying(true);
+			$player->setAllowFlight(true);
+			$player->setFlying(true);
+            $player->sendMessage(C::GREEN . $this->getConfig()->get("toggled-flight-on"));
 		}
 	}
 
@@ -199,7 +204,7 @@ class Main extends PluginBase implements Listener {
 			return;
 		}
 		if ($this->doLevelChecks($player) === false && $player->getAllowFlight() === true) {
-			$this->toggleFlight();
+			$this->toggleFlight($player);
 		}
 	}
 	
