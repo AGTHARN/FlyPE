@@ -161,7 +161,7 @@ class Main extends PluginBase implements Listener {
 		});
 		
 		/** @phpstan-ignore-next-line */
-		if ($this->getConfig()->get("enableflyui") === true && $this->getConfig()->get("payforfly") === true) {
+		if ($this->getConfig()->get("enableflyui") === true && $this->getConfig()->get("payforfly") === true && $this->getConfig()->get("customuitexts") === false) {
 			$cost = $this->getConfig()->get("buyflycost");
 					
 			$form->setTitle("§l§7< §2FlyUI §7>");
@@ -169,14 +169,20 @@ class Main extends PluginBase implements Listener {
 			$form->addButton("§cExit");
 			$form->sendToPlayer($player);
 			return $form;
-		} else {
-			if($this->getConfig()->get("enableflyui") === true && $this->getConfig()->get("payforfly") === false){
+		} elseif ($this->getConfig()->get("enableflyui") === true && $this->getConfig()->get("payforfly") === false && $this->getConfig()->get("customuitexts") === false) {
 				$form->setTitle("§l§7< §6FlyUI §7>");
 				$form->addButton("§aToggle Fly");
 				$form->addButton("§cExit");
 				$form->sendToPlayer($player);
 				return $form;
-			}
+		} elseif ($this->getConfig()->get("customuitexts") === true) {
+				$cost = $this->getConfig()->get("buyflycost");
+
+				$form->setTitle($this->getConfig()->get("flyuititle"));
+				$form->addButton(str_replace("{cost}", $cost, $this->getConfig()->get("flyuitoggle")));
+				$form->addButton($this->getConfig()->get("flyuiexit"));
+				$form->sendToPlayer($player);
+				return $form;
 		}
 	}
 	
@@ -212,7 +218,7 @@ class Main extends PluginBase implements Listener {
 		if ($player->getAllowFlight() === true) {
 			$player->setAllowFlight(false);
 			$player->setFlying(false);
-            $player->sendMessage(C::GREEN . $this->getConfig()->get("toggled-flight-off"));
+            $player->sendMessage(C::RED . $this->getConfig()->get("toggled-flight-off"));
 		} else {
 			$player->setAllowFlight(true);
 			$player->setFlying(true);
@@ -230,7 +236,7 @@ class Main extends PluginBase implements Listener {
 		$player = $event->getPlayer();
 		
 		/** @phpstan-ignore-next-line */
-		if(!$player->getGamemode() === Player::CREATIVE && $this->getConfig()->get("joindisablefly") === true && $player->getAllowFlight() === true) {
+		if (!$player->getGamemode() === Player::CREATIVE && $this->getConfig()->get("joindisablefly") === true && $player->getAllowFlight() === true) {
 			$player->setFlying(false);
 			$player->setAllowFlight(false);
 			$player->sendMessage(C::RED . $this->getConfig()->get("onjoin-flight-disabled"));
