@@ -71,7 +71,7 @@ class Main extends PluginBase implements Listener {
 	 *
 	 * @param  CommandSender $sender
 	 * @param  Command $cmd
-	 * @param  $label
+	 * @param  mixed $label
 	 * @param  array $args
 	 * @return bool
 	 */
@@ -92,6 +92,7 @@ class Main extends PluginBase implements Listener {
 		    }
 		    if (isset($args[0])) {
 				$target = $this->getServer()->getPlayer($args[0]);
+				/** @phpstan-ignore-next-line */
 				if ($target->getName() === null || !$target instanceof Player) {
 					$sender->sendMessage(C::RED . $this->getConfig()->get("player-cant-be-found"));
 				    return false;
@@ -120,8 +121,8 @@ class Main extends PluginBase implements Listener {
 	/**
 	 * openFlyUI
 	 *
-	 * @param  Playeer $player
-	 * @return void
+	 * @param  Player $player
+	 * @return object
 	 */
 	public function openFlyUI(Player $player) {
 		$form = new SimpleForm(function (Player $player, $data) {
@@ -227,6 +228,7 @@ class Main extends PluginBase implements Listener {
 	public function onPlayerJoin(PlayerJoinEvent $event): void {
 		$player = $event->getPlayer();
 		
+		/** @phpstan-ignore-next-line */
 		if(!$player->getGamemode() === Player::CREATIVE && $this->getConfig()->get("joindisablefly") === true && $player->getAllowFlight() === true) {
 			$player->setFlying(false);
 			$player->setAllowFlight(false);
@@ -247,8 +249,8 @@ class Main extends PluginBase implements Listener {
 		if (!$entity instanceof Player || $entity->hasPermission("flype.command.bypass") || $entity->getGamemode() === Player::CREATIVE) {
 			return;
 		}
-		if ($this->doLevelChecks($player) === false && $player->getAllowFlight() === true) {
-			$this->toggleFlight($player);
+		if ($this->doLevelChecks($entity) === false && $entity->getAllowFlight() === true) {
+			$this->toggleFlight($entity);
 		}
 	}
 		
@@ -260,7 +262,7 @@ class Main extends PluginBase implements Listener {
 	 */
 	public function onInventoryPickupItem(InventoryPickupItemEvent $event): void {
 		$inventory = $event->getInventory();
-		$player = $inventory->getHolder();
+		$player = $event->getInventory()->getHolder();
 
 		if (!$player instanceof Player || $player->getGamemode() === Player::CREATIVE) return;
 		if ($this->getConfig()->get("picking-up-items") === false && $player->getAllowFlight() === true) {
