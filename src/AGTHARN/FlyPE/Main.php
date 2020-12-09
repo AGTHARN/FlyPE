@@ -58,8 +58,10 @@ class Main extends PluginBase {
 
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 		$this->getServer()->getCommandMap()->register("fly", new FlyCommand("fly", $this));
-		$this->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), $this->getConfig()->get("flyparticlerate"));
-	    
+		if ($this->getConfig()->get("enableflyparticles") === true) {
+			$this->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), $this->getConfig()->get("flyparticlerate"));
+		}
+
 		if ($this->getConfig()->get("config-version") < "3") {
 		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
 		    $this->getServer()->getPluginManager()->disablePlugin($this);
