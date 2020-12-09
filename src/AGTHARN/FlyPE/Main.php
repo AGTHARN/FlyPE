@@ -49,7 +49,7 @@ class Main extends PluginBase {
      */
 	public static $instance;
 	
-	public static CONFIG_VERSION = 3;
+	public const CONFIG_VERSION = 3;
 	
 	/**
 	 * onEnable
