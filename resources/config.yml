@@ -101,7 +101,7 @@ fly-ui-exit: "§cExit"
 # If set to false, no particles will appear.
 enable-fly-particles: false
 
-# Type of particle to spawn.
+# Type of particle to spawn. Default: FlameParticle.
 # SUPPORTED: (case insensitive)
 # 
 # BubbleParticle, CriticalParticle, EnchantParticle, InstantEnchantParticle, ExplodeParticle, HugeExplodeParticle

@@ -194,6 +194,8 @@ class ParticleList {
             // x
             // y
             // z
+            default:
+                return new FlameParticle($playerPos);
 		endswitch;
     }
 }

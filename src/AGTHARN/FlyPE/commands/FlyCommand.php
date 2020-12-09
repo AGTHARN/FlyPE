@@ -81,8 +81,7 @@ class FlyCommand extends PluginCommand {
 			if ($this->plugin->doLevelChecks($sender) === true) {
 				$this->plugin->toggleFlight($sender);
 			}
-		}
-		if (isset($args[0])) {
+		} else {
 			$target = $this->plugin->getServer()->getPlayer($args[0]);
 
 			/** @phpstan-ignore-next-line */

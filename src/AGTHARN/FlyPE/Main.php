@@ -47,7 +47,9 @@ class Main extends PluginBase {
 	 * 
      * @var Main
      */
-    public static $instance;
+	public static $instance;
+	
+	public static CONFIG_VERSION = 3;
 	
 	/**
 	 * onEnable
@@ -67,7 +69,7 @@ class Main extends PluginBase {
 			$this->getScheduler()->scheduleRepeatingTask(new FlightSpeedTask($this), $this->getConfig()->get("fly-speed-check-rate"));
 		}
 
-		if ($this->getConfig()->get("config-version") < "3") {
+		if ($this->getConfig()->get("config-version") < self::CONFIG_VERSION) {
 		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
 		    $this->getServer()->getPluginManager()->disablePlugin($this);
 	    }
