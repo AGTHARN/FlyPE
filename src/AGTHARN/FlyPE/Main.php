@@ -85,6 +85,7 @@ class Main extends PluginBase {
 		switch ($data) {
 			case 0:
 				$cost = $this->getConfig()->get("buy-fly-cost");
+				$name = $player->getName();
 				
 				if ($this->getConfig()->get("pay-for-fly") === true) {
 					if (EconomyAPI::getInstance()->myMoney($player) < $cost) {

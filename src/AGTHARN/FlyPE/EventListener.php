@@ -181,7 +181,8 @@ class EventListener implements Listener {
      */
     public function onEntityDamageEntity(EntityDamageByEntityEvent $event): void {
 	    $entity = $event->getEntity();
-	    $damager = $event->getDamager();
+		$damager = $event->getDamager();
+		$levelName = $event->getEntity()->getLevel();
 
 	    if ($this->plugin->getConfig()->get("combat-disable-fly") === true && $event instanceof EntityDamageByEntityEvent && $entity instanceof Player && $damager instanceof Player) {
 			if ($damager->getGamemode() === Player::CREATIVE || $entity->getGamemode() === Player::CREATIVE) return;

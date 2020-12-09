@@ -84,15 +84,16 @@ class FlyCommand extends PluginCommand {
 		}
 		if (isset($args[0])) {
 			$target = $this->plugin->getServer()->getPlayer($args[0]);
+
 			/** @phpstan-ignore-next-line */
 			if ($target->getName() === null || !$target instanceof Player) {
-				$sender->sendMessage(C::RED . str_replace("{name}", $name, $this->plugin->getConfig()->get("player-cant-be-found")));
+				$sender->sendMessage(C::RED . str_replace("{name}", $args[0], $this->plugin->getConfig()->get("player-cant-be-found")));
 				return false;
 			}
 			$targetName = $target->getName();
 
 			if (!$sender->hasPermission("flype.command.others")) {
-				$sender->sendMessage(C::RED . str_replace("{name}", $name, $this->plugin->getConfig()->get("cant-toggle-flight-others")));
+				$sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("cant-toggle-flight-others")));
 				return false;
 			}
 				
