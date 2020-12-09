@@ -117,6 +117,35 @@ fly-particle-rate: 5
 #####################
 
 
+##### EFFECTS #####
+
+# If set to true, players will get effects if they are flying.
+# If set to false, no effects will be given.
+enable-fly-effects: false
+
+# Type of effect to be given.
+# SUPPORTED: (case insensitive)
+# 
+# SPEED, SLOWNESS, HASTE, MINING_FATIGUE, STRENGTH, INSTANT_HEALTH, INSTANT_DAMAGE, JUMP_BOOST
+# NAUSEA, REGENERATION, RESISTANCE, FIRE_RESISTANCE, WATER_BREATHING, INVISIBILITY, BLINDNESS
+# NIGHT_VISION, HUNGER, WEAKNESS, POISON, WITHER, HEALTH_BOOST, ABSORPTION, SATURATION
+# LEVITATION, FATAL_POISON, CONDUIT_POWER
+effect-type: HASTE
+
+# The amplifier is a value that increases the level of the effect.
+effect-amplifier: 1
+
+# If set to true, particles from the effects will be visible.
+# If set to false, particles from the effects will be visible.
+effect-visible: true
+
+# Rate of fly effect check.
+# 20 (ticks) = 1 second
+fly-effect-check-rate: 20
+
+##################
+
+
 ##### TEMPORAL FLY (COMING SOON) #####
 
 # Would you like to time how long a player could use /fly?

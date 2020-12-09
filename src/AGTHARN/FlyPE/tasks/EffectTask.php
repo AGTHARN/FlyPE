@@ -29,11 +29,12 @@ namespace AGTHARN\FlyPE\tasks;
 
 use pocketmine\scheduler\Task;
 use pocketmine\utils\TextFormat as C;
-use pocketmine\math\Vector3;
+use pocketmine\entity\EffectInstance;
+use pocketmine\entity\Effect;
 
 use AGTHARN\FlyPE\Main;
 
-class ParticleTask extends Task {
+class EffectTask extends Task {
 
     /**
      * plugin
@@ -61,7 +62,12 @@ class ParticleTask extends Task {
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
             if ($player->getAllowFlight() === true && $player->isFlying()) {
-                $player->getLevel()->addParticle($this->plugin->getParticleList()->getParticle($this->plugin->getConfig()->get("fly-particle-type"), new Vector3($player->x, $player->y, $player->z)));
+                $effect = new EffectInstance(Effect::getEffectByName($this->plugin->getConfig()->get("effect-type")));
+                $effect->setDuration(40);
+                $effect->setAmplifier(intval($this->plugin->getConfig()->get("effect-amplifier")));
+                $effect->setVisible($this->plugin->getConfig()->get("effect-visible"));
+
+                $player->addEffect($effect);
             }
         }
     }
