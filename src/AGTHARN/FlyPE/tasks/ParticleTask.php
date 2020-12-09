@@ -61,7 +61,7 @@ class ParticleTask extends Task {
      */
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            if ($player->getAllowFlight() === true) {
+            if ($player->getAllowFlight() === true && $player->isFlying()) {
                 $player->getLevel()->addParticle($this->plugin->getParticleList()->getParticle($this->plugin->getConfig()->get("fly-particle-type"), new Vector3($player->x, $player->y, $player->z)));
             }
         }
