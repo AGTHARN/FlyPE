@@ -33,6 +33,7 @@ use pocketmine\Player;
 
 use AGTHARN\FlyPE\commands\FlyCommand;
 use AGTHARN\FlyPE\tasks\ParticleTask;
+use AGTHARN\FlyPE\tasks\FlightSpeedTask;
 use AGTHARN\FlyPE\lists\ParticleList;
 
 use jojoe77777\FormAPI\SimpleForm;
@@ -58,8 +59,12 @@ class Main extends PluginBase {
 
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 		$this->getServer()->getCommandMap()->register("fly", new FlyCommand("fly", $this));
+
 		if ($this->getConfig()->get("enable-fly-particles") === true) {
 			$this->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), $this->getConfig()->get("fly-particle-rate"));
+		}
+		if ($this->getConfig()->get("fly-speed-mod") === true) {
+			$this->getScheduler()->scheduleRepeatingTask(new FlightSpeedTask($this), $this->getConfig()->get("fly-speed-check-rate"));
 		}
 
 		if ($this->getConfig()->get("config-version") < "3") {

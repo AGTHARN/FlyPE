@@ -45,6 +45,22 @@ player-eating: true
 
 #######################
 
+##### FLY SPEED #####
+
+# Enable fly speed modification.
+# NOTE: This may be buggy. Use with caution.
+fly-speed-mod: false
+
+# Multiplies the current fly speed.
+# Example: 2 will multiply the current speed by 2x.
+fly-speed: 1
+
+# Flight speed check rate. The faster it is, the less buggy it is and more performance consuming.
+# 20 (ticks) = 1 second
+fly-speed-check-rate: 20
+
+#####################
+
 
 ##### FLY UI #####
 
