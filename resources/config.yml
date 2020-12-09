@@ -79,6 +79,28 @@ flyuiexit: "§cExit"
 ##################
 
 
+##### PARTICLES #####
+
+# If set to true, particles will appear on player's feet if they are flying.
+# If set to false, no particles will appear.
+enableflyparticles: false
+
+# Type of particle to spawn.
+# SUPPORTED: (case insensitive)
+# 
+# BubbleParticle, CriticalParticle, EnchantParticle, InstantEnchantParticle, ExplodeParticle, HugeExplodeParticle
+# EntityFlameParticle, FlameParticle, HeartParticle, InkParticle, LavaDripParticle, LavaParticle, PortalParticle
+# RedstoneParticle, SmokeParticle, SplashParticle, SporeParticle, MobSpawnParticle, WaterDripParticle
+# WaterParticle, EnchantmentTableParticle, HappyVillagerParticle, AngryVillagerParticle, RainSplashParticle
+flyparticletype: "FlameParticle"
+
+# Rate of fly particle.
+# 20 (ticks) = 1 second
+flyparticlerate: 5
+
+#####################
+
+
 ##### TEMPORAL FLY (COMING SOON) #####
 
 # Would you like to time how long a player could use /fly?
