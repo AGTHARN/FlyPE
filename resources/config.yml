@@ -17,11 +17,11 @@ config-version: 3
 
 # If set to true, fly is disabled when a player joins.
 # If set to false, fly wouldn't be disabled when a player joins.
-joindisablefly: true
+join-disable-fly: true
 
 # If set to true, fly is disabled when a punches another player.
 # If set to false, fly wouldn't be disabled when a punches another player.
-combatdisablefly: true
+combat-disable-fly: true
 
 # If set to true, players would be able to drop items while they are in flight mode.
 # If set to false, players would not be able to drop items while they are in flight mode.
@@ -50,31 +50,31 @@ player-eating: true
 
 # If set to true, a UI would show up when a player runs the /fly command.
 # If set to false, everything would be normal and players would be able to toggle flight normally.
-enableflyui: false
+enable-fly-ui: false
 
 # If set to true and enableflyui is set to true, players would have to pay to enable fly. (NOTE THAT YOU NEED THE ECONOMYAPI PLUGIN)
 # If set to true and enableflyui is set to false, everything would be normal and player would be able to toggle flight.
 # If set to false and enableflyui is set to true, players would not have to pay for fly.
-payforfly: false
+pay-for-fly: false
 
 # If payforfly is set to true, set this to the amount of money a player needs to pay for fly. (1800, 4500, 8500 etc.)
-buyflycost: 100000
+buy-fly-cost: 100000
 
 ##################
 
 # If set to true, the texts on the UI will be editable by the configurations below.
 # If set to false, the default texts would be used.
-customuitexts: false
+custom-ui-texts: false
 
 # The title that is located at the top of the UI.
-flyuititle: "§l§7< §6FlyUI §7>"
+fly-ui-title: "§l§7< §6FlyUI §7>"
 
 # The toggle fly button.
 # {cost} = Cost of flight.
-flyuitoggle: "§aToggle Fly"
+fly-ui-toggle: "§aToggle Fly"
 
 # The exit button.
-flyuiexit: "§cExit"
+fly-ui-exit: "§cExit"
 
 ##################
 
@@ -83,7 +83,7 @@ flyuiexit: "§cExit"
 
 # If set to true, particles will appear on player's feet if they are flying.
 # If set to false, no particles will appear.
-enableflyparticles: false
+enable-fly-particles: false
 
 # Type of particle to spawn.
 # SUPPORTED: (case insensitive)
@@ -92,11 +92,11 @@ enableflyparticles: false
 # EntityFlameParticle, FlameParticle, HeartParticle, InkParticle, LavaDripParticle, LavaParticle, PortalParticle
 # RedstoneParticle, SmokeParticle, SplashParticle, SporeParticle, MobSpawnParticle, WaterDripParticle
 # WaterParticle, EnchantmentTableParticle, HappyVillagerParticle, AngryVillagerParticle, RainSplashParticle
-flyparticletype: "FlameParticle"
+fly-particle-type: "FlameParticle"
 
 # Rate of fly particle.
 # 20 (ticks) = 1 second
-flyparticlerate: 5
+fly-particle-rate: 5
 
 #####################
 
@@ -133,40 +133,56 @@ whitelisted-worlds:
  
 ##### MESSAGES #####
 
+# NOTE: Adding a color will override the default color.
+
 # The message a player gets if joindisablefly is set to true and player is flying.
+# {name} = Player's Name
 onjoin-flight-disabled: "Your flight has been disabled!"
 
 # The message a player gets for toggling on flight.
+# {name} = Player's Name
 toggled-flight-on: "Toggled your flight on!"
 
 # The message a player gets for toggling off flight.
+# {name} = Player's Name
 toggled-flight-off: "Toggled your flight off!"
 
 # The message a player gets when they toggle on flight for others.
+# {name} = Player's Name
 flight-for-other-on: "Flight for {name} has been toggled on!"
 
 # The message a player gets when they toggle off flight for others.
+# {name} = Player's Name
 flight-for-other-off: "Flight for {name} has been toggled off!"
 
 # The message a player gets when the player stated could not be found.
+# {name} = Player's Name
 player-cant-be-found: "Player could not be found!"
 
 # The message a player gets when they try to toggle flight for others without permission.
+# {name} = Player's Name
 cant-toggle-flight-others: "You do not have permission to toggle flight for others!"
  
 # The message a player gets when they try to toggle on flight in a restricted world.
+# {world} = Player's World Name
 flight-not-allowed: "This world does not allow flight!"
 
 # The message a player gets when they try to toggle off flight in creative mode.
+# {name} = Player's Name
 disable-fly-creative: "You can't disable fly in creative!"
 
 # The message a player gets when they attack a player.
+# {name} = Player's Name
 combat-fly-disable: "You can't fly during combat!"
 
 # The message a player gets when they do not have enough money to toggle flight.
+# {name} = Player's Name
+# {cost} = Flight Cost
 not-enough-money: "You do not have enough money!"
 
 # The message a player gets when they have successfully purchased flight.
+# {name} = Player's Name
+# {cost} = Flight Cost
 buy-fly-successful: "Successful purchase of fly!"
 
  ####################

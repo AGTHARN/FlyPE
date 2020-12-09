@@ -73,7 +73,7 @@ class FlyCommand extends PluginCommand {
 			$sender->sendMessage("You can only use this command in-game!");
 			return false;
 		}
-		if ($this->plugin->getConfig()->get("enableflyui") === true) {
+		if ($this->plugin->getConfig()->get("enable-fly-ui") === true) {
 			$this->plugin->openFlyUI($sender);
 			return false;
 		}
@@ -86,13 +86,13 @@ class FlyCommand extends PluginCommand {
 			$target = $this->plugin->getServer()->getPlayer($args[0]);
 			/** @phpstan-ignore-next-line */
 			if ($target->getName() === null || !$target instanceof Player) {
-				$sender->sendMessage(C::RED . $this->plugin->getConfig()->get("player-cant-be-found"));
+				$sender->sendMessage(C::RED . str_replace("{name}", $name, $this->plugin->getConfig()->get("player-cant-be-found")));
 				return false;
 			}
 			$targetName = $target->getName();
 
 			if (!$sender->hasPermission("flype.command.others")) {
-				$sender->sendMessage(C::RED . $this->plugin->getConfig()->get("cant-toggle-flight-others"));
+				$sender->sendMessage(C::RED . str_replace("{name}", $name, $this->plugin->getConfig()->get("cant-toggle-flight-others")));
 				return false;
 			}
 				

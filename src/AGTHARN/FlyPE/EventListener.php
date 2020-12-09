@@ -68,12 +68,13 @@ class EventListener implements Listener {
 	 */
 	public function onPlayerJoin(PlayerJoinEvent $event): void {
 		$player = $event->getPlayer();
+		$name = $player->getName();
 		
 		/** @phpstan-ignore-next-line */
-		if (!$player->getGamemode() === Player::CREATIVE && $this->plugin->getConfig()->get("joindisablefly") === true && $player->getAllowFlight() === true) {
+		if (!$player->getGamemode() === Player::CREATIVE && $this->plugin->getConfig()->get("join-disable-fly") === true && $player->getAllowFlight() === true) {
 			$player->setFlying(false);
 			$player->setAllowFlight(false);
-			$player->sendMessage(C::RED . $this->plugin->getConfig()->get("onjoin-flight-disabled"));
+			$player->sendMessage(C::RED . str_replace("{name}", $name, $this->plugin->getConfig()->get("onjoin-flight-disabled")));
 			return;
 		}
 	}
@@ -182,12 +183,12 @@ class EventListener implements Listener {
 	    $entity = $event->getEntity();
 	    $damager = $event->getDamager();
 
-	    if ($this->plugin->getConfig()->get("combatdisablefly") === true && $event instanceof EntityDamageByEntityEvent && $entity instanceof Player && $damager instanceof Player) {
+	    if ($this->plugin->getConfig()->get("combat-disable-fly") === true && $event instanceof EntityDamageByEntityEvent && $entity instanceof Player && $damager instanceof Player) {
 			if ($damager->getGamemode() === Player::CREATIVE || $entity->getGamemode() === Player::CREATIVE) return;
 			if ($damager->getAllowFlight() === true) {
 				$damager->setAllowFlight(false);
 				$damager->setFlying(false);
-				$damager->sendMessage(C::RED . $this->plugin->getConfig()->get("combat-fly-disable"));
+				$damager->sendMessage(C::RED . str_replace("{world}", $levelName, $this->plugin->getConfig()->get("combat-fly-disable")));
 			}
 	    }
     }

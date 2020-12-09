@@ -58,8 +58,8 @@ class Main extends PluginBase {
 
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
 		$this->getServer()->getCommandMap()->register("fly", new FlyCommand("fly", $this));
-		if ($this->getConfig()->get("enableflyparticles") === true) {
-			$this->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), $this->getConfig()->get("flyparticlerate"));
+		if ($this->getConfig()->get("enable-fly-particles") === true) {
+			$this->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), $this->getConfig()->get("fly-particle-rate"));
 		}
 
 		if ($this->getConfig()->get("config-version") < "3") {
@@ -83,57 +83,57 @@ class Main extends PluginBase {
         }
 			
 		switch ($data) {
-            case 0:
-			$cost = $this->getConfig()->get("buyflycost");
+			case 0:
+				$cost = $this->getConfig()->get("buy-fly-cost");
 				
-			if ($this->getConfig()->get("payforfly") === true) {
-				if (EconomyAPI::getInstance()->myMoney($player) < $cost) {
-					$player->sendMessage(C::RED . $this->getConfig()->get("not-enough-money"));
-				}
-				if ($player->getAllowFlight() === false) {
-					$player->sendMessage(C::GREEN . $this->getConfig()->get("buy-fly-successful"));
-					if ($this->doLevelChecks($player) === true) {
-						$this->toggleFlight($player);
-						EconomyAPI::getInstance()->reduceMoney($player, $cost);
+				if ($this->getConfig()->get("pay-for-fly") === true) {
+					if (EconomyAPI::getInstance()->myMoney($player) < $cost) {
+						$player->sendMessage(C::RED . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->getConfig()->get("not-enough-money"))));
+					}
+					if ($player->getAllowFlight() === false) {
+						$player->sendMessage(C::GREEN . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->getConfig()->get("buy-fly-successful"))));
+						if ($this->doLevelChecks($player) === true) {
+							$this->toggleFlight($player);
+							EconomyAPI::getInstance()->reduceMoney($player, $cost);
+						}
+					} else {
+						if ($this->doLevelChecks($player) === false) {
+							$this->toggleFlight($player);
+						}
 					}
 				} else {
-					if ($this->doLevelChecks($player) === false) {
-						$this->toggleFlight($player);
-					}
+					$this->toggleFlight($player);
 				}
-			} else {
-				$this->toggleFlight($player);
-			}
 			break;
 			case 1:
-			// exit button
+				// exit button
 			break;
 		}
 		});
 		
 		/** @phpstan-ignore-next-line */
-		if ($this->getConfig()->get("enableflyui") === true && $this->getConfig()->get("payforfly") === true && $this->getConfig()->get("customuitexts") === false) {
-			$cost = $this->getConfig()->get("buyflycost");
+		if ($this->getConfig()->get("enable-fly-ui") === true && $this->getConfig()->get("pay-for-fly") === true && $this->getConfig()->get("custom-ui-texts") === false) {
+			$cost = $this->getConfig()->get("buy-fly-cost");
 					
 			$form->setTitle("§l§7< §2FlyUI §7>");
 			$form->addButton("§aToggle Fly §e(Costs $ {$cost})");
 			$form->addButton("§cExit");
 			$form->sendToPlayer($player);
 			return $form;
-		} elseif ($this->getConfig()->get("enableflyui") === true && $this->getConfig()->get("payforfly") === false && $this->getConfig()->get("customuitexts") === false) {
-				$form->setTitle("§l§7< §6FlyUI §7>");
-				$form->addButton("§aToggle Fly");
-				$form->addButton("§cExit");
-				$form->sendToPlayer($player);
-				return $form;
-		} elseif ($this->getConfig()->get("customuitexts") === true) {
-				$cost = $this->getConfig()->get("buyflycost");
+		} elseif ($this->getConfig()->get("enable-fly-ui") === true && $this->getConfig()->get("pay-for-fly") === false && $this->getConfig()->get("custom-ui-texts") === false) {
+			$form->setTitle("§l§7< §6FlyUI §7>");
+			$form->addButton("§aToggle Fly");
+			$form->addButton("§cExit");
+			$form->sendToPlayer($player);
+			return $form;
+		} elseif ($this->getConfig()->get("custom-ui-texts") === true) {
+			$cost = $this->getConfig()->get("buy-fly-cost");
 
-				$form->setTitle($this->getConfig()->get("flyuititle"));
-				$form->addButton(str_replace("{cost}", $cost, $this->getConfig()->get("flyuitoggle")));
-				$form->addButton($this->getConfig()->get("flyuiexit"));
-				$form->sendToPlayer($player);
-				return $form;
+			$form->setTitle($this->getConfig()->get("fly-ui-title"));
+			$form->addButton(str_replace("{cost}", $cost, $this->getConfig()->get("fly-ui-toggle")));
+			$form->addButton($this->getConfig()->get("fly-ui-exit"));
+			$form->sendToPlayer($player);
+			return $form;
 		}
 	}
 	
@@ -144,8 +144,11 @@ class Main extends PluginBase {
 	 * @return bool
 	 */
 	public function doLevelChecks(Player $player): bool {
+		$levelName = $player->getLevel()->getName();
+		$name = $player->getName();
+
 		if ($player->getGamemode() === Player::CREATIVE && $player->getAllowFlight() === true) {
-			$player->sendMessage(C::RED . $this->getConfig()->get("disable-fly-creative"));
+			$player->sendMessage(C::RED . str_replace("{name}", $name, $this->getConfig()->get("disable-fly-creative")));
 			return false;
 		}
 
@@ -155,7 +158,7 @@ class Main extends PluginBase {
 		if ($this->getConfig()->get("mode") === "whitelist" && in_array($player->getLevel()->getName(), $this->getConfig()->get("whitelisted-worlds"))) {
 			return true;
 		}
-		$player->sendMessage(C::RED . $this->getConfig()->get("flight-not-allowed"));
+		$player->sendMessage(C::RED . str_replace("{world}", $levelName, $this->getConfig()->get("flight-not-allowed")));
 		return false;
 	}
 	
@@ -166,14 +169,16 @@ class Main extends PluginBase {
 	 * @return void
 	 */
 	public function toggleFlight(Player $player): void {
+		$name = $player->getName();
+
 		if ($player->getAllowFlight() === true) {
 			$player->setAllowFlight(false);
 			$player->setFlying(false);
-            $player->sendMessage(C::RED . $this->getConfig()->get("toggled-flight-off"));
+            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->getConfig()->get("toggled-flight-off")));
 		} else {
 			$player->setAllowFlight(true);
 			$player->setFlying(true);
-            $player->sendMessage(C::GREEN . $this->getConfig()->get("toggled-flight-on"));
+            $player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->getConfig()->get("toggled-flight-on")));
 		}
 	}
 
