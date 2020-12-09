@@ -7,11 +7,6 @@ api: 3.0.0
 softdepend:
 - EconomyAPI
 
-commands:
-  fly:
-    permission: "flype.command"
-    description: "Fly command to toggle flight"
-
 permissions:
   flype.command:
     default: op
