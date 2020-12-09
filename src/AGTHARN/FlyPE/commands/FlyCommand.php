@@ -83,7 +83,7 @@ class FlyCommand extends PluginCommand {
 			}
 		}
 		if (isset($args[0])) {
-			$target = $this->getServer()->getPlayer($args[0]);
+			$target = $this->plugin->getServer()->getPlayer($args[0]);
 			/** @phpstan-ignore-next-line */
 			if ($target->getName() === null || !$target instanceof Player) {
 				$sender->sendMessage(C::RED . $this->plugin->getConfig()->get("player-cant-be-found"));

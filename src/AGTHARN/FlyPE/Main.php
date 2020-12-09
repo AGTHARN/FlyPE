@@ -138,7 +138,7 @@ class Main extends PluginBase {
 	 * @param  Player $player
 	 * @return bool
 	 */
-	private function doLevelChecks(Player $player): bool {
+	public function doLevelChecks(Player $player): bool {
 		if ($player->getGamemode() === Player::CREATIVE && $player->getAllowFlight() === true) {
 			$player->sendMessage(C::RED . $this->getConfig()->get("disable-fly-creative"));
 			return false;
