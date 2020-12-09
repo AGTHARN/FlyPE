@@ -52,7 +52,9 @@ player-eating: true
 fly-speed-mod: false
 
 # Multiplies the current fly speed.
-# Example: 2 will multiply the current speed by 2x.
+# NOTE:
+# THE LIMIT IS 3 BECAUSE OF THE LIMITED RANGE. AN InvalidArgumentException WILL BE THROWN IF IT IS OVER 3.4!
+# I SUGGEST THAT IT SHOULD BE SET TO MAXIMUM 2 INSTEAD!
 fly-speed: 1
 
 # Flight speed check rate. The faster it is, the less buggy it is and more performance consuming.
@@ -230,4 +232,4 @@ not-enough-money: "You do not have enough money!"
 # {cost} = Flight Cost
 buy-fly-successful: "Successful purchase of fly!"
 
- ####################
+####################

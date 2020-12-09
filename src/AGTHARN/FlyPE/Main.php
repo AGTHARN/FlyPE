@@ -67,6 +67,10 @@ class Main extends PluginBase {
 			$this->getScheduler()->scheduleRepeatingTask(new ParticleTask($this), $this->getConfig()->get("fly-particle-rate"));
 		}
 		if ($this->getConfig()->get("fly-speed-mod") === true) {
+			if ($this->getConfig()->get("fly-speed") > 3) {
+				$this->getLogger()->warning("The fly speed limit is 3! The fly speed modification will be turned off.");
+				return;
+			}
 			$this->getScheduler()->scheduleRepeatingTask(new FlightSpeedTask($this), $this->getConfig()->get("fly-speed-check-rate"));
 		}
 		if ($this->getConfig()->get("enable-fly-effects") === true) {
