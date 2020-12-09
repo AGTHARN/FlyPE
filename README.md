@@ -1,7 +1,7 @@
 # FlyPE [![HitCount](http://hits.dwyl.com/AGTHARN/FlyPE/master.svg)](http://hits.dwyl.com/AGTHARN/FlyPE/master) [![GitHub license](https://img.shields.io/github/license/AGTHARN/FlyPE)](https://github.com/AGTHARN/FlyPE/blob/master/LICENSE) [![](https://poggit.pmmp.io/shield.state/FlyPE)](https://poggit.pmmp.io/p/FlyPE)
 ![flypeicon](https://user-images.githubusercontent.com/63234276/83245243-0b6bb180-a1d3-11ea-9a01-3eb2fcb60115.jpg)
 
-![Latest version](https://img.shields.io/badge/Version-v2.0.0-orange?style=for-the-badge)
+![Latest version](https://img.shields.io/badge/Version-v3.0.0-orange?style=for-the-badge)
 
 [FlyPE](https://poggit.pmmp.io/p/FlyPE/1.0.1) is a fly plugin for pocketmine that allows you to fly in survival mode when you run the fly command! There are many different features in the plugin that makes it special, and you should check them out!
 
@@ -29,8 +29,12 @@ These are the list of features in FlyPE. If you have any suggestions for the plu
 - [✔️] Able to toggle fly for other players
 - [✔️] An option to allow a fly UI to toggle flight
 - [✔️] An option to enable buying of fly
+- [✔️] Ability to Change UI Texts
 - [✔️] Many fly permissions
 - [✔️] Customisable messages
+- [✔️] Configurable Flight Speed
+- [✔️] Particles
+- [✔️] Effect
 - [❌] Temporal fly time
 
 ### Requirements
@@ -63,5 +67,5 @@ You can find the config file for v2.0.0 [here](https://pastebin.com/raw/qgu9u1eJ
 ### Plugin Info
 + Name: FlyPE
 + Author: AGTHARN
-+ Version: 2.0.0
++ Version: 3.0.0
 + Api: 3.0.0
