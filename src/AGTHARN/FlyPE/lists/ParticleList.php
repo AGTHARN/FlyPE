@@ -62,15 +62,19 @@ class ParticleList {
     /**
 	 * __construct
 	 *
+	 * @param  Main $plugin
 	 * @return void
 	 */
-	public function __construct() {}
+	public function __construct(Main $plugin) {
+        $this->plugin = $plugin;
+    }
         
     /**
      * getParticle
      *
      * @param  string $particleName
      * @param  Vector3 $playerPos
+     * @param  Block $block
      * @return void|object|mixed
      */
     public function getParticle(string $particleName, Vector3 $playerPos, Block $block) {
