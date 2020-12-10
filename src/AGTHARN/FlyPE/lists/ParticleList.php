@@ -53,19 +53,11 @@ use pocketmine\level\particle\AngryVillagerParticle;
 use pocketmine\level\particle\RainSplashParticle;
 use pocketmine\level\particle\BlockForceFieldParticle;
 use pocketmine\level\particle\DestroyBlockParticle;
+use pocketmine\level\particle\SnowballPoofParticle;
 use pocketmine\math\Vector3;
-
-use AGTHARN\FlyPE\Main;
+use pocketmine\block\Block;
 
 class ParticleList {
-	
-	/**
-	 * __construct
-	 *
-	 * @param  Main $plugin
-	 * @return void
-	 */
-	public function __construct(Main $plugin) {}
         
     /**
      * getParticle
