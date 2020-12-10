@@ -58,6 +58,13 @@ use pocketmine\math\Vector3;
 use pocketmine\block\Block;
 
 class ParticleList {
+    
+    /**
+	 * __construct
+	 *
+	 * @return void
+	 */
+	public function __construct() {}
         
     /**
      * getParticle
