@@ -29,6 +29,7 @@ namespace AGTHARN\FlyPE\tasks;
 
 use pocketmine\scheduler\Task;
 use pocketmine\entity\Attribute;
+use pocketmine\Player;
 
 use AGTHARN\FlyPE\Main;
 
@@ -61,6 +62,7 @@ class FlightSpeedTask extends Task {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
             $attribute = $player->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
             
+            if ($this->plugin->getConfig()->get("fly-speed-creative") === false && $player->getGamemode() === Player::CREATIVE) return;
             if ($player->getAllowFlight() === true && $player->isFlying()) {
                 $attribute->setValue($attribute->getValue() * $this->plugin->getConfig()->get("fly-speed"));
             } elseif (!$player->isSprinting()) {
