@@ -8,7 +8,7 @@
 ##### VERSION #####
 
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 2
+config-version: 3
 
 ###################
 
@@ -17,11 +17,11 @@ config-version: 2
 
 # If set to true, fly is disabled when a player joins.
 # If set to false, fly wouldn't be disabled when a player joins.
-joindisablefly: true
+join-disable-fly: true
 
 # If set to true, fly is disabled when a punches another player.
 # If set to false, fly wouldn't be disabled when a punches another player.
-combatdisablefly: true
+combat-disable-fly: true
 
 # If set to true, players would be able to drop items while they are in flight mode.
 # If set to false, players would not be able to drop items while they are in flight mode.
@@ -45,20 +45,113 @@ player-eating: true
 
 #######################
 
+##### FLY SPEED #####
+
+# Enable fly speed modification.
+# NOTE: This may be buggy. Use with caution.
+fly-speed-mod: false
+
+# Multiplies the current fly speed.
+# NOTE:
+# THE LIMIT IS 3 BECAUSE OF THE LIMITED RANGE. AN InvalidArgumentException WILL BE THROWN IF IT IS OVER 3.4!
+# I SUGGEST THAT IT SHOULD BE SET TO MAXIMUM 2 INSTEAD!
+fly-speed: 1
+
+# Flight speed check rate. The faster it is, the less buggy it is and more performance consuming.
+# 20 (ticks) = 1 second
+fly-speed-check-rate: 20
+
+# If set to true, players in gamemode creative will have the speed modification.
+# If set to false, players in gamemode creative will NOT have the speed modification.
+fly-speed-creative: false
+
+#####################
+
 
 ##### FLY UI #####
 
 # If set to true, a UI would show up when a player runs the /fly command.
 # If set to false, everything would be normal and players would be able to toggle flight normally.
-enableflyui: false
+enable-fly-ui: false
 
 # If set to true and enableflyui is set to true, players would have to pay to enable fly. (NOTE THAT YOU NEED THE ECONOMYAPI PLUGIN)
 # If set to true and enableflyui is set to false, everything would be normal and player would be able to toggle flight.
 # If set to false and enableflyui is set to true, players would not have to pay for fly.
-payforfly: false
+pay-for-fly: false
 
 # If payforfly is set to true, set this to the amount of money a player needs to pay for fly. (1800, 4500, 8500 etc.)
-buyflycost: 100000
+buy-fly-cost: 100000
+
+##################
+
+# If set to true, the texts on the UI will be editable by the configurations below.
+# If set to false, the default texts would be used.
+custom-ui-texts: false
+
+# The title that is located at the top of the UI.
+fly-ui-title: "§l§7< §6FlyUI §7>"
+
+# The toggle fly button.
+# {cost} = Cost of flight.
+fly-ui-toggle: "§aToggle Fly"
+
+# The exit button.
+fly-ui-exit: "§cExit"
+
+##################
+
+
+##### PARTICLES #####
+
+# If set to true, particles will appear on player's feet if they are flying.
+# If set to false, no particles will appear.
+enable-fly-particles: false
+
+# Type of particle to spawn. Default: FlameParticle.
+# SUPPORTED: (case insensitive)
+# 
+# BubbleParticle, CriticalParticle, EnchantParticle, InstantEnchantParticle, ExplodeParticle, HugeExplodeParticle
+# EntityFlameParticle, FlameParticle, HeartParticle, InkParticle, LavaDripParticle, LavaParticle, PortalParticle
+# RedstoneParticle, SmokeParticle, SplashParticle, SporeParticle, MobSpawnParticle, WaterDripParticle
+# WaterParticle, EnchantmentTableParticle, HappyVillagerParticle, AngryVillagerParticle, RainSplashParticle
+# BlockForceFieldParticle, DestroyBlockParticle, SnowballPoofParticle
+fly-particle-type: "FlameParticle"
+
+# Rate of fly particle.
+# 20 (ticks) = 1 second
+fly-particle-rate: 5
+
+# Only change the configuration below if you're using the DestroyBlockParticle.
+particle-block-id: 1
+
+#####################
+
+
+##### EFFECTS #####
+
+# If set to true, players will get effects if they are flying.
+# If set to false, no effects will be given.
+enable-fly-effects: false
+
+# Type of effect to be given. Default: HASTE.
+# SUPPORTED: (case insensitive)
+# 
+# SPEED, SLOWNESS, HASTE, MINING_FATIGUE, STRENGTH, INSTANT_HEALTH, INSTANT_DAMAGE, JUMP_BOOST
+# NAUSEA, REGENERATION, RESISTANCE, FIRE_RESISTANCE, WATER_BREATHING, INVISIBILITY, BLINDNESS
+# NIGHT_VISION, HUNGER, WEAKNESS, POISON, WITHER, HEALTH_BOOST, ABSORPTION, SATURATION
+# LEVITATION, FATAL_POISON, CONDUIT_POWER
+effect-type: HASTE
+
+# The amplifier is a value that increases the level of the effect.
+effect-amplifier: 1
+
+# If set to true, particles from the effects will be visible.
+# If set to false, particles from the effects will be visible.
+effect-visible: true
+
+# Rate of fly effect check.
+# 20 (ticks) = 1 second
+fly-effect-check-rate: 20
 
 ##################
 
@@ -76,7 +169,6 @@ buyflycost: 100000
 
 # If set to blacklist, players that are in the worlds listed in blacklisted-worlds wouldn't be able to run /fly.
 # If set to whitelist, players that are in the worlds listed in whitelisted-worlds would be able to run /fly.
-# If set to both (WARNING), players wouldn't be able to toggle fly and it just ruins the purpose the plugin. (added it for fun ig)
 mode: blacklist
 
 # (BLACKLIST) These worlds only apply if the mode is set to blacklist.
@@ -96,40 +188,56 @@ whitelisted-worlds:
  
 ##### MESSAGES #####
 
+# NOTE: Adding a color will override the default color.
+
 # The message a player gets if joindisablefly is set to true and player is flying.
+# {name} = Player's Name
 onjoin-flight-disabled: "Your flight has been disabled!"
 
 # The message a player gets for toggling on flight.
+# {name} = Player's Name
 toggled-flight-on: "Toggled your flight on!"
 
 # The message a player gets for toggling off flight.
+# {name} = Player's Name
 toggled-flight-off: "Toggled your flight off!"
 
 # The message a player gets when they toggle on flight for others.
+# {name} = Player's Name
 flight-for-other-on: "Flight for {name} has been toggled on!"
 
 # The message a player gets when they toggle off flight for others.
+# {name} = Player's Name
 flight-for-other-off: "Flight for {name} has been toggled off!"
 
 # The message a player gets when the player stated could not be found.
+# {name} = Player's Name
 player-cant-be-found: "Player could not be found!"
 
 # The message a player gets when they try to toggle flight for others without permission.
+# {name} = Player's Name
 cant-toggle-flight-others: "You do not have permission to toggle flight for others!"
  
 # The message a player gets when they try to toggle on flight in a restricted world.
+# {world} = Player's World Name
 flight-not-allowed: "This world does not allow flight!"
 
 # The message a player gets when they try to toggle off flight in creative mode.
+# {name} = Player's Name
 disable-fly-creative: "You can't disable fly in creative!"
 
 # The message a player gets when they attack a player.
+# {name} = Player's Name
 combat-fly-disable: "You can't fly during combat!"
 
 # The message a player gets when they do not have enough money to toggle flight.
+# {name} = Player's Name
+# {cost} = Flight Cost
 not-enough-money: "You do not have enough money!"
 
 # The message a player gets when they have successfully purchased flight.
+# {name} = Player's Name
+# {cost} = Flight Cost
 buy-fly-successful: "Successful purchase of fly!"
 
- ####################
+####################
