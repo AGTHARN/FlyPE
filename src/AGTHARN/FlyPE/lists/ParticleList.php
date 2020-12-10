@@ -27,9 +27,6 @@
 
 namespace AGTHARN\FlyPE\lists;
 
-use pocketmine\utils\TextFormat as C;
-use pocketmine\math\Vector3;
-
 use pocketmine\level\particle\BubbleParticle;
 use pocketmine\level\particle\CriticalParticle;
 use pocketmine\level\particle\EnchantParticle;
@@ -54,20 +51,13 @@ use pocketmine\level\particle\EnchantmentTableParticle;
 use pocketmine\level\particle\HappyVillagerParticle;
 use pocketmine\level\particle\AngryVillagerParticle;
 use pocketmine\level\particle\RainSplashParticle;
-
 use pocketmine\level\particle\BlockForceFieldParticle;
 use pocketmine\level\particle\DestroyBlockParticle;
+use pocketmine\math\Vector3;
 
 use AGTHARN\FlyPE\Main;
 
 class ParticleList {
-
-    /**
-     * plugin
-     * 
-     * @var Main
-     */
-    private $plugin;
 	
 	/**
 	 * __construct
@@ -75,9 +65,7 @@ class ParticleList {
 	 * @param  Main $plugin
 	 * @return void
 	 */
-	public function __construct(Main $plugin) {
-		$this->plugin = $plugin;
-    }
+	public function __construct(Main $plugin) {}
         
     /**
      * getParticle

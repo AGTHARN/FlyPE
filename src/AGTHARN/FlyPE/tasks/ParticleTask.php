@@ -28,7 +28,6 @@
 namespace AGTHARN\FlyPE\tasks;
 
 use pocketmine\scheduler\Task;
-use pocketmine\utils\TextFormat as C;
 use pocketmine\math\Vector3;
 use pocketmine\block\Block;
 
