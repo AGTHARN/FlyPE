@@ -110,11 +110,15 @@ enable-fly-particles: false
 # EntityFlameParticle, FlameParticle, HeartParticle, InkParticle, LavaDripParticle, LavaParticle, PortalParticle
 # RedstoneParticle, SmokeParticle, SplashParticle, SporeParticle, MobSpawnParticle, WaterDripParticle
 # WaterParticle, EnchantmentTableParticle, HappyVillagerParticle, AngryVillagerParticle, RainSplashParticle
+# BlockForceFieldParticle, DestroyBlockParticle, SnowballPoofParticle
 fly-particle-type: "FlameParticle"
 
 # Rate of fly particle.
 # 20 (ticks) = 1 second
 fly-particle-rate: 5
+
+# Only change the configuration below if you're using the DestroyBlockParticle.
+particle-block-id: 1
 
 #####################
 
@@ -125,7 +129,7 @@ fly-particle-rate: 5
 # If set to false, no effects will be given.
 enable-fly-effects: false
 
-# Type of effect to be given.
+# Type of effect to be given. Default: HASTE.
 # SUPPORTED: (case insensitive)
 # 
 # SPEED, SLOWNESS, HASTE, MINING_FATIGUE, STRENGTH, INSTANT_HEALTH, INSTANT_DAMAGE, JUMP_BOOST

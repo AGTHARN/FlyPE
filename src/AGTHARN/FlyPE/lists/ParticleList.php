@@ -55,6 +55,9 @@ use pocketmine\level\particle\HappyVillagerParticle;
 use pocketmine\level\particle\AngryVillagerParticle;
 use pocketmine\level\particle\RainSplashParticle;
 
+use pocketmine\level\particle\BlockForceFieldParticle;
+use pocketmine\level\particle\DestroyBlockParticle;
+
 use AGTHARN\FlyPE\Main;
 
 class ParticleList {
@@ -83,7 +86,7 @@ class ParticleList {
      * @param  Vector3 $playerPos
      * @return void|object|mixed
      */
-    public function getParticle(string $particleName, Vector3 $playerPos) {
+    public function getParticle(string $particleName, Vector3 $playerPos, Block $block) {
         switch(strtolower($particleName)):
             // a
             case "angryvillagerparticle":
@@ -94,20 +97,20 @@ class ParticleList {
             case "bubbleparticle":
             case "bubble":
                 return new BubbleParticle($playerPos);
+            case "blockforcefield":
+            case "blockforce":
+            case "forcefield":
+                return new BlockForceFieldParticle($playerPos, 0);
             // c
             case "criticalparticle":
             case "critical":
             case "crit":
                 return new CriticalParticle($playerPos);
             // d
-            case "waterdripparticle":
-            case "waterdrip":
-            case "dripwater":
-                return new WaterDripParticle($playerPos);
-            case "lavadripparticle":
-            case "lavadrip":
-            case "driplava":
-                return new LavaDripParticle($playerPos);
+            case "destroyblockparticle":
+            case "destroyblock":
+            case "blockdestroy":
+                return new DestroyBlockParticle($playerPos, $block);
             // e
             case "explodeparticle":
 			case "explode":
@@ -120,6 +123,9 @@ class ParticleList {
             case "enchantmenttable":
             case "enchantment":
                 return new EnchantmentTableParticle($playerPos);
+            case "enchantparticle":
+            case "enchant":
+                return new EnchantParticle($playerPos);
             // f
             case "flameparticle":
             case "flame":
@@ -151,6 +157,10 @@ class ParticleList {
             case "lavaparticle":
             case "lava":
 				return new LavaParticle($playerPos);
+            case "lavadripparticle":
+            case "lavadrip":
+            case "driplava":
+                return new LavaDripParticle($playerPos);
             // m
             case "mobspawnparticle":
             case "mobspawn":
@@ -178,12 +188,13 @@ class ParticleList {
             case "splashparticle":
             case "splash":
                 return new SplashParticle($playerPos);
-            case "enchantparticle":
-            case "enchant":
-                return new EnchantParticle($playerPos);
             case "sporeparticle":
             case "spore":
                 return new SporeParticle($playerPos);
+            case "snowballpoofparticle":
+            case "snowballpoof":
+            case "snowball":
+                return new SnowballPoofParticle($playerPos);
             // t
             // u
             // v
@@ -191,6 +202,10 @@ class ParticleList {
             case "waterparticle":
             case "water":
 				return new WaterParticle($playerPos);
+            case "waterdripparticle":
+            case "waterdrip":
+            case "dripwater":
+                return new WaterDripParticle($playerPos);
             // x
             // y
             // z

@@ -62,7 +62,7 @@ class EffectTask extends Task {
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
             if ($player->getAllowFlight() === true && $player->isFlying()) {
-                $effect = new EffectInstance(Effect::getEffectByName($this->plugin->getConfig()->get("effect-type")));
+                $effect = new EffectInstance(Effect::getEffectByName($this->plugin->getConfig()->get("effect-type")) ?? Effect::getEffectByName("HASTE"));
                 $effect->setDuration(40);
                 $effect->setAmplifier(intval($this->plugin->getConfig()->get("effect-amplifier")));
                 $effect->setVisible($this->plugin->getConfig()->get("effect-visible"));
