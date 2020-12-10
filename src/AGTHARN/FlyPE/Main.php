@@ -93,9 +93,7 @@ class Main extends PluginBase {
 	public function openFlyUI(Player $player) {
 		$form = new SimpleForm(function (Player $player, $data) {
             
-        if ($data === null) {
-            return;
-        }
+        if ($data === null) return;
 			
 		switch ($data) {
 			case 0:
@@ -105,6 +103,7 @@ class Main extends PluginBase {
 				if ($this->getConfig()->get("pay-for-fly") === true) {
 					if (EconomyAPI::getInstance()->myMoney($player) < $cost) {
 						$player->sendMessage(C::RED . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->getConfig()->get("not-enough-money"))));
+						return;
 					}
 					if ($player->getAllowFlight() === false) {
 						$player->sendMessage(C::GREEN . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->getConfig()->get("buy-fly-successful"))));
@@ -112,10 +111,10 @@ class Main extends PluginBase {
 							$this->toggleFlight($player);
 							EconomyAPI::getInstance()->reduceMoney($player, $cost);
 						}
-					} else {
-						if ($this->doLevelChecks($player) === false) {
-							$this->toggleFlight($player);
-						}
+						return;
+					} elseif ($this->doLevelChecks($player) === false && $player->getAllowFlight() === true) {
+						$this->toggleFlight($player);
+						return;
 					}
 				} else {
 					$this->toggleFlight($player);

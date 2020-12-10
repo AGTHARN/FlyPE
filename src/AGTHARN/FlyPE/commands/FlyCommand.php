@@ -75,11 +75,12 @@ class FlyCommand extends PluginCommand {
 		}
 		if ($this->plugin->getConfig()->get("enable-fly-ui") === true) {
 			$this->plugin->openFlyUI($sender);
-			return false;
+			return true;
 		}
 		if (empty($args)) {
 			if ($this->plugin->doLevelChecks($sender) === true) {
 				$this->plugin->toggleFlight($sender);
+				return true;
 			}
 		} else {
 			$target = $this->plugin->getServer()->getPlayer($args[0]);
@@ -103,6 +104,7 @@ class FlyCommand extends PluginCommand {
 				} else {
 					$sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-off")));
 				}
+				return true;
 			}
 		}
 		return false;

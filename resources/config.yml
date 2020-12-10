@@ -45,6 +45,7 @@ player-eating: true
 
 #######################
 
+
 ##### FLY SPEED #####
 
 # Enable fly speed modification.
@@ -52,9 +53,11 @@ player-eating: true
 fly-speed-mod: false
 
 # Multiplies the current fly speed.
+# 
 # NOTE:
-# THE LIMIT IS 3 BECAUSE OF THE LIMITED RANGE. AN InvalidArgumentException WILL BE THROWN IF IT IS OVER 3.4!
-# I SUGGEST THAT IT SHOULD BE SET TO MAXIMUM 2 INSTEAD!
+# THE LIMIT IS 3 BECAUSE OF THE LIMITED RANGE. 
+# AN InvalidArgumentException WILL BE THROWN IF IT IS OVER 3.4!
+# I SUGGEST THAT IT SHOULD BE SET TO A MAXIMUM OF 2 INSTEAD!
 fly-speed: 1
 
 # Flight speed check rate. The faster it is, the less buggy it is and more performance consuming.

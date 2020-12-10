@@ -86,12 +86,13 @@ class EventListener implements Listener {
 	 * @return void
 	 */
 	public function onLevelChange(EntityLevelChangeEvent $event): void {
+		// note: checks are done here instead of doLevelChecks() because getTarget() has to be used instead of getLevel()
 		$entity = $event->getEntity();
+		$targetLevel = $event->getTarget()->getName();
 
-		if (!$entity instanceof Player || $entity->hasPermission("flype.command.bypass") || $entity->getGamemode() === Player::CREATIVE) {
-			return;
-		}
-		if ($this->plugin->doLevelChecks($entity) === false && $entity->getAllowFlight() === true) {
+		if (!$entity instanceof Player || $entity->hasPermission("flype.command.bypass") || $entity->getGamemode() === Player::CREATIVE) return;
+		if (($this->plugin->getConfig()->get("mode") === "blacklist" && in_array($targetLevel, $this->plugin->getConfig()->get("blacklisted-worlds")) || $this->plugin->getConfig()->get("mode") === "whitelist" && !in_array($targetLevel, $this->plugin->getConfig()->get("whitelisted-worlds"))) && $entity->getAllowFlight() === true) {
+			$entity->sendMessage(C::RED . str_replace("{world}", $targetLevel, $this->plugin->getConfig()->get("flight-not-allowed")));
 			$this->plugin->toggleFlight($entity);
 		}
 	}
@@ -125,7 +126,7 @@ class EventListener implements Listener {
 		if (!$player instanceof Player || $player->getGamemode() === Player::CREATIVE) return;
 		if ($this->plugin->getConfig()->get("item-dropping") === false && $player->getAllowFlight() === true) {
 			$event->setCancelled();
-		 }
+		}
 	}
 		
 	/**
