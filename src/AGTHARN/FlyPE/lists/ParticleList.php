@@ -57,26 +57,7 @@ use pocketmine\level\particle\SnowballPoofParticle;
 use pocketmine\math\Vector3;
 use pocketmine\block\Block;
 
-use AGTHARN\FlyPE\Main;
-
 class ParticleList {
-
-    /**
-     * plugin
-     * 
-     * @var Main
-     */
-    private $plugin;
-    
-    /**
-	 * __construct
-	 *
-	 * @param  Main $plugin
-	 * @return void
-	 */
-	public function __construct(Main $plugin) {
-        $this->plugin = $plugin;
-    }
         
     /**
      * getParticle

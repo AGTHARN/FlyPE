@@ -213,6 +213,6 @@ class Main extends PluginBase {
      * @return mixed|object|resource
      */
     public function getParticleList() {
-        return new ParticleList($this);
+        return new ParticleList();
     }
 }
