@@ -29,6 +29,7 @@ namespace AGTHARN\FlyPE;
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat as C;
+use pocketmine\math\Vector3;
 use pocketmine\Player;
 
 use AGTHARN\FlyPE\commands\FlyCommand;
@@ -36,6 +37,7 @@ use AGTHARN\FlyPE\tasks\ParticleTask;
 use AGTHARN\FlyPE\tasks\FlightSpeedTask;
 use AGTHARN\FlyPE\tasks\EffectTask;
 use AGTHARN\FlyPE\lists\ParticleList;
+use AGTHARN\FlyPE\lists\SoundList;
 
 use jojoe77777\FormAPI\SimpleForm;
 use JackMD\UpdateNotifier\UpdateNotifier;
@@ -50,7 +52,7 @@ class Main extends PluginBase {
      */
 	public static $instance;
 	
-	public const CONFIG_VERSION = 3;
+	public const CONFIG_VERSION = 3.2;
 	
 	/**
 	 * onEnable
@@ -189,21 +191,18 @@ class Main extends PluginBase {
 		if ($player->getAllowFlight() === true) {
 			$player->setAllowFlight(false);
 			$player->setFlying(false);
-            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->getConfig()->get("toggled-flight-off")));
+			$player->sendMessage(C::RED . str_replace("{name}", $name, $this->getConfig()->get("toggled-flight-off")));
+			if ($this->getConfig()->get("enable-fly-sound") === true) {
+				$player->getLevel()->addSound($this->getSoundList()->getSound($this->getConfig()->get("fly-disabled-sound"), new Vector3($player->x, $player->y, $player->z)));
+			}
 		} else {
 			$player->setAllowFlight(true);
 			$player->setFlying(true);
-            $player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->getConfig()->get("toggled-flight-on")));
+			$player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->getConfig()->get("toggled-flight-on")));
+			if ($this->getConfig()->get("enable-fly-sound") === true) {
+				$player->getLevel()->addSound($this->getSoundList()->getSound($this->getConfig()->get("fly-enabled-sound"), new Vector3($player->x, $player->y, $player->z)));
+			}
 		}
-	}
-
-	/**
-	 * getInstance
-	 *
-	 * @return Main
-	 */
-	public static function getInstance(): Main {
-        return self::$instance;
 	}
 	    
     /**
@@ -213,5 +212,14 @@ class Main extends PluginBase {
      */
     public function getParticleList() {
         return new ParticleList();
+	}
+		
+	/**
+	 * getSoundList
+	 *
+	 * @return mixed|object|resource
+	 */
+	public function getSoundList() {
+        return new SoundList();
     }
 }

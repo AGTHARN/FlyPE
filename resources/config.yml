@@ -8,7 +8,7 @@
 ##### VERSION #####
 
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 3
+config-version: 3.2
 
 ###################
 
@@ -160,6 +160,31 @@ effect-visible: true
 fly-effect-check-rate: 20
 
 ##################
+
+
+##### TOGGLE FLIGHT SOUND #####
+
+# If set to true, after flight is enabled/disabled, a sound will be played.
+# If set to false, after flight is enabled/disabled, nothing will be played.
+enable-fly-sound: false
+
+# Type of sound to be played after flight is enabled. Default: PopSound.
+# SUPPORTED: (case insensitive)
+# 
+# AnvilBreakSound, AnvilFallSound, AnvilUseSound, BlazeShootSound, ClickSound, DoorBumpSound
+# DoorCrashSound, DoorSound, EndermanTeleportSound, FizzSound, GhastShootSound, GhastSound
+# LaunchSound, PopSound
+fly-enabled-sound: "PopSound"
+
+# Type of sound to be played after flight is disabled. Default: PopSound.
+# SUPPORTED: (case insensitive)
+# 
+# AnvilBreakSound, AnvilFallSound, AnvilUseSound, BlazeShootSound, ClickSound, DoorBumpSound
+# DoorCrashSound, DoorSound, EndermanTeleportSound, FizzSound, GhastShootSound, GhastSound
+# LaunchSound, PopSound
+fly-disabled-sound: "PopSound"
+
+###############################
 
 
 ##### TEMPORAL FLY (COMING SOON) #####

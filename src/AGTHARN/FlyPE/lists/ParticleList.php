@@ -67,8 +67,8 @@ class ParticleList {
      * @param  Block $block
      * @return void|object|mixed
      */
-    public function getParticle(string $particleName, Vector3 $playerPos, Block $block) {
-        switch(strtolower($particleName)):
+    public function getParticle(string $particleName = "FlameParticle", Vector3 $playerPos, Block $block) {
+        switch(str_replace(" ", "", strtolower($particleName))):
             case "angryvillagerparticle":
             case "angryvillager":
             case "angry":
