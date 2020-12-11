@@ -63,7 +63,7 @@ class FlightSpeedTask extends Task {
             $attribute = $player->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
             
             if ($this->plugin->getConfig()->get("fly-speed-creative") === false && $player->getGamemode() === Player::CREATIVE) return;
-            if ($player->getAllowFlight() === true && $player->isFlying() && !$player->onGround) {
+            if ($player->getAllowFlight() === true && $player->isFlying() && !$player->onGround && $player->hasPermission("flype.flightspeed")) {
                 $attribute->setValue($attribute->getValue() * $this->plugin->getConfig()->get("fly-speed"));
             } elseif (!$player->isSprinting() && $player->onGround) {
                 $attribute->resetToDefault();

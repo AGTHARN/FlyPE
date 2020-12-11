@@ -73,6 +73,10 @@ class FlyCommand extends PluginCommand {
 			$sender->sendMessage("You can only use this command in-game!");
 			return false;
 		}
+		if (!$sender->hasPermission("flype.command")) {
+			$sender->sendMessage(C::RED . "You do not have the permission to use this command!");
+			return false;
+		}
 		if ($this->plugin->getConfig()->get("enable-fly-ui") === true) {
 			$this->plugin->openFlyUI($sender);
 			return true;
