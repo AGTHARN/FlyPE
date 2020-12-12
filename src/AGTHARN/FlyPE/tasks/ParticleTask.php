@@ -42,6 +42,13 @@ class ParticleTask extends Task {
      * @var Main
      */
     private $plugin;
+
+    /**
+	 * util
+	 * 
+     * @var Util
+     */
+	private $util;
 	
 	/**
 	 * __construct

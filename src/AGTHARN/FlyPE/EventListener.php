@@ -49,7 +49,14 @@ class EventListener implements Listener {
      * 
      * @var Main
      */
-    private $plugin;
+	private $plugin;
+	
+	/**
+	 * util
+	 * 
+     * @var Util
+     */
+	private $util;
 	
 	/**
 	 * __construct

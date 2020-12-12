@@ -38,11 +38,11 @@ use JackMD\UpdateNotifier\UpdateNotifier;
 class Main extends PluginBase {
 	
 	/**
-	 * instance
+	 * util
 	 * 
-     * @var Main
+     * @var Util
      */
-	public static $instance;
+	private $util;
 	
 	public const CONFIG_VERSION = 3.2;
 	

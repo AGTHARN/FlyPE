@@ -42,7 +42,14 @@ class FlyCommand extends PluginCommand {
      * 
      * @var Main
      */
-    private $plugin;
+	private $plugin;
+	
+	/**
+	 * util
+	 * 
+     * @var Util
+     */
+	private $util;
 	
 	/**
 	 * __construct
