@@ -33,6 +33,7 @@ use pocketmine\utils\TextFormat as C;
 use pocketmine\Player;
 
 use AGTHARN\FlyPE\Main;
+use AGTHARN\FlyPE\util\Util;
 
 class FlyCommand extends PluginCommand {
 
@@ -48,9 +49,10 @@ class FlyCommand extends PluginCommand {
 	 *
 	 * @param  String $cmd
 	 * @param  Main $plugin
+	 * @param  Util $util
 	 * @return void
 	 */
-	public function __construct(String $cmd, Main $plugin) {
+	public function __construct(String $cmd, Main $plugin, Util $util) {
         parent::__construct($cmd, $plugin);
 		
         $this->setUsage("/fly [string:player]");
@@ -58,6 +60,7 @@ class FlyCommand extends PluginCommand {
         $this->setDescription("Fly command to toggle flight");
 
 		$this->plugin = $plugin;
+		$this->util = $util;
     }
     
     /**
@@ -78,12 +81,12 @@ class FlyCommand extends PluginCommand {
 			return false;
 		}
 		if ($this->plugin->getConfig()->get("enable-fly-ui") === true) {
-			$this->plugin->openFlyUI($sender);
+			$this->util->openFlyUI($sender);
 			return true;
 		}
 		if (empty($args)) {
-			if ($this->plugin->doLevelChecks($sender) === true) {
-				$this->plugin->toggleFlight($sender);
+			if ($this->util->doLevelChecks($sender) === true) {
+				$this->util->toggleFlight($sender);
 				return true;
 			}
 		} else {
@@ -100,8 +103,8 @@ class FlyCommand extends PluginCommand {
 				return false;
 			}
 				
-			if ($this->plugin->doLevelChecks($target) === true) {
-				$this->plugin->toggleFlight($target);
+			if ($this->util->doLevelChecks($target) === true) {
+				$this->util->toggleFlight($target);
 
 				if ($target->getAllowFlight() === true) {
 					$sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-on")));

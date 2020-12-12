@@ -40,6 +40,7 @@ use pocketmine\utils\TextFormat as C;
 use pocketmine\Player;
 
 use AGTHARN\FlyPE\Main;
+use AGTHARN\FlyPE\util\Util;
 
 class EventListener implements Listener {
     
@@ -54,10 +55,12 @@ class EventListener implements Listener {
 	 * __construct
 	 *
 	 * @param  Main $plugin
+	 * @param  Util $util
 	 * @return void
 	 */
-	public function __construct(Main $plugin) {
+	public function __construct(Main $plugin, Util $util) {
 		$this->plugin = $plugin;
+		$this->util = $util;
 	}
 
     /**
@@ -93,7 +96,7 @@ class EventListener implements Listener {
 		if (!$entity instanceof Player || $entity->hasPermission("flype.command.bypass") || $entity->getGamemode() === Player::CREATIVE) return;
 		if (($this->plugin->getConfig()->get("mode") === "blacklist" && in_array($targetLevel, $this->plugin->getConfig()->get("blacklisted-worlds")) || $this->plugin->getConfig()->get("mode") === "whitelist" && !in_array($targetLevel, $this->plugin->getConfig()->get("whitelisted-worlds"))) && $entity->getAllowFlight() === true) {
 			$entity->sendMessage(C::RED . str_replace("{world}", $targetLevel, $this->plugin->getConfig()->get("flight-not-allowed")));
-			$this->plugin->toggleFlight($entity);
+			$this->util->toggleFlight($entity);
 		}
 	}
 		

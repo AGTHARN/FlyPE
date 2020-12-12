@@ -32,6 +32,7 @@ use pocketmine\math\Vector3;
 use pocketmine\block\Block;
 
 use AGTHARN\FlyPE\Main;
+use AGTHARN\FlyPE\util\Util;
 
 class ParticleTask extends Task {
 
@@ -46,10 +47,12 @@ class ParticleTask extends Task {
 	 * __construct
 	 *
 	 * @param  Main $plugin
+     * @param  Util $util
 	 * @return void
 	 */
-	public function __construct(Main $plugin) {
-		$this->plugin = $plugin;
+	public function __construct(Main $plugin, Util $util) {
+        $this->plugin = $plugin;
+        $this->util = $util;
 	}
         
     /**
@@ -61,7 +64,7 @@ class ParticleTask extends Task {
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
             if ($player->getAllowFlight() === true && $player->isFlying() && $player->hasPermission("flype.particles")) {
-                $player->getLevel()->addParticle($this->plugin->getParticleList()->getParticle($this->plugin->getConfig()->get("fly-particle-type"), new Vector3($player->x, $player->y, $player->z), Block::get($this->plugin->getConfig()->get("particle-block-id")) ?? Block::get(1)));
+                $player->getLevel()->addParticle($this->util->getParticleList()->getParticle($this->plugin->getConfig()->get("fly-particle-type"), new Vector3($player->x, $player->y, $player->z), Block::get($this->plugin->getConfig()->get("particle-block-id")) ?? Block::get(1)));
             }
         }
     }
