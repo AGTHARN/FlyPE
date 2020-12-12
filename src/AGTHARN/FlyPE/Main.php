@@ -52,7 +52,7 @@ class Main extends PluginBase {
 	 * @return void
 	 */
 	public function onEnable(): void {
-		$this->util = $this->getUtil();
+		$this->util = new Util($this);
 
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);
 		$this->getServer()->getCommandMap()->register("fly", new FlyCommand("fly", $this, $this->util));
@@ -65,9 +65,5 @@ class Main extends PluginBase {
 		    $this->getServer()->getPluginManager()->disablePlugin($this);
 	    }
 	    UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
-	}
-
-	public function getUtil() {
-		return new Util($this);
 	}
 }
