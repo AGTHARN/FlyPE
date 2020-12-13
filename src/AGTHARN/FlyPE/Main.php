@@ -55,7 +55,7 @@ class Main extends PluginBase {
 		$this->util = new Util($this);
 
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);
-		$this->getServer()->getCommandMap()->register("fly", new FlyCommand("fly", $this, $this->util));
+		$this->getServer()->getCommandMap()->register("FlyPE", new FlyCommand("fly", $this, $this->util));
 
 		$this->util->checkConfiguration();
 		$this->util->checkDepend();
