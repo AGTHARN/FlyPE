@@ -58,11 +58,12 @@ class Main extends PluginBase {
 		$this->getServer()->getCommandMap()->register("FlyPE", new FlyCommand("fly", $this, $this->util));
 
 		$this->util->checkConfiguration();
-		$this->util->checkDepend();
+		if (!$this->util->checkDepend()) return;
 
 		if ($this->getConfig()->get("config-version") < self::CONFIG_VERSION) {
 		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
 		    $this->getServer()->getPluginManager()->disablePlugin($this);
+		    return;
 	    }
 	    UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
 	}

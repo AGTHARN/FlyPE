@@ -224,12 +224,14 @@ class Util {
 	/**
 	 * checkDepend
 	 *
-	 * @return void
+	 * @return bool
 	 */
-	public function checkDepend(): void {
+	public function checkDepend(): bool {
 		if ($this->plugin->getServer()->getPluginManager()->getPlugin("EconomyAPI") === null && $this->plugin->getConfig()->get("pay-for-fly") === true && $this->plugin->getConfig()->get("enable-fly-ui") === true) {
 			$this->plugin->getLogger()->warning("EconomyAPI not found while pay-for-fly is turned on!");
 			$this->plugin->getServer()->getPluginManager()->disablePlugin($this->plugin);
+			return false;
 		}
+		return true;
 	}
 }
