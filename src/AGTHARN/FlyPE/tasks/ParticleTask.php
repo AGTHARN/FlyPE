@@ -70,6 +70,7 @@ class ParticleTask extends Task {
      */
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
+            if ($this->plugin->getConfig()->get("creative-mode-particles") === false && $player->getGamemode() === Player::CREATIVE) return;
             if ($player->getAllowFlight() === true && $player->isFlying() && $player->hasPermission("flype.particles")) {
                 $player->getLevel()->addParticle($this->util->getParticleList()->getParticle($this->plugin->getConfig()->get("fly-particle-type"), new Vector3($player->x, $player->y, $player->z), Block::get($this->plugin->getConfig()->get("particle-block-id")) ?? Block::get(1)));
             }

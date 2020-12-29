@@ -8,7 +8,7 @@
 ##### VERSION #####
 
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 3.3
+config-version: 3.5
 
 ###################
 
@@ -160,6 +160,19 @@ effect-visible: true
 fly-effect-check-rate: 20
 
 ##################
+
+
+##### CREATIVE MODE ######
+
+# If set to true, players that fly and are in gamemode creative will have effects applied to them.
+# If set to false, players that fly and are in gamemode creative will not have effects applied to them.
+creative-mode-effects: false
+
+# If set to true, players that fly and are in gamemode creative will have particles applied to them.
+# If set to false, players that fly and are in gamemode creative will not have particles applied to them.
+creative-mode-particles: false
+
+##########################
 
 
 ##### TOGGLE FLIGHT SOUND #####

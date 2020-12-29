@@ -44,7 +44,7 @@ class Main extends PluginBase {
      */
 	private $util;
 	
-	public const CONFIG_VERSION = 3.2;
+	public const CONFIG_VERSION = 3.5;
 	
 	/**
 	 * onEnable
