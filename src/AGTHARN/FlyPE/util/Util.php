@@ -39,7 +39,6 @@ use AGTHARN\FlyPE\lists\SoundList;
 use AGTHARN\FlyPE\Main;
 
 use jojoe77777\FormAPI\SimpleForm;
-use JackMD\UpdateNotifier\UpdateNotifier;
 use onebone\economyapi\EconomyAPI;
 
 class Util {
@@ -152,6 +151,22 @@ class Util {
 		}
 		$player->sendMessage(C::RED . str_replace("{world}", $levelName, $this->plugin->getConfig()->get("flight-not-allowed")));
 		return false;
+	}
+	
+	/**
+	 * doTargetLevelCheck
+	 *
+	 * @param  Player $entity
+	 * @param  String $targetLevel
+	 * @return bool
+	 */
+	public function doTargetLevelCheck(Player $entity, String $targetLevel): bool {
+		// returns false if not allowed
+		if (($this->plugin->getConfig()->get("mode") === "blacklist" && in_array($targetLevel, $this->plugin->getConfig()->get("blacklisted-worlds")) || $this->plugin->getConfig()->get("mode") === "whitelist" && !in_array($targetLevel, $this->plugin->getConfig()->get("whitelisted-worlds"))) && $entity->getAllowFlight() === true) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	/**

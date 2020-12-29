@@ -8,7 +8,7 @@
 ##### VERSION #####
 
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 3.2
+config-version: 3.3
 
 ###################
 
@@ -213,6 +213,12 @@ whitelisted-worlds:
  - "flyworld1"
  - "flyworld2"
  - "flyworld3"
+
+# Toggle message when a player moves to a world that restricts flight.
+level-change-restricted: true
+
+# Toggle message when a player moves to a world that does not restrict flight.
+level-change-unrestricted: false
  
 #########################################
  
@@ -252,6 +258,10 @@ cant-toggle-flight-others: "You do not have permission to toggle flight for othe
 # The message a player gets when they try to toggle on flight in a restricted world.
 # {world} = Player's World Name
 flight-not-allowed: "This world does not allow flight!"
+
+# The message a player gets when they move to a unrestricted world.
+# {world} = Player's World Name
+flight-is-allowed: "This world allows flight!"
 
 # The message a player gets when they try to toggle off flight in creative mode.
 # {name} = Player's Name

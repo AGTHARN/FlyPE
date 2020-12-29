@@ -1,7 +1,7 @@
 # FlyPE [![HitCount](http://hits.dwyl.com/AGTHARN/FlyPE/master.svg)](http://hits.dwyl.com/AGTHARN/FlyPE/master) [![GitHub license](https://img.shields.io/github/license/AGTHARN/FlyPE)](https://github.com/AGTHARN/FlyPE/blob/master/LICENSE) [![](https://poggit.pmmp.io/shield.state/FlyPE)](https://poggit.pmmp.io/p/FlyPE)
 ![flypeicon](https://user-images.githubusercontent.com/63234276/83245243-0b6bb180-a1d3-11ea-9a01-3eb2fcb60115.jpg)
 
-![Latest version](https://img.shields.io/badge/Version-v3.3.4-orange?style=for-the-badge)
+![Latest version](https://img.shields.io/badge/Version-v3.4.0-orange?style=for-the-badge)
 
 [FlyPE](https://poggit.pmmp.io/p/FlyPE/1.0.1) is a fly plugin for PocketMine that allows you to fly in survival mode when you run the fly command! There are many different features in the plugin that makes it special, and you should check them out!
 
@@ -75,10 +75,10 @@ You can find the config file for v1.0.1 [here](https://pastebin.com/raw/RD19kW5s
 You can find the config file for v2.0.0, v2.0.1, v2.0.2, v2.0.3 [here](https://pastebin.com/raw/qgu9u1eJ)!
 
 + ![Config v3](https://img.shields.io/badge/Config-v3-orange?style=for-the-badge)
-You can find the config file for v3.0.0, v3.0.1, v3.1.1, v3.2.0, 3.3.1, 3.3.2, 3.3.3, 3.3.4 [here](https://raw.githubusercontent.com/AGTHARN/FlyPE/master/resources/config.yml)!
+You can find the config file for v3.0.0, v3.0.1, v3.1.1, v3.2.0, 3.3.1, 3.3.2, 3.3.3, 3.3.4, 3.4.0 [here](https://raw.githubusercontent.com/AGTHARN/FlyPE/master/resources/config.yml)!
 
 ### Plugin Info
 + Name: FlyPE
 + Author: AGTHARN
-+ Version: 3.3.4
++ Version: 3.4.0
 + Api: 3.0.0
