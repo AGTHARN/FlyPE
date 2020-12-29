@@ -30,6 +30,7 @@ namespace AGTHARN\FlyPE\tasks;
 use pocketmine\scheduler\Task;
 use pocketmine\entity\EffectInstance;
 use pocketmine\entity\Effect;
+use pocketmine\Player;
 
 use AGTHARN\FlyPE\Main;
 

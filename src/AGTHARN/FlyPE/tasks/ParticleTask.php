@@ -30,6 +30,7 @@ namespace AGTHARN\FlyPE\tasks;
 use pocketmine\scheduler\Task;
 use pocketmine\math\Vector3;
 use pocketmine\block\Block;
+use pocketmine\Player;
 
 use AGTHARN\FlyPE\Main;
 use AGTHARN\FlyPE\util\Util;
