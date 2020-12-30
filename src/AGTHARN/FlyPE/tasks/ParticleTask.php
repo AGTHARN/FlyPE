@@ -49,7 +49,11 @@ class ParticleTask extends Task {
 	 * 
      * @var Util
      */
-	private $util;
+    private $util;
+    
+    private $vanishv2;
+    
+    private $simplelay;
 	
 	/**
 	 * __construct

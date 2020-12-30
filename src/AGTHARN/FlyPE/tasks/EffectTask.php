@@ -42,6 +42,10 @@ class EffectTask extends Task {
      * @var Main
      */
     private $plugin;
+
+    private $vanishv2;
+    
+    private $simplelay;
 	
 	/**
 	 * __construct
