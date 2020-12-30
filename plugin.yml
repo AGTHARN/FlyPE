@@ -1,12 +1,14 @@
 main: AGTHARN\FlyPE\Main
 name: FlyPE
 author: AGTHARN
-version: 3.5.1
+version: 3.6.0
 api: 3.0.0
 
 softdepend:
-- EconomyAPI
+- EconomyAPI # fly ui
 - PurePerms # for permissions
+- VanishV2 # integration support
+- SimpleLay # integration support
 
 permissions:
   flype.command:

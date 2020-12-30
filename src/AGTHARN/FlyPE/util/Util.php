@@ -57,7 +57,7 @@ class Util {
 	 * @return void
 	 */
 	public function __construct(Main $plugin) {
-        $this->plugin = $plugin;
+		$this->plugin = $plugin;
     }
     
 	/**

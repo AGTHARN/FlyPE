@@ -61,6 +61,9 @@ class ParticleTask extends Task {
 	public function __construct(Main $plugin, Util $util) {
         $this->plugin = $plugin;
         $this->util = $util;
+
+        $this->vanishv2 = $this->plugin->getServer()->getPluginManager()->getPlugin("VanishV2") ?? null;
+        $this->simplelay = $this->plugin->getServer()->getPluginManager()->getPlugin("SimpleLay") ?? null;
 	}
         
     /**
@@ -72,6 +75,10 @@ class ParticleTask extends Task {
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
             if ($this->plugin->getConfig()->get("creative-mode-particles") === false && $player->getGamemode() === Player::CREATIVE) return;
+            
+            if ($this->vanishv2 !== null && $this->plugin->getConfig()->get("vanishv2-support") === true && in_array($player->getName(), $this->vanishv2::$vanish)) return;
+            if ($this->simplelay !== null && $this->plugin->getConfig()->get("simplelay-support") === true && $this->simplelay->isLaying($player) === true) return;
+
             if ($player->getAllowFlight() === true && $player->isFlying() && $player->hasPermission("flype.particles")) {
                 $player->getLevel()->addParticle($this->util->getParticleList()->getParticle($this->plugin->getConfig()->get("fly-particle-type"), new Vector3($player->x, $player->y, $player->z), Block::get($this->plugin->getConfig()->get("particle-block-id")) ?? Block::get(1)));
             }

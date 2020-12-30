@@ -51,6 +51,9 @@ class EffectTask extends Task {
 	 */
 	public function __construct(Main $plugin) {
         $this->plugin = $plugin;
+
+        $this->vanishv2 = $this->plugin->getServer()->getPluginManager()->getPlugin("VanishV2") ?? null;
+        $this->simplelay = $this->plugin->getServer()->getPluginManager()->getPlugin("SimpleLay") ?? null;
 	}
         
     /**
@@ -63,6 +66,10 @@ class EffectTask extends Task {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
             if ($player->getAllowFlight() === true && $player->isFlying() && $player->hasPermission("flype.effects")) {
                 if ($this->plugin->getConfig()->get("creative-mode-effects") === false && $player->getGamemode() === Player::CREATIVE) return;
+
+                if ($this->vanishv2 !== null && $this->plugin->getConfig()->get("vanishv2-support") === true && in_array($player->getName(), $this->vanishv2::$vanish)) return;
+                if ($this->simplelay !== null && $this->plugin->getConfig()->get("simplelay-support") === true && $this->simplelay->isLaying($player) === true) return;
+                
                 $effect = new EffectInstance(Effect::getEffectByName($this->plugin->getConfig()->get("effect-type")) ?? Effect::getEffectByName("HASTE"));
                 $effect->setDuration(40);
                 $effect->setAmplifier(intval($this->plugin->getConfig()->get("effect-amplifier")));
