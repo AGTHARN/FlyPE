@@ -80,7 +80,7 @@ class EventListener implements Listener {
 		$entity = $event->getEntity();
 		$targetLevel = $event->getTarget()->getName();
 
-		if ($this->checkGamemodeCreative($player) === true || $entity->hasPermission("flype.command.bypass") || $entity->getAllowFlight() === false) return;
+		if ($this->util->checkGamemodeCreative($entity) === true || $entity->hasPermission("flype.command.bypass") || $entity->getAllowFlight() === false) return;
 		if ($this->util->doTargetLevelCheck($entity, $targetLevel) === false) {
 			if ($this->plugin->getConfig()->get("level-change-restricted") === true) {
 				$entity->sendMessage(C::RED . str_replace("{world}", $targetLevel, $this->plugin->getConfig()->get("flight-not-allowed")));
