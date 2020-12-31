@@ -8,12 +8,14 @@
 ##### VERSION #####
 
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 3.6
+config-version: 3.7
 
 ###################
 
 
 ##### FLY SETTINGS #####
+
+# NOTE: "apply-flight-settings-gmc" configuration will allow settings to be applied for gamemode creative.
 
 # If set to true, fly is disabled when a player joins.
 # If set to false, fly wouldn't be disabled when a player joins.
@@ -180,12 +182,22 @@ simplelay-support: true
 ##### CREATIVE MODE ######
 
 # If set to true, players that fly and are in gamemode creative will have effects applied to them.
-# If set to false, players that fly and are in gamemode creative will not have effects applied to them.
+# If set to false, players that fly and are in gamemode creative will NOT have effects applied to them.
 creative-mode-effects: false
 
 # If set to true, players that fly and are in gamemode creative will have particles applied to them.
-# If set to false, players that fly and are in gamemode creative will not have particles applied to them.
+# If set to false, players that fly and are in gamemode creative will NOT have particles applied to them.
 creative-mode-particles: false
+
+# If set to true, players that run /fly and are in gamemode creative will be allowed to toggle their flight.
+# If set to false, players that run /fly and are in gamemode creative will NOT be allowed to toggle their flight.
+allow-toggle-flight-gmc: false
+
+# If set to true, players that are in gamemode creative will have fly settings applied to them.
+# If set to false, players that are in gamemode creative will NOT have fly settings applied to them.
+#
+# NOTE: USE WITH CAUTION
+apply-flight-settings-gmc: false
 
 ##########################
 
@@ -194,7 +206,7 @@ creative-mode-particles: false
 
 # If set to true, after flight is enabled/disabled, a sound will be played.
 # If set to false, after flight is enabled/disabled, nothing will be played.
-enable-fly-sound: false
+enable-fly-sound: true
 
 # Type of sound to be played after flight is enabled. Default: PopSound.
 # SUPPORTED: (case insensitive)

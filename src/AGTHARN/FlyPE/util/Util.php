@@ -28,6 +28,7 @@
 namespace AGTHARN\FlyPE\util;
 
 use pocketmine\utils\TextFormat as C;
+use pocketmine\entity\Entity;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
 
@@ -138,7 +139,7 @@ class Util {
 		$levelName = $player->getLevel()->getName();
 		$name = $player->getName();
 
-		if ($player->getGamemode() === Player::CREATIVE && $player->getAllowFlight() === true) {
+		if ($this->checkGamemodeCreative($player) === true && $player->getAllowFlight() === true && $this->plugin->getConfig()->get("allow-toggle-flight-gmc") === false) {
 			$player->sendMessage(C::RED . str_replace("{name}", $name, $this->plugin->getConfig()->get("disable-fly-creative")));
 			return false;
 		}
@@ -248,5 +249,33 @@ class Util {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * checkGamemodeCreative
+	 *
+	 * @param  Entity $entity
+	 * @return bool
+	 */
+	public function checkGamemodeCreative(Entity $entity): bool {
+		// reason for using a function is cuz this will check both gamemode creative and player validity
+		// (may need other checks in the future so why not)
+		if ($entity instanceof Player && $entity->getGamemode() === Player::CREATIVE) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * checkGamemodeCreativeSetting
+	 *
+	 * @param  Entity $entity
+	 * @return bool
+	 */
+	public function checkGamemodeCreativeSetting(Entity $entity): bool {
+		if ($this->checkGamemodeCreative($entity) === true && $this->plugin->getConfig()->get("apply-flight-settings-gmc") === true) {
+			return true;
+		}
+		return false;
 	}
 }
