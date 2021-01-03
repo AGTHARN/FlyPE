@@ -9,7 +9,7 @@
  * |_|    |______|_|  |_|    |______|
  *
  * FlyPE, is an advanced fly plugin for PMMP.
- * Copyright (C) 2020 AGTHARN
+ * Copyright (C) 2020-2021 AGTHARN
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat as C;
@@ -41,6 +42,7 @@ use pocketmine\Player;
 
 use AGTHARN\FlyPE\Main;
 use AGTHARN\FlyPE\util\Util;
+use AGTHARN\FlyPE\tasks\FlightDataTask;
 
 class EventListener implements Listener {
     
@@ -57,7 +59,7 @@ class EventListener implements Listener {
      * @var Util
      */
 	private $util;
-	
+
 	/**
 	 * __construct
 	 *
@@ -108,6 +110,22 @@ class EventListener implements Listener {
 			return;
 		}
 	}
+	
+	/**
+	 * onPlayerQuit
+	 *
+	 * @param  PlayerQuitEvent $event
+	 * @return void
+	 */
+	public function onPlayerQuit(PlayerQuitEvent $event){
+		$player = $event->getPlayer();
+		$data[$player->getId()] = new FlightDataTask($this->plugin, $this->util, $player->getName());
+
+        if (isset($data[$player->getId()])) {
+			$this->util->getFlightData($player)->saveData();
+            unset($data[$player->getId()]);
+        }
+    }
 		
 	/**
 	 * onInventoryPickupItem
@@ -192,13 +210,21 @@ class EventListener implements Listener {
 		$damager = $event->getDamager();
 		$levelName = $event->getEntity()->getLevel()->getName();
 
-	    if ($this->plugin->getConfig()->get("combat-disable-fly") === true && $event instanceof EntityDamageByEntityEvent && $entity instanceof Player && $damager instanceof Player) {
-			if (($this->util->checkGamemodeCreative($damager) === true || $this->util->checkGamemodeCreativeSetting($damager) === false) || ($this->util->checkGamemodeCreative($entity) === true || $this->util->checkGamemodeCreativeSetting($entity) === false)) return;
-			if ($damager->getAllowFlight() === true) {
-				$damager->setAllowFlight(false);
-				$damager->setFlying(false);
-				$damager->sendMessage(C::RED . str_replace("{world}", $levelName, $this->plugin->getConfig()->get("combat-fly-disable")));
+		if ($entity instanceof Player && $damager instanceof Player) {
+			if ((($this->util->checkGamemodeCreative($damager) === false || $this->util->checkGamemodeCreativeSetting($damager) === true) || ($this->util->checkGamemodeCreative($entity) === false || $this->util->checkGamemodeCreativeSetting($entity) === true)) && $this->plugin->getConfig()->get("combat-disable-fly") === true) {
+				
+				if ($damager->getAllowFlight() === true) {
+					$damager->setAllowFlight(false);
+					$damager->setFlying(false);
+					$damager->sendMessage(C::RED . str_replace("{world}", $levelName, $this->plugin->getConfig()->get("combat-fly-disable")));
+				}
+				
+				if ($entity->getAllowFlight() === true) {
+					$entity->setAllowFlight(false);
+					$entity->setFlying(false);
+					$entity->sendMessage(C::RED . str_replace("{world}", $levelName, $this->plugin->getConfig()->get("combat-fly-disable")));
+				}
 			}
-	    }
-    }
+		}
+	}
 }

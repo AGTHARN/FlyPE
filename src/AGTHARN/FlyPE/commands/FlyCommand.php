@@ -9,7 +9,7 @@
  * |_|    |______|_|  |_|    |______|
  *
  * FlyPE, is an advanced fly plugin for PMMP.
- * Copyright (C) 2020 AGTHARN
+ * Copyright (C) 2020-2021 AGTHARN
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -103,6 +103,7 @@ class FlyCommand extends PluginCommand {
 				$sender->sendMessage(C::RED . str_replace("{name}", $args[0], $this->plugin->getConfig()->get("player-cant-be-found")));
 				return false;
 			}
+			
 			$targetName = $target->getName();
 
 			if (!$sender->hasPermission("flype.command.others")) {

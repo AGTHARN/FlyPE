@@ -9,7 +9,7 @@
  * |_|    |______|_|  |_|    |______|
  *
  * FlyPE, is an advanced fly plugin for PMMP.
- * Copyright (C) 2020 AGTHARN
+ * Copyright (C) 2020-2021 AGTHARN
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ class Main extends PluginBase {
      */
 	private $util;
 	
-	public const CONFIG_VERSION = 3.7;
+	public const CONFIG_VERSION = 3.8;
 	
 	/**
 	 * onEnable
@@ -58,7 +58,7 @@ class Main extends PluginBase {
 		$this->getServer()->getCommandMap()->register("FlyPE", new FlyCommand("fly", $this, $this->util));
 
 		$this->util->checkConfiguration();
-		if (!$this->util->checkDepend()) return;
+		if (!$this->util->checkDepend() || !$this->util->checkIncompatible() || !$this->util->checkFiles()) return;
 
 		if ($this->getConfig()->get("config-version") < self::CONFIG_VERSION) {
 		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");

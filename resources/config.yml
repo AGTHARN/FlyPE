@@ -8,7 +8,7 @@
 ##### VERSION #####
 
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 3.7
+config-version: 3.8
 
 ###################
 
@@ -227,13 +227,16 @@ fly-disabled-sound: "PopSound"
 ###############################
 
 
-##### TEMPORAL FLY (COMING SOON) #####
+##### TEMPORAL FLY #####
 
-# Would you like to time how long a player could use /fly?
-# timefly: false
-# flymins: 10 # amount of mins a player can fly for
+# If set to true, players that toggle flight will be timed.
+# If set to false, players that toggle flight will NOT be timed.
+time-fly: false
 
-######################################
+# Amount of seconds a player can fly for.
+fly-seconds: 300
+
+########################
 
 
 ##### BLACKLIST OR WHITELIST WORLDS #####

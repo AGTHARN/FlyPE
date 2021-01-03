@@ -28,14 +28,12 @@
 namespace AGTHARN\FlyPE\tasks;
 
 use pocketmine\scheduler\Task;
-use pocketmine\math\Vector3;
-use pocketmine\block\Block;
-use pocketmine\Player;
 
 use AGTHARN\FlyPE\Main;
 use AGTHARN\FlyPE\util\Util;
+use AGTHARN\FlyPE\data\FlightData;
 
-class ParticleTask extends Task {
+class FlightDataTask extends Task {
 
     /**
      * plugin
@@ -51,9 +49,12 @@ class ParticleTask extends Task {
      */
     private $util;
     
-    private $vanishv2;
-    
-    private $simplelay;
+    /**
+     * data
+     *
+     * @var array
+     */
+    private $data = [];
 	
 	/**
 	 * __construct
@@ -65,9 +66,6 @@ class ParticleTask extends Task {
 	public function __construct(Main $plugin, Util $util) {
         $this->plugin = $plugin;
         $this->util = $util;
-
-        $this->vanishv2 = $this->plugin->getServer()->getPluginManager()->getPlugin("VanishV2") ?? null;
-        $this->simplelay = $this->plugin->getServer()->getPluginManager()->getPlugin("SimpleLay") ?? null;
 	}
         
     /**
@@ -78,13 +76,21 @@ class ParticleTask extends Task {
      */
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            if ($this->plugin->getConfig()->get("creative-mode-particles") === false && $player->getGamemode() === Player::CREATIVE) return;
-            
-            if ($this->vanishv2 !== null && $this->plugin->getConfig()->get("vanishv2-support") === true && in_array($player->getName(), $this->vanishv2::$vanish)) return;
-            if ($this->simplelay !== null && $this->plugin->getConfig()->get("simplelay-support") === true && $this->simplelay->isLaying($player) === true) return;
+            $this->data[$player->getId()] = new FlightData($this->plugin, $this->util, $player->getName());
 
-            if ($player->getAllowFlight() === true && $player->isFlying() && $player->hasPermission("flype.particles")) {
-                $player->getLevel()->addParticle($this->util->getParticleList()->getParticle($this->plugin->getConfig()->get("fly-particle-type"), new Vector3($player->x, $player->y, $player->z), Block::get($this->plugin->getConfig()->get("particle-block-id")) ?? Block::get(1)));
+            if(isset($this->data[$player->getId()]) && $player->getAllowFlight() === true){
+                $data = $this->data[$player->getId()];
+                $data->incrementTime();
+                $data->saveData();
+
+                if ($data->getDataTime() >= $this->plugin->getConfig()->get("fly-seconds")) {
+                    $this->util->toggleFlight($player);
+                    $data->resetDataTime();
+                    $data->saveData();
+                }
+                
+                // for debug (if this is not disabled please contact me immediately)
+                // $this->plugin->getLogger()->info("FlightDataTask " . $player->getName() . " " . $data->getDataTime()); 
             }
         }
     }
