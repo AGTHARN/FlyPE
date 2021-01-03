@@ -119,10 +119,11 @@ class EventListener implements Listener {
 	 */
 	public function onPlayerQuit(PlayerQuitEvent $event){
 		$player = $event->getPlayer();
-		$data[$player->getId()] = new FlightDataTask($this->plugin, $this->util, $player->getName());
+		$playerData = $this->util->getFlightData($player);
+		$data[$player->getId()] = new FlightDataTask($this->plugin, $this->util);
 
         if (isset($data[$player->getId()])) {
-			$this->util->getFlightData($player)->saveData();
+			$playerData->saveData();
             unset($data[$player->getId()]);
         }
     }

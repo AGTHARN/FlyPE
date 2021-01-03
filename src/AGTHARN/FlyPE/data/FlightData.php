@@ -37,7 +37,7 @@ class FlightData{
      * 
      * @var Main
      */
-    private $main;
+    private $plugin;
 
     /**
 	 * util
@@ -105,6 +105,7 @@ class FlightData{
     public function resetDataTime(): void {
         $this->time = 0;
 	}
+		
 		
 	/**
 	 * saveData

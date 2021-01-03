@@ -308,7 +308,7 @@ class Util {
 	 * getFlightData
 	 *
 	 * @param  Player $player
-	 * @return void
+	 * @return mixed
 	 */
 	public function getFlightData(Player $player) {
 		return new FlightData($this->plugin, $this, $player->getName());
