@@ -105,8 +105,7 @@ class FlightData{
     public function resetDataTime(): void {
         $this->time = 0;
 	}
-		
-		
+			
 	/**
 	 * saveData
 	 *
