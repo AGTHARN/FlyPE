@@ -282,7 +282,9 @@ class Util {
 	 * @return void
 	 */
 	public function addDataDir(): void {
-		mkdir($this->plugin->getDataFolder() . "data");
+		if (!is_dir($this->plugin->getDataFolder() . "data/")) {
+			mkdir($this->plugin->getDataFolder() . "data");
+		}
 	}
 	
 	/**
