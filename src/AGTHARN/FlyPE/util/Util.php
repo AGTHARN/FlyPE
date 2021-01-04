@@ -9,7 +9,7 @@
  * |_|    |______|_|  |_|    |______|
  *
  * FlyPE, is an advanced fly plugin for PMMP.
- * Copyright (C) 2020 AGTHARN
+ * Copyright (C) 2020-2021 AGTHARN
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,9 +34,11 @@ use pocketmine\Player;
 
 use AGTHARN\FlyPE\tasks\ParticleTask;
 use AGTHARN\FlyPE\tasks\FlightSpeedTask;
+use AGTHARN\FlyPE\tasks\FlightDataTask;
 use AGTHARN\FlyPE\tasks\EffectTask;
 use AGTHARN\FlyPE\lists\ParticleList;
 use AGTHARN\FlyPE\lists\SoundList;
+use AGTHARN\FlyPE\data\FlightData;
 use AGTHARN\FlyPE\Main;
 
 use jojoe77777\FormAPI\SimpleForm;
@@ -49,7 +51,7 @@ class Util {
      * 
      * @var Main
      */
-    private $plugin;
+	private $plugin;
 	
 	/**
 	 * __construct
@@ -183,6 +185,7 @@ class Util {
 			$player->setAllowFlight(false);
 			$player->setFlying(false);
 			$player->sendMessage(C::RED . str_replace("{name}", $name, $this->plugin->getConfig()->get("toggled-flight-off")));
+
 			if ($this->plugin->getConfig()->get("enable-fly-sound") === true) {
 				$player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-disabled-sound"), new Vector3($player->x, $player->y, $player->z)));
 			}
@@ -190,28 +193,18 @@ class Util {
 			$player->setAllowFlight(true);
 			$player->setFlying(true);
 			$player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->plugin->getConfig()->get("toggled-flight-on")));
+
 			if ($this->plugin->getConfig()->get("enable-fly-sound") === true) {
 				$player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-enabled-sound"), new Vector3($player->x, $player->y, $player->z)));
 			}
+			if ($this->plugin->getConfig()->get("time-fly") === true) {
+				$data = $this->getFlightData($player);
+				if (is_file($data->getDataPath())) {
+					$data->resetDataTime();
+					$data->saveData();
+				}
+			}
 		}
-	}
-	    
-    /**
-     * getParticles
-     *
-     * @return mixed|object|resource
-     */
-    public function getParticleList() {
-        return new ParticleList();
-	}
-		
-	/**
-	 * getSoundList
-	 *
-	 * @return mixed|object|resource
-	 */
-	public function getSoundList() {
-        return new SoundList();
 	}
 		
 	/**
@@ -226,6 +219,10 @@ class Util {
 
 		if ($this->plugin->getConfig()->get("enable-fly-effects") === true) {
 			$this->plugin->getScheduler()->scheduleRepeatingTask(new EffectTask($this->plugin), $this->plugin->getConfig()->get("fly-effect-check-rate"));
+		}
+
+		if ($this->plugin->getConfig()->get("time-fly") === true) {
+			$this->plugin->getScheduler()->scheduleRepeatingTask(new FlightDataTask($this->plugin, $this), 20);
 		}
 		
 		if ($this->plugin->getConfig()->get("fly-speed-mod") === true) {
@@ -245,6 +242,34 @@ class Util {
 	public function checkDepend(): bool {
 		if ($this->plugin->getServer()->getPluginManager()->getPlugin("EconomyAPI") === null && $this->plugin->getConfig()->get("pay-for-fly") === true && $this->plugin->getConfig()->get("enable-fly-ui") === true) {
 			$this->plugin->getLogger()->warning("EconomyAPI not found while pay-for-fly is turned on!");
+			$this->plugin->getServer()->getPluginManager()->disablePlugin($this->plugin);
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * checkIncompatible
+	 *
+	 * @return bool
+	 */
+	public function checkIncompatible(): bool {
+		if ($this->plugin->getServer()->getPluginManager()->getPlugin("BlazinFly") !== null) {
+			$this->plugin->getLogger()->warning("FlyPE is not compatible with others fly plugins! (BlazinFly)");
+			$this->plugin->getServer()->getPluginManager()->disablePlugin($this->plugin);
+			return false;
+		}
+		return true;
+	}
+		
+	/**
+	 * checkFiles
+	 *
+	 * @return bool
+	 */
+	public function checkFiles(): bool {
+		if (!is_dir($this->plugin->getDataFolder() . "data/") || !is_file($this->plugin->getDataFolder() . "config.yml") || !is_dir($this->plugin->getDataFolder())) {
+			$this->plugin->getLogger()->warning("Detected a missing directory/file!");
 			$this->plugin->getServer()->getPluginManager()->disablePlugin($this->plugin);
 			return false;
 		}
@@ -277,5 +302,33 @@ class Util {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * getFlightData
+	 *
+	 * @param  Player $player
+	 * @return mixed
+	 */
+	public function getFlightData(Player $player) {
+		return new FlightData($this->plugin, $this, $player->getName());
+	}
+
+	/**
+     * getParticles
+     *
+     * @return mixed|object|resource
+     */
+    public function getParticleList() {
+        return new ParticleList();
+	}
+		
+	/**
+	 * getSoundList
+	 *
+	 * @return mixed|object|resource
+	 */
+	public function getSoundList() {
+        return new SoundList();
 	}
 }
