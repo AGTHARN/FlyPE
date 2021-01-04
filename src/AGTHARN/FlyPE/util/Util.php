@@ -277,6 +277,15 @@ class Util {
 	}
 	
 	/**
+	 * addDataDir
+	 *
+	 * @return void
+	 */
+	public function addDataDir(): void {
+		mkdir($this->plugin->getDataFolder() . "data");
+	}
+	
+	/**
 	 * checkGamemodeCreative
 	 *
 	 * @param  Entity $entity

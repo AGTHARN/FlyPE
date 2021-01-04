@@ -57,6 +57,7 @@ class Main extends PluginBase {
 		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);
 		$this->getServer()->getCommandMap()->register("FlyPE", new FlyCommand("fly", $this, $this->util));
 
+		$this->util->addDataDir();
 		$this->util->checkConfiguration();
 		if (!$this->util->checkDepend() || !$this->util->checkIncompatible() || !$this->util->checkFiles()) return;
 
