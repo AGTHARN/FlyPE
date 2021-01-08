@@ -30,7 +30,7 @@ namespace AGTHARN\FlyPE\data;
 use AGTHARN\FlyPE\Main;
 use AGTHARN\FlyPE\util\Util;
 
-class FlightData{
+class FlightData {
 
     /**
      * plugin
@@ -40,11 +40,11 @@ class FlightData{
     private $plugin;
 
     /**
-	 * util
-	 * 
+     * util
+     * 
      * @var Util
      */
-	private $util;
+    private $util;
     
     /**
      * playerName
@@ -104,14 +104,14 @@ class FlightData{
      */
     public function resetDataTime(): void {
         $this->time = 0;
-	}
-			
-	/**
-	 * saveData
-	 *
-	 * @return void
-	 */
-	public function saveData(): void {
+    }
+            
+    /**
+     * saveData
+     *
+     * @return void
+     */
+    public function saveData(): void {
         yaml_emit_file($this->getDataPath(), [
             "time" => $this->getDataTime()
         ]);

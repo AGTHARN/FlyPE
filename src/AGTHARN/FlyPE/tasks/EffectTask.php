@@ -46,19 +46,19 @@ class EffectTask extends Task {
     private $vanishv2;
     
     private $simplelay;
-	
-	/**
-	 * __construct
-	 *
-	 * @param  Main $plugin
-	 * @return void
-	 */
-	public function __construct(Main $plugin) {
+    
+    /**
+     * __construct
+     *
+     * @param  Main $plugin
+     * @return void
+     */
+    public function __construct(Main $plugin) {
         $this->plugin = $plugin;
 
         $this->vanishv2 = $this->plugin->getServer()->getPluginManager()->getPlugin("VanishV2") ?? null;
         $this->simplelay = $this->plugin->getServer()->getPluginManager()->getPlugin("SimpleLay") ?? null;
-	}
+    }
         
     /**
      * onRun

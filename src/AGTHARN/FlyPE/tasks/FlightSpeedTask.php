@@ -41,16 +41,16 @@ class FlightSpeedTask extends Task {
      * @var Main
      */
     private $plugin;
-	
-	/**
-	 * __construct
-	 *
-	 * @param  Main $plugin
-	 * @return void
-	 */
-	public function __construct(Main $plugin) {
+    
+    /**
+     * __construct
+     *
+     * @param  Main $plugin
+     * @return void
+     */
+    public function __construct(Main $plugin) {
         $this->plugin = $plugin;
-	}
+    }
         
     /**
      * onRun

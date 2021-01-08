@@ -33,39 +33,39 @@ use pocketmine\utils\TextFormat as C;
 use AGTHARN\FlyPE\commands\FlyCommand;
 use AGTHARN\FlyPE\util\Util;
 
-use JackMD\UpdateNotifier\UpdateNotifier;
-
 class Main extends PluginBase {
-	
-	/**
-	 * util
-	 * 
+    
+    /**
+     * util
+     * 
      * @var Util
      */
-	private $util;
-	
-	public const CONFIG_VERSION = 3.8;
-	
-	/**
-	 * onEnable
-	 *
-	 * @return void
-	 */
-	public function onEnable(): void {
-		$this->util = new Util($this);
+    private $util;
+    
+    public const CONFIG_VERSION = 3.9;
+    
+    /**
+     * onEnable
+     *
+     * @return void
+     */
+    public function onEnable(): void {
+        $this->util = new Util($this);
 
-		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);
-		$this->getServer()->getCommandMap()->register("FlyPE", new FlyCommand("fly", $this, $this->util));
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);
+        $this->getServer()->getCommandMap()->register("FlyPE", new FlyCommand("fly", $this, $this->util));
 
-		$this->util->addDataDir();
-		$this->util->checkConfiguration();
-		if (!$this->util->checkDepend() || !$this->util->checkIncompatible() || !$this->util->checkFiles()) return;
+        $this->util->addDataDir();
+        $this->util->checkConfiguration();
+        $this->util->checkUpdates();
+        $this->util->enableCoupon();
+        
+        if (!$this->util->checkDepend() || !$this->util->checkIncompatible() || !$this->util->checkFiles()) return;
 
-		if ($this->getConfig()->get("config-version") < self::CONFIG_VERSION) {
-		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
-		    $this->getServer()->getPluginManager()->disablePlugin($this);
-		    return;
-	    }
-	    UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
-	}
+        if ($this->getConfig()->get("config-version") < self::CONFIG_VERSION) {
+            $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
+            $this->getServer()->getPluginManager()->disablePlugin($this);
+            return;
+        }
+    }
 }

@@ -43,8 +43,8 @@ class FlightDataTask extends Task {
     private $plugin;
 
     /**
-	 * util
-	 * 
+     * util
+     * 
      * @var Util
      */
     private $util;
@@ -55,18 +55,18 @@ class FlightDataTask extends Task {
      * @var array
      */
     private $data = [];
-	
-	/**
-	 * __construct
-	 *
-	 * @param  Main $plugin
+        
+    /**
+     * __construct
+     *
+     * @param  Main $plugin
      * @param  Util $util
-	 * @return void
-	 */
-	public function __construct(Main $plugin, Util $util) {
+     * @return void
+     */
+    public function __construct(Main $plugin, Util $util) {
         $this->plugin = $plugin;
         $this->util = $util;
-	}
+    }
         
     /**
      * onRun

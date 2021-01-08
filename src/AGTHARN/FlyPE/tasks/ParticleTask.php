@@ -45,8 +45,8 @@ class ParticleTask extends Task {
     private $plugin;
 
     /**
-	 * util
-	 * 
+     * util
+     * 
      * @var Util
      */
     private $util;
@@ -54,21 +54,21 @@ class ParticleTask extends Task {
     private $vanishv2;
     
     private $simplelay;
-	
-	/**
-	 * __construct
-	 *
-	 * @param  Main $plugin
+    
+    /**
+     * __construct
+     *
+     * @param  Main $plugin
      * @param  Util $util
-	 * @return void
-	 */
-	public function __construct(Main $plugin, Util $util) {
+     * @return void
+     */
+    public function __construct(Main $plugin, Util $util) {
         $this->plugin = $plugin;
         $this->util = $util;
 
         $this->vanishv2 = $this->plugin->getServer()->getPluginManager()->getPlugin("VanishV2") ?? null;
         $this->simplelay = $this->plugin->getServer()->getPluginManager()->getPlugin("SimpleLay") ?? null;
-	}
+    }
         
     /**
      * onRun

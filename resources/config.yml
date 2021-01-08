@@ -8,7 +8,7 @@
 ##### VERSION #####
 
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 3.8
+config-version: 3.9
 
 ###################
 
@@ -179,6 +179,29 @@ simplelay-support: true
 ########################
 
 
+##### FLIGHT COUPON #####
+
+# If set to true, players will be able to use the flight coupon.
+# If set to true, players will NOT be able to use the flight coupon.
+enable-coupon: false
+
+# The item texture of the flight coupon. (only applies to newer coupons)
+coupon-item-id: 339
+
+# The name of the flight coupon.
+coupon-name: "&6Flight Coupon"
+
+# If set to true, the flight coupon will be obtainable in the creative mode item list.
+# If set to false, the flight coupon will NOT be obtainable in the creative mode item list.
+coupon-creative-item: true
+
+# If set to true, running the flight command will give the player a flight coupon.
+# If set to false, running the flight command will NOT give the player a flight coupon.
+coupon-command-toggle-item: true
+
+#########################
+
+
 ##### CREATIVE MODE ######
 
 # If set to true, players that fly and are in gamemode creative will have effects applied to them.
@@ -323,5 +346,9 @@ not-enough-money: "You do not have enough money!"
 # {name} = Player's Name
 # {cost} = Flight Cost
 buy-fly-successful: "Successful purchase of fly!"
+
+# The message a player gets when they try to use the flight coupon while flight is toggled on.
+# {name} = Player's Name
+cant-use-coupon: "Unable to use the Coupon! Please re-run the fly command to turn flight off."
 
 ####################

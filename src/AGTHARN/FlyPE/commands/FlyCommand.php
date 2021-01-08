@@ -42,86 +42,95 @@ class FlyCommand extends PluginCommand {
      * 
      * @var Main
      */
-	private $plugin;
-	
-	/**
-	 * util
-	 * 
+    private $plugin;
+    
+    /**
+     * util
+     * 
      * @var Util
      */
-	private $util;
-	
-	/**
-	 * __construct
-	 *
-	 * @param  String $cmd
-	 * @param  Main $plugin
-	 * @param  Util $util
-	 * @return void
-	 */
-	public function __construct(String $cmd, Main $plugin, Util $util) {
+    private $util;
+    
+    /**
+     * __construct
+     *
+     * @param  String $cmd
+     * @param  Main $plugin
+     * @param  Util $util
+     * @return void
+     */
+    public function __construct(String $cmd, Main $plugin, Util $util) {
         parent::__construct($cmd, $plugin);
-		
+
         $this->setUsage("/fly [string:player]");
         $this->setPermission("flype.command");
         $this->setDescription("Fly command to toggle flight");
-
-		$this->plugin = $plugin;
-		$this->util = $util;
+        
+        $this->plugin = $plugin;
+        $this->util = $util;
     }
     
     /**
-	 * onCommand
-	 *
-	 * @param  CommandSender $sender
-	 * @param  string $commandLabel
-	 * @param  array $args
-	 * @return bool
-	 */
-	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
-		if (!$sender instanceof Player) {
-			$sender->sendMessage("You can only use this command in-game!");
-			return false;
-		}
-		if (!$sender->hasPermission("flype.command")) {
-			$sender->sendMessage(C::RED . "You do not have the permission to use this command!");
-			return false;
-		}
-		if ($this->plugin->getConfig()->get("enable-fly-ui") === true) {
-			$this->util->openFlyUI($sender);
-			return true;
-		}
-		if (empty($args)) {
-			if ($this->util->doLevelChecks($sender) === true) {
-				$this->util->toggleFlight($sender);
-				return true;
-			}
-		} else {
-			$target = $this->plugin->getServer()->getPlayer($args[0]);
+     * onCommand
+     *
+     * @param  CommandSender $sender
+     * @param  string $commandLabel
+     * @param  array $args
+     * @return bool
+     */
+    public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
+        if (!$sender instanceof Player) {
+            $sender->sendMessage("You can only use this command in-game!");
+            return false;
+        }
+        if (!$sender->hasPermission("flype.command")) {
+            $sender->sendMessage(C::RED . "You do not have the permission to use this command!");
+            return false;
+        }
+        if ($this->plugin->getConfig()->get("enable-fly-ui") === true) {
+            $this->util->openFlyUI($sender);
+            return true;
+        }
+        if (empty($args)) {
+            if ($this->util->doLevelChecks($sender) === true) {
+                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") === true && $sender->getAllowFlight() === false) {
+                    $sender->getInventory()->addItem($this->util->getCouponItem());
+                    return true;
+                }
+                $this->util->toggleFlight($sender);
+                return true;
+            }
+        } else {
+            $target = $this->plugin->getServer()->getPlayer($args[0]);
 
-			if (!$target instanceof Player) {
-				$sender->sendMessage(C::RED . str_replace("{name}", $args[0], $this->plugin->getConfig()->get("player-cant-be-found")));
-				return false;
-			}
-			
-			$targetName = $target->getName();
+            if (!$target instanceof Player) {
+                $sender->sendMessage(C::RED . str_replace("{name}", $args[0], $this->plugin->getConfig()->get("player-cant-be-found")));
+                return false;
+            }
+            
+            $targetName = $target->getName();
 
-			if (!$sender->hasPermission("flype.command.others")) {
-				$sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("cant-toggle-flight-others")));
-				return false;
-			}
-				
-			if ($this->util->doLevelChecks($target) === true) {
-				$this->util->toggleFlight($target);
+            if (!$sender->hasPermission("flype.command.others")) {
+                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("cant-toggle-flight-others")));
+                return false;
+            }
+                
+            if ($this->util->doLevelChecks($target) === true) {
+                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") === true && $target->getAllowFlight() === false) {
+                    $target->getInventory()->addItem($this->util->getCouponItem());
+                    return true;
+                }
 
-				if ($target->getAllowFlight() === true) {
-					$sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-on")));
-				} else {
-					$sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-off")));
-				}
-				return true;
-			}
-		}
-		return false;
-	}
+                $this->util->toggleFlight($target);
+
+                if ($target->getAllowFlight() === true) {
+                    $sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-on")));
+                } else {
+                    $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-off")));
+                }
+                return true;
+            }
+        }
+        return false;
+    }
 }
