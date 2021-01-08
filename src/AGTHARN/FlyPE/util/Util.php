@@ -310,7 +310,7 @@ class Util {
     /**
      * checkUpdates
      *
-     * @return bool
+     * @return void
      */
     public function checkUpdates(): void {
         UpdateNotifier::checkUpdate($this->plugin->getDescription()->getName(), $this->plugin->getDescription()->getVersion());
