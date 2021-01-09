@@ -93,7 +93,7 @@ class FlyCommand extends PluginCommand {
         }
         if (empty($args)) {
             if ($this->util->doLevelChecks($sender) === true) {
-                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") === true && $sender->getAllowFlight() === false) {
+                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") === true && $this->plugin->getConfig()->get("enable-coupon") === true && $sender->getAllowFlight() === false) {
                     $sender->getInventory()->addItem($this->util->getCouponItem());
                     return true;
                 }
@@ -116,7 +116,7 @@ class FlyCommand extends PluginCommand {
             }
                 
             if ($this->util->doLevelChecks($target) === true) {
-                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") === true && $target->getAllowFlight() === false) {
+                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") === true && $this->plugin->getConfig()->get("enable-coupon") === true && $target->getAllowFlight() === false) {
                     $target->getInventory()->addItem($this->util->getCouponItem());
                     return true;
                 }

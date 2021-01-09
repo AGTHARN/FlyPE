@@ -61,6 +61,13 @@ class EventListener implements Listener {
      * @var Util
      */
     private $util;
+    
+    /**
+     * cooldownArray
+     *
+     * @var array
+     */
+    private $cooldownArray = array();
 
     /**
      * __construct
@@ -213,13 +220,25 @@ class EventListener implements Listener {
         $inventory = $player->getInventory();
         $item = $player->getInventory()->getItemInHand();
 
-        if ($item->getNamedTag()->hasTag("coupon") && $this->plugin->getConfig()->get("enable-coupon") === true && $this->util->doLevelChecks($player) === true) {
-            if ($player->getAllowFlight() === true) {
-                $player->sendMessage(C::RED . str_replace("{name}", $player->getName(), $this->plugin->getConfig()->get("cant-use-coupon")));
+        if ($item->getNamedTag()->hasTag("coupon") && $this->plugin->getConfig()->get("enable-coupon") === true && $this->plugin->getConfig()->get("enable-cooldown") === true && $this->util->doLevelChecks($player) === true) {
+            if(isset($this->cooldownArray[$event->getPlayer()->getName()])) {
+                if (time() < $this->cooldownArray[$event->getPlayer()->getName()]) {
+                    if ($this->plugin->getConfig()->get("send-cooldown-message") === true) {
+                        $player->sendMessage(C::RED . str_replace("{seconds}", $this->cooldownArray[$event->getPlayer()->getName()] - time(), str_replace("{name}", $player->getName(), $this->plugin->getConfig()->get("currently-on-cooldown"))));
+                    }
+                } else {
+                    unset($this->cooldownArray[$event->getPlayer()->getName()]);
+                }
             } else {
-                $this->util->toggleFlight($player);
-                $item->setCount($item->getCount() - 1);
-                $inventory->setItem($inventory->getHeldItemIndex(), $item);
+                if ($player->getAllowFlight() === true) {
+                    $player->sendMessage(C::RED . str_replace("{name}", $player->getName(), $this->plugin->getConfig()->get("cant-use-coupon")));
+                } else {
+                    $this->util->toggleFlight($player);
+                    $item->setCount($item->getCount() - 1);
+                    $inventory->setItem($inventory->getHeldItemIndex(), $item);
+        
+                    $this->cooldownArray[$event->getPlayer()->getName()] = time() + $this->plugin->getConfig()->get("cooldown-seconds");
+                }
             }
         }
     }
