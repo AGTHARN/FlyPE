@@ -87,13 +87,13 @@ class FlyCommand extends PluginCommand {
             $sender->sendMessage(C::RED . "You do not have the permission to use this command!");
             return false;
         }
-        if ($this->plugin->getConfig()->get("enable-fly-ui") === true) {
+        if ($this->plugin->getConfig()->get("enable-fly-ui")) {
             $this->util->openFlyUI($sender);
             return true;
         }
         if (empty($args)) {
-            if ($this->util->doLevelChecks($sender) === true) {
-                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") === true && $this->plugin->getConfig()->get("enable-coupon") === true && $sender->getAllowFlight() === false) {
+            if ($this->util->doLevelChecks($sender)) {
+                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") && $this->plugin->getConfig()->get("enable-coupon") && !$sender->getAllowFlight()) {
                     $sender->getInventory()->addItem($this->util->getCouponItem());
                     return true;
                 }
@@ -115,15 +115,15 @@ class FlyCommand extends PluginCommand {
                 return false;
             }
                 
-            if ($this->util->doLevelChecks($target) === true) {
-                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") === true && $this->plugin->getConfig()->get("enable-coupon") === true && $target->getAllowFlight() === false) {
+            if ($this->util->doLevelChecks($target)) {
+                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") && $this->plugin->getConfig()->get("enable-coupon") && !$target->getAllowFlight()) {
                     $target->getInventory()->addItem($this->util->getCouponItem());
                     return true;
                 }
 
                 $this->util->toggleFlight($target);
 
-                if ($target->getAllowFlight() === true) {
+                if ($target->getAllowFlight()) {
                     $sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-on")));
                 } else {
                     $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-off")));

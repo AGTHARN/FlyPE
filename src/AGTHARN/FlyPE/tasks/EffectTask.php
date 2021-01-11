@@ -68,11 +68,11 @@ class EffectTask extends Task {
      */
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            if ($player->getAllowFlight() === true && $player->isFlying() && $player->hasPermission("flype.effects")) {
-                if ($this->plugin->getConfig()->get("creative-mode-effects") === false && $player->getGamemode() === Player::CREATIVE) return;
+            if ($player->getAllowFlight() && $player->isFlying() && $player->hasPermission("flype.effects")) {
+                if (!$this->plugin->getConfig()->get("creative-mode-effects") && $player->getGamemode() === Player::CREATIVE) return;
 
-                if ($this->vanishv2 !== null && $this->plugin->getConfig()->get("vanishv2-support") === true && in_array($player->getName(), $this->vanishv2::$vanish)) return;
-                if ($this->simplelay !== null && $this->plugin->getConfig()->get("simplelay-support") === true && $this->simplelay->isLaying($player) === true) return;
+                if ($this->vanishv2 !== null && $this->plugin->getConfig()->get("vanishv2-support") && in_array($player->getName(), $this->vanishv2::$vanish)) return;
+                if ($this->simplelay !== null && $this->plugin->getConfig()->get("simplelay-support") && $this->simplelay->isLaying($player)) return;
                 
                 $effect = new EffectInstance(Effect::getEffectByName($this->plugin->getConfig()->get("effect-type")) ?? Effect::getEffectByName("HASTE"));
                 $effect->setDuration(40);

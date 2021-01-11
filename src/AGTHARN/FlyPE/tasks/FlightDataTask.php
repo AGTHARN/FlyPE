@@ -78,7 +78,7 @@ class FlightDataTask extends Task {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
             $this->data[$player->getId()] = new FlightData($this->plugin, $this->util, $player->getName());
 
-            if(isset($this->data[$player->getId()]) && $player->getAllowFlight() === true && $this->util->checkGamemodeCreative($player) === false){
+            if(isset($this->data[$player->getId()]) && $player->getAllowFlight() && !$this->util->checkGamemodeCreative($player)){
                 $data = $this->data[$player->getId()];
                 $data->incrementTime();
                 $data->saveData();

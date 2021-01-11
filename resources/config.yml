@@ -201,8 +201,11 @@ coupon-command-toggle-item: true
 
 #########################
 
-# If set to true, players will NOT be allowed to use more than 1 flight coupon until a number of seconds have passed.
-# If set to false, players will be allowed to use more than 1 flight coupon anytime.
+
+##### FLIGHT TOGGLE COOLDOWN #####
+
+# If set to true, players will NOT be allowed to toggle flight until a number of seconds have passed.
+# If set to false, players will be allowed to toggle flight anytime.
 #
 # NOTE: Recommended to be set to true.
 enable-cooldown: true
@@ -214,7 +217,7 @@ cooldown-seconds: 10
 # If set to false, players will NOT receive any message.
 send-cooldown-message: true
 
-#########################
+##################################
 
 
 ##### CREATIVE MODE ######

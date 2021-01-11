@@ -55,6 +55,13 @@ class Util {
      * @var Main
      */
     private $plugin;
+
+    /**
+     * cooldownArray
+     *
+     * @var array
+     */
+    private $cooldownArray = array();
     
     /**
      * __construct
@@ -82,19 +89,19 @@ class Util {
                 $cost = $this->plugin->getConfig()->get("buy-fly-cost");
                 $name = $player->getName();
                 
-                if ($this->plugin->getConfig()->get("pay-for-fly") === true) {
+                if ($this->plugin->getConfig()->get("pay-for-fly")) {
                     if (EconomyAPI::getInstance()->myMoney($player) < $cost) {
                         $player->sendMessage(C::RED . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->plugin->getConfig()->get("not-enough-money"))));
                         return;
                     }
-                    if ($player->getAllowFlight() === false) {
+                    if (!$player->getAllowFlight()) {
                         $player->sendMessage(C::GREEN . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->plugin->getConfig()->get("buy-fly-successful"))));
-                        if ($this->doLevelChecks($player) === true) {
+                        if ($this->doLevelChecks($player)) {
                             $this->toggleFlight($player);
                             EconomyAPI::getInstance()->reduceMoney($player, $cost);
                         }
                         return;
-                    } elseif ($this->doLevelChecks($player) === false && $player->getAllowFlight() === true) {
+                    } elseif (!$this->doLevelChecks($player) && $player->getAllowFlight()) {
                         $this->toggleFlight($player);
                         return;
                     }
@@ -109,7 +116,7 @@ class Util {
         });
         
         /** @phpstan-ignore-next-line */
-        if ($this->plugin->getConfig()->get("enable-fly-ui") === true && $this->plugin->getConfig()->get("pay-for-fly") === true && $this->plugin->getConfig()->get("custom-ui-texts") === false) {
+        if ($this->plugin->getConfig()->get("enable-fly-ui") && $this->plugin->getConfig()->get("pay-for-fly") && !$this->plugin->getConfig()->get("custom-ui-texts")) {
             $cost = $this->plugin->getConfig()->get("buy-fly-cost");
                     
             $form->setTitle("§l§7< §2FlyUI §7>");
@@ -117,13 +124,13 @@ class Util {
             $form->addButton("§cExit");
             $form->sendToPlayer($player);
             return $form;
-        } elseif ($this->plugin->getConfig()->get("enable-fly-ui") === true && $this->plugin->getConfig()->get("pay-for-fly") === false && $this->plugin->getConfig()->get("custom-ui-texts") === false) {
+        } elseif ($this->plugin->getConfig()->get("enable-fly-ui") && !$this->plugin->getConfig()->get("pay-for-fly") && !$this->plugin->getConfig()->get("custom-ui-texts")) {
             $form->setTitle("§l§7< §6FlyUI §7>");
             $form->addButton("§aToggle Fly");
             $form->addButton("§cExit");
             $form->sendToPlayer($player);
             return $form;
-        } elseif ($this->plugin->getConfig()->get("custom-ui-texts") === true) {
+        } elseif ($this->plugin->getConfig()->get("custom-ui-texts")) {
             $cost = $this->plugin->getConfig()->get("buy-fly-cost");
 
             $form->setTitle($this->plugin->getConfig()->get("fly-ui-title"));
@@ -144,7 +151,7 @@ class Util {
         $levelName = $player->getLevel()->getName();
         $name = $player->getName();
 
-        if ($this->checkGamemodeCreative($player) === true && $player->getAllowFlight() === true && $this->plugin->getConfig()->get("allow-toggle-flight-gmc") === false) {
+        if ($this->checkGamemodeCreative($player) && $player->getAllowFlight() && !$this->plugin->getConfig()->get("allow-toggle-flight-gmc")) {
             $player->sendMessage(C::RED . str_replace("{name}", $name, $this->plugin->getConfig()->get("disable-fly-creative")));
             return false;
         }
@@ -168,7 +175,7 @@ class Util {
      */
     public function doTargetLevelCheck(Player $entity, String $targetLevel): bool {
         // returns false if not allowed
-        if (($this->plugin->getConfig()->get("mode") === "blacklist" && in_array($targetLevel, $this->plugin->getConfig()->get("blacklisted-worlds")) || $this->plugin->getConfig()->get("mode") === "whitelist" && !in_array($targetLevel, $this->plugin->getConfig()->get("whitelisted-worlds"))) && $entity->getAllowFlight() === true) {
+        if (($this->plugin->getConfig()->get("mode") === "blacklist" && in_array($targetLevel, $this->plugin->getConfig()->get("blacklisted-worlds")) || $this->plugin->getConfig()->get("mode") === "whitelist" && !in_array($targetLevel, $this->plugin->getConfig()->get("whitelisted-worlds"))) && $entity->getAllowFlight()) {
             return false;
         } else {
             return true;
@@ -179,28 +186,38 @@ class Util {
      * toggleFlight
      *
      * @param  Player $player
-     * @return void
+     * @return bool
      */
-    public function toggleFlight(Player $player): void {
+    public function toggleFlight(Player $player): bool {
         $name = $player->getName();
 
-        if ($player->getAllowFlight() === true) {
+        if(isset($this->cooldownArray[$name])) {
+            if (time() < $this->cooldownArray[$name]) {
+                if ($this->plugin->getConfig()->get("send-cooldown-message")) {
+                    $player->sendMessage(C::RED . str_replace("{seconds}", $this->cooldownArray[$name] - time(), str_replace("{name}", $player->getName(), $this->plugin->getConfig()->get("currently-on-cooldown"))));
+                }
+                return false;
+            }
+            unset($this->cooldownArray[$name]);
+        }
+
+        if ($player->getAllowFlight()) {
             $player->setAllowFlight(false);
             $player->setFlying(false);
             $player->sendMessage(C::RED . str_replace("{name}", $name, $this->plugin->getConfig()->get("toggled-flight-off")));
-
-            if ($this->plugin->getConfig()->get("enable-fly-sound") === true) {
+    
+            if ($this->plugin->getConfig()->get("enable-fly-sound")) {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-disabled-sound"), new Vector3($player->x, $player->y, $player->z)));
             }
         } else {
             $player->setAllowFlight(true);
             $player->setFlying(true);
             $player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->plugin->getConfig()->get("toggled-flight-on")));
-
-            if ($this->plugin->getConfig()->get("enable-fly-sound") === true) {
+    
+            if ($this->plugin->getConfig()->get("enable-fly-sound")) {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-enabled-sound"), new Vector3($player->x, $player->y, $player->z)));
             }
-            if ($this->plugin->getConfig()->get("time-fly") === true) {
+            if ($this->plugin->getConfig()->get("time-fly")) {
                 $data = $this->getFlightData($player);
                 if (is_file($data->getDataPath())) {
                     $data->resetDataTime();
@@ -208,6 +225,21 @@ class Util {
                 }
             }
         }
+        $this->cooldownArray[$name] = time() + $this->plugin->getConfig()->get("cooldown-seconds");
+        return true;
+    }
+    
+    /**
+     * checkCooldown
+     *
+     * @param  Player $player
+     * @return bool
+     */
+    public function checkCooldown(Player $player): bool {
+        if (isset($this->cooldownArray[$player->getName()]) && time() < $this->cooldownArray[$player->getName()]) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -229,8 +261,8 @@ class Util {
      * @return void
      */
     public function enableCoupon(): void {
-        if ($this->plugin->getConfig()->get("enable-coupon") === true) {
-            if ($this->plugin->getConfig()->get("coupon-creative-item") === true) {
+        if ($this->plugin->getConfig()->get("enable-coupon")) {
+            if ($this->plugin->getConfig()->get("coupon-creative-item")) {
                 Item::addCreativeItem($this->getCouponItem());
             }
 
@@ -244,19 +276,19 @@ class Util {
      * @return void
      */
     public function checkConfiguration(): void {
-        if ($this->plugin->getConfig()->get("enable-fly-particles") === true) {
+        if ($this->plugin->getConfig()->get("enable-fly-particles")) {
             $this->plugin->getScheduler()->scheduleRepeatingTask(new ParticleTask($this->plugin, $this), $this->plugin->getConfig()->get("fly-particle-rate"));
         }
 
-        if ($this->plugin->getConfig()->get("enable-fly-effects") === true) {
+        if ($this->plugin->getConfig()->get("enable-fly-effects")) {
             $this->plugin->getScheduler()->scheduleRepeatingTask(new EffectTask($this->plugin), $this->plugin->getConfig()->get("fly-effect-check-rate"));
         }
 
-        if ($this->plugin->getConfig()->get("time-fly") === true) {
+        if ($this->plugin->getConfig()->get("time-fly")) {
             $this->plugin->getScheduler()->scheduleRepeatingTask(new FlightDataTask($this->plugin, $this), 20);
         }
         
-        if ($this->plugin->getConfig()->get("fly-speed-mod") === true) {
+        if ($this->plugin->getConfig()->get("fly-speed-mod")) {
             if ($this->plugin->getConfig()->get("fly-speed") > 3) {
                 $this->plugin->getLogger()->warning("The fly speed limit is 3! The fly speed modification will be turned off.");
                 return;
@@ -271,7 +303,7 @@ class Util {
      * @return bool
      */
     public function checkDepend(): bool {
-        if ($this->plugin->getServer()->getPluginManager()->getPlugin("EconomyAPI") === null && $this->plugin->getConfig()->get("pay-for-fly") === true && $this->plugin->getConfig()->get("enable-fly-ui") === true) {
+        if ($this->plugin->getServer()->getPluginManager()->getPlugin("EconomyAPI") === null && $this->plugin->getConfig()->get("pay-for-fly") && $this->plugin->getConfig()->get("enable-fly-ui")) {
             $this->plugin->getLogger()->warning("EconomyAPI not found while pay-for-fly is turned on!");
             $this->plugin->getServer()->getPluginManager()->disablePlugin($this->plugin);
             return false;
@@ -349,7 +381,7 @@ class Util {
      * @return bool
      */
     public function checkGamemodeCreativeSetting(Entity $entity): bool {
-        if ($this->checkGamemodeCreative($entity) === true && $this->plugin->getConfig()->get("apply-flight-settings-gmc") === true) {
+        if ($this->checkGamemodeCreative($entity) && $this->plugin->getConfig()->get("apply-flight-settings-gmc")) {
             return true;
         }
         return false;
