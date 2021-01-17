@@ -111,12 +111,13 @@ fly-ui-exit: "§cExit"
 
 # If set to true, particles will appear on player's feet if they are flying.
 # If set to false, no particles will appear.
+#
 # PERMISSION: flype.particles (op)
 enable-fly-particles: false
 
 # Type of particle to spawn. Default: FlameParticle.
-# SUPPORTED: (case insensitive)
 # 
+# SUPPORTED: (case insensitive)
 # BubbleParticle, CriticalParticle, EnchantParticle, InstantEnchantParticle, ExplodeParticle, HugeExplodeParticle
 # EntityFlameParticle, FlameParticle, HeartParticle, InkParticle, LavaDripParticle, LavaParticle, PortalParticle
 # RedstoneParticle, SmokeParticle, SplashParticle, SporeParticle, MobSpawnParticle, WaterDripParticle
@@ -142,8 +143,8 @@ particle-block-id: 1
 enable-fly-effects: false
 
 # Type of effect to be given. Default: HASTE.
+#
 # SUPPORTED: (case insensitive)
-# 
 # SPEED, SLOWNESS, HASTE, MINING_FATIGUE, STRENGTH, INSTANT_HEALTH, INSTANT_DAMAGE, JUMP_BOOST
 # NAUSEA, REGENERATION, RESISTANCE, FIRE_RESISTANCE, WATER_BREATHING, INVISIBILITY, BLINDNESS
 # NIGHT_VISION, HUNGER, WEAKNESS, POISON, WITHER, HEALTH_BOOST, ABSORPTION, SATURATION
@@ -250,16 +251,16 @@ apply-flight-settings-gmc: false
 enable-fly-sound: true
 
 # Type of sound to be played after flight is enabled. Default: PopSound.
+#
 # SUPPORTED: (case insensitive)
-# 
 # AnvilBreakSound, AnvilFallSound, AnvilUseSound, BlazeShootSound, ClickSound, DoorBumpSound
 # DoorCrashSound, DoorSound, EndermanTeleportSound, FizzSound, GhastShootSound, GhastSound
 # LaunchSound, PopSound
 fly-enabled-sound: "PopSound"
 
 # Type of sound to be played after flight is disabled. Default: PopSound.
+#
 # SUPPORTED: (case insensitive)
-# 
 # AnvilBreakSound, AnvilFallSound, AnvilUseSound, BlazeShootSound, ClickSound, DoorBumpSound
 # DoorCrashSound, DoorSound, EndermanTeleportSound, FizzSound, GhastShootSound, GhastSound
 # LaunchSound, PopSound
@@ -274,8 +275,12 @@ fly-disabled-sound: "PopSound"
 # If set to false, players that toggle flight will NOT be timed.
 time-fly: false
 
-# Amount of seconds a player can fly for.
-fly-seconds: 300
+# Amount of seconds a player can fly for by default.
+#
+# FOR EXAMPLE:
+# If a player types /fly, they will have the default flight time applied to them.
+# If a player types /fly {player username} 50, the player will fly for 50 seconds.
+default-fly-seconds: 300
 
 ########################
 
@@ -373,5 +378,13 @@ cant-use-coupon: "Unable to use the Coupon! Please re-run the fly command to tur
 # {name} = Player's Name
 # {seconds} = Number of Seconds Left
 currently-on-cooldown: "You are currently on cooldown! Please wait {seconds} second(s)."
+
+# The message a player gets when they give an invalid argument for the temp flight command.
+# {name} = Player's Name
+invalid-temp-argument: "Invalid argument. Please state the right number of seconds as numbers."
+
+# The message a player gets when time-fly is disabled and the player tries to set temp flight on someone.
+# {name} = Player's Name
+temp-fly-config-disabled: "Temporal Flight is currently turned off. Please contact your administrator if this is an error."
 
 ####################

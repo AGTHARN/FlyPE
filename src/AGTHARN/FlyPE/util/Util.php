@@ -188,11 +188,11 @@ class Util {
      * @param  Player $player
      * @return bool
      */
-    public function toggleFlight(Player $player): bool {
+    public function toggleFlight(Player $player, int $time = null, bool $overwrite = false): bool {
         $name = $player->getName();
 
         if(isset($this->cooldownArray[$name])) {
-            if (time() < $this->cooldownArray[$name]) {
+            if (time() < $this->cooldownArray[$name] && !$overwrite) {
                 if ($this->plugin->getConfig()->get("send-cooldown-message")) {
                     $player->sendMessage(C::RED . str_replace("{seconds}", $this->cooldownArray[$name] - time(), str_replace("{name}", $player->getName(), $this->plugin->getConfig()->get("currently-on-cooldown"))));
                 }
@@ -218,7 +218,9 @@ class Util {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-enabled-sound"), new Vector3($player->x, $player->y, $player->z)));
             }
             if ($this->plugin->getConfig()->get("time-fly")) {
-                $data = $this->getFlightData($player);
+                if ($time === null) $time = $this->plugin->getConfig()->get("default-fly-seconds");
+
+                $data = $this->getFlightData($player, $time);
                 if (is_file($data->getDataPath())) {
                     $data->resetDataTime();
                     $data->saveData();
@@ -393,8 +395,8 @@ class Util {
      * @param  Player $player
      * @return mixed
      */
-    public function getFlightData(Player $player) {
-        return new FlightData($this->plugin, $this, $player->getName());
+    public function getFlightData(Player $player, int $time) {
+        return new FlightData($this->plugin, $this, $player->getName(), $time);
     }
 
     /**

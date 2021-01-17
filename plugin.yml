@@ -15,6 +15,8 @@ permissions:
     default: op
   flype.command.others:
     default: op
+  flype.tempfly.others:
+    default: op
   flype.particles:
     default: op
   flype.effects:

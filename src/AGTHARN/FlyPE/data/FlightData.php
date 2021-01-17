@@ -61,6 +61,13 @@ class FlightData {
     private $time = 0;
     
     /**
+     * setTime
+     *
+     * @var int
+     */
+    private $setTime;
+    
+    /**
      * __construct
      *
      * @param  Main $plugin
@@ -68,7 +75,7 @@ class FlightData {
      * @param  string $playerName
      * @return void
      */
-    public function __construct(Main $plugin, Util $util, string $playerName) {
+    public function __construct(Main $plugin, Util $util, string $playerName, int $setTime) {
         $this->plugin = $plugin;
         $this->util = $util;
         $this->playerName = $playerName;
@@ -77,6 +84,7 @@ class FlightData {
 
         $data = yaml_parse_file($this->getDataPath());
         $this->time = $data["time"];
+        $this->setTime = $setTime;
     }
     
     /**
@@ -96,6 +104,15 @@ class FlightData {
     public function getDataTime(): int {
         return $this->time;
     }
+    
+    /**
+     * setDataTime
+     *
+     * @return void
+     */
+    public function setDataTime(int $time): void {
+        $this->time = $time;
+    }
         
     /**
      * resetDataTime
@@ -103,7 +120,7 @@ class FlightData {
      * @return void
      */
     public function resetDataTime(): void {
-        $this->time = 0;
+        $this->time = $this->setTime;
     }
             
     /**
@@ -118,11 +135,11 @@ class FlightData {
     }
         
     /**
-     * incrementTime
+     * decreaseTime
      *
      * @return void
      */
-    public function incrementTime(): void {
-        $this->time++;
+    public function decreaseTime(): void {
+        $this->time--;
     }
 }

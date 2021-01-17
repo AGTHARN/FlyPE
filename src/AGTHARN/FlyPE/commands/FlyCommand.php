@@ -91,7 +91,8 @@ class FlyCommand extends PluginCommand {
             $this->util->openFlyUI($sender);
             return true;
         }
-        if (empty($args)) {
+
+        if (empty($args[0])) {
             if ($this->util->doLevelChecks($sender)) {
                 if ($this->plugin->getConfig()->get("coupon-command-toggle-item") && $this->plugin->getConfig()->get("enable-coupon") && !$sender->getAllowFlight()) {
                     $sender->getInventory()->addItem($this->util->getCouponItem());
@@ -100,7 +101,9 @@ class FlyCommand extends PluginCommand {
                 $this->util->toggleFlight($sender);
                 return true;
             }
-        } else {
+        }
+
+        if (isset($args[0]) && empty($args[1])) {
             $target = $this->plugin->getServer()->getPlayer($args[0]);
 
             if (!$target instanceof Player) {
@@ -122,6 +125,44 @@ class FlyCommand extends PluginCommand {
                 }
 
                 $this->util->toggleFlight($target);
+
+                if ($target->getAllowFlight()) {
+                    $sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-on")));
+                } else {
+                    $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-off")));
+                }
+                return true;
+            }
+        }
+
+        if (isset($args[1])) {
+            $time = (int)$args[1];
+            $target = $this->plugin->getServer()->getPlayer($args[0]);
+
+            if (!$target instanceof Player) {
+                $sender->sendMessage(C::RED . str_replace("{name}", $args[0], $this->plugin->getConfig()->get("player-cant-be-found")));
+                return false;
+            }
+
+            $targetName = $target->getName();
+
+            if (!$this->plugin->getConfig()->get("time-fly")) {
+                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("temp-fly-config-disabled")));
+                return false;
+            }
+
+            if (!$sender->hasPermission("flype.tempfly.others")) {
+                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("cant-toggle-flight-others")));
+                return false;
+            }
+
+            if (!is_int($time)) {
+                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("invalid-temp-argument")));
+                return false;
+            }
+                
+            if ($this->util->doLevelChecks($target)) {
+                $this->util->toggleFlight($target, $time);
 
                 if ($target->getAllowFlight()) {
                     $sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-on")));

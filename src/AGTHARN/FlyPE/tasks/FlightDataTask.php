@@ -76,15 +76,15 @@ class FlightDataTask extends Task {
      */
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            $this->data[$player->getId()] = new FlightData($this->plugin, $this->util, $player->getName());
+            $this->data[$player->getId()] = new FlightData($this->plugin, $this->util, $player->getName(), $this->plugin->getConfig()->get("default-fly-seconds"));
 
             if(isset($this->data[$player->getId()]) && $player->getAllowFlight() && !$this->util->checkGamemodeCreative($player)){
                 $data = $this->data[$player->getId()];
-                $data->incrementTime();
+                $data->decreaseTime();
                 $data->saveData();
 
-                if ($data->getDataTime() >= $this->plugin->getConfig()->get("fly-seconds")) {
-                    $this->util->toggleFlight($player);
+                if ($data->getDataTime() < 0) {
+                    $this->util->toggleFlight($player, null, true);
                     $data->resetDataTime();
                     $data->saveData();
                 }
