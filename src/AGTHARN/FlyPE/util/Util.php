@@ -289,8 +289,6 @@ class Util {
             if ($this->plugin->getConfig()->get("coupon-creative-item")) {
                 Item::addCreativeItem($this->getCouponItem());
             }
-
-            // coupon-command-toggle-item checks done in FlyCommand
         }
     }
         

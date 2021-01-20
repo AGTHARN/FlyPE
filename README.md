@@ -38,10 +38,10 @@ These are the list of features in FlyPE. If you have any suggestions for the plu
 - [✔️] Flight Particles
 - [✔️] Flight Effects
 - [✔️] Flight Coupons
+- [✔️] Flight States
 - [✔️] Creative Mode Settings
 - [✔️] Plugin Integrations
 - [✔️] Toggle Sounds
-- [✔️] Flight Coupons
 
 ### Requirements
 The list below state the requirements of FlyPE!

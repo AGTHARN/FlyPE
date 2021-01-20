@@ -88,9 +88,6 @@ class FlightDataTask extends Task {
                     $data->resetDataTime();
                     $data->saveData();
                 }
-                
-                // for debug (if this is not disabled please contact me immediately)
-                // $this->plugin->getLogger()->info("FlightDataTask " . $player->getName() . " " . $data->getDataTime()); 
             }
         }
     }
