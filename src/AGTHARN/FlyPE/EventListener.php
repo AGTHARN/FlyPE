@@ -246,12 +246,12 @@ class EventListener implements Listener {
             if (((!$this->util->checkGamemodeCreative($damager) || $this->util->checkGamemodeCreativeSetting($damager)) || (!$this->util->checkGamemodeCreative($entity) || $this->util->checkGamemodeCreativeSetting($entity))) && $this->plugin->getConfig()->get("combat-disable-fly")) {
                 
                 if ($damager->getAllowFlight()) {
-                    $this->util->toggleFlight($player);
+                    $this->util->toggleFlight($entity);
                     $damager->sendMessage(C::RED . str_replace("{world}", $levelName, $this->util->getMessages()->get("combat-fly-disable")));
                 }
                 
                 if ($entity->getAllowFlight()) {
-                    $this->util->toggleFlight($player);
+                    $this->util->toggleFlight($entity);
                     $entity->sendMessage(C::RED . str_replace("{world}", $levelName, $this->util->getMessages()->get("combat-fly-disable")));
                 }
             }

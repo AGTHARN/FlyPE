@@ -58,6 +58,13 @@ class Util {
     private $plugin;
     
     /**
+     * messages
+     *
+     * @var mixed
+     */
+    private $messages;
+    
+    /**
      * __construct
      *
      * @param  Main $plugin
