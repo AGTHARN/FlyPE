@@ -107,14 +107,14 @@ class FlyCommand extends PluginCommand {
             $target = $this->plugin->getServer()->getPlayer($args[0]);
 
             if (!$target instanceof Player) {
-                $sender->sendMessage(C::RED . str_replace("{name}", $args[0], $this->plugin->getConfig()->get("player-cant-be-found")));
+                $sender->sendMessage(C::RED . str_replace("{name}", $args[0], $this->util->getMessages()->get("player-cant-be-found")));
                 return false;
             }
             
             $targetName = $target->getName();
 
             if (!$sender->hasPermission("flype.command.others")) {
-                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("cant-toggle-flight-others")));
+                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->util->getMessages()->get("cant-toggle-flight-others")));
                 return false;
             }
                 
@@ -127,9 +127,9 @@ class FlyCommand extends PluginCommand {
                 $this->util->toggleFlight($target);
 
                 if ($target->getAllowFlight()) {
-                    $sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-on")));
+                    $sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, $this->util->getMessages()->get("flight-for-other-on")));
                 } else {
-                    $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-off")));
+                    $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->util->getMessages()->get("flight-for-other-off")));
                 }
                 return true;
             }
@@ -140,24 +140,24 @@ class FlyCommand extends PluginCommand {
             $target = $this->plugin->getServer()->getPlayer($args[0]);
 
             if (!$target instanceof Player) {
-                $sender->sendMessage(C::RED . str_replace("{name}", $args[0], $this->plugin->getConfig()->get("player-cant-be-found")));
+                $sender->sendMessage(C::RED . str_replace("{name}", $args[0], $this->util->getMessages()->get("player-cant-be-found")));
                 return false;
             }
 
             $targetName = $target->getName();
 
             if (!$this->plugin->getConfig()->get("time-fly")) {
-                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("temp-fly-config-disabled")));
+                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->util->getMessages()->get("temp-fly-config-disabled")));
                 return false;
             }
 
             if (!$sender->hasPermission("flype.tempfly.others")) {
-                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("cant-toggle-flight-others")));
+                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->util->getMessages()->get("cant-toggle-flight-others")));
                 return false;
             }
 
             if (!is_int($time)) {
-                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("invalid-temp-argument")));
+                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->util->getMessages()->get("invalid-temp-argument")));
                 return false;
             }
                 
@@ -165,9 +165,9 @@ class FlyCommand extends PluginCommand {
                 $this->util->toggleFlight($target, $time);
 
                 if ($target->getAllowFlight()) {
-                    $sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-on")));
+                    $sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, $this->util->getMessages()->get("flight-for-other-on")));
                 } else {
-                    $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->plugin->getConfig()->get("flight-for-other-off")));
+                    $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->util->getMessages()->get("flight-for-other-off")));
                 }
                 return true;
             }

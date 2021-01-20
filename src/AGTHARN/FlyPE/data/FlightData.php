@@ -68,6 +68,27 @@ class FlightData {
     private $setTime;
     
     /**
+     * purchased
+     *
+     * @var mixed
+     */
+    private $purchased;
+    
+    /**
+     * flightstate
+     *
+     * @var mixed
+     */
+    private $flightstate;
+
+    /**
+     * cooldownArray
+     *
+     * @var array
+     */
+    public $cooldownArray = [];
+    
+    /**
      * __construct
      *
      * @param  Main $plugin
@@ -85,6 +106,9 @@ class FlightData {
         $data = yaml_parse_file($this->getDataPath());
         $this->time = $data["time"];
         $this->setTime = $setTime;
+
+        $this->purchased = $data["purchased"];
+        $this->flightstate = $data["flight-state"];
     }
     
     /**
@@ -106,12 +130,41 @@ class FlightData {
     }
     
     /**
-     * setDataTime
+     * getPurchased
      *
+     * @return mixed
+     */
+    public function getPurchased() {
+        return $this->purchased;
+    }
+    
+    /**
+     * getFlightState
+     *
+     * @return mixed
+     */
+    public function getFlightState() {
+        return $this->flightstate;
+    }
+            
+    /**
+     * setPurchased
+     *
+     * @param  bool $purchased
      * @return void
      */
-    public function setDataTime(int $time): void {
-        $this->time = $time;
+    public function setPurchased(bool $purchased): void {
+        $this->purchased = $purchased;
+    }
+    
+    /**
+     * setFlightState
+     *
+     * @param  bool $state
+     * @return void
+     */
+    public function setFlightState(bool $state): void {
+        $this->flightstate = $state;
     }
         
     /**
@@ -130,7 +183,9 @@ class FlightData {
      */
     public function saveData(): void {
         yaml_emit_file($this->getDataPath(), [
-            "time" => $this->getDataTime()
+            "time" => $this->getDataTime(),
+            "purchased" => $this->getPurchased(),
+            "flight-state" => $this->getFlightState()
         ]);
     }
         

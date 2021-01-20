@@ -32,6 +32,7 @@ use pocketmine\nbt\tag\StringTag;
 use pocketmine\item\Item;
 use pocketmine\entity\Entity;
 use pocketmine\math\Vector3;
+use pocketmine\utils\Config;
 use pocketmine\Player;
 
 use AGTHARN\FlyPE\tasks\ParticleTask;
@@ -55,13 +56,6 @@ class Util {
      * @var Main
      */
     private $plugin;
-
-    /**
-     * cooldownArray
-     *
-     * @var array
-     */
-    private $cooldownArray = array();
     
     /**
      * __construct
@@ -71,6 +65,9 @@ class Util {
      */
     public function __construct(Main $plugin) {
         $this->plugin = $plugin;
+
+        $this->plugin->saveResource( "lang/" . $this->plugin->getConfig()->get("lang") . ".yml");
+        $this->messages = new Config($this->plugin->getDataFolder() . "lang/" . $this->plugin->getConfig()->get("lang") . ".yml", Config::YAML);
     }
     
     /**
@@ -79,29 +76,37 @@ class Util {
      * @param  Player $player
      * @return object
      */
-    public function openFlyUI(Player $player) {
+    public function openFlyUI(Player $player): object {
         $form = new SimpleForm(function (Player $player, $data) {
             
-        if ($data === null) return;
+        if (is_null($data)) return;
             
         switch ($data) {
             case 0:
                 $cost = $this->plugin->getConfig()->get("buy-fly-cost");
                 $name = $player->getName();
+                $playerData = $this->getFlightData($player, 0);
                 
                 if ($this->plugin->getConfig()->get("pay-for-fly")) {
                     if (EconomyAPI::getInstance()->myMoney($player) < $cost) {
-                        $player->sendMessage(C::RED . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->plugin->getConfig()->get("not-enough-money"))));
+                        $player->sendMessage(C::RED . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->getMessages()->get("not-enough-money"))));
                         return;
                     }
                     if (!$player->getAllowFlight()) {
-                        $player->sendMessage(C::GREEN . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->plugin->getConfig()->get("buy-fly-successful"))));
                         if ($this->doLevelChecks($player)) {
                             $this->toggleFlight($player);
-                            EconomyAPI::getInstance()->reduceMoney($player, $cost);
+                            
+                            if ($this->plugin->getConfig()->get("save-purchased-data")) {
+                                if (!$playerData->getPurchased()) {
+                                    EconomyAPI::getInstance()->reduceMoney($player, $cost);
+                                    $player->sendMessage(C::GREEN . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->getMessages()->get("buy-fly-successful"))));
+                                    $playerData->setPurchased(true);
+                                    $playerData->saveData();
+                                }
+                            }
                         }
                         return;
-                    } elseif (!$this->doLevelChecks($player) && $player->getAllowFlight()) {
+                    } elseif ($this->doLevelChecks($player) && $player->getAllowFlight()) {
                         $this->toggleFlight($player);
                         return;
                     }
@@ -152,7 +157,7 @@ class Util {
         $name = $player->getName();
 
         if ($this->checkGamemodeCreative($player) && $player->getAllowFlight() && !$this->plugin->getConfig()->get("allow-toggle-flight-gmc")) {
-            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->plugin->getConfig()->get("disable-fly-creative")));
+            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->getMessages()->get("disable-fly-creative")));
             return false;
         }
 
@@ -162,7 +167,7 @@ class Util {
         if ($this->plugin->getConfig()->get("mode") === "whitelist" && in_array($player->getLevel()->getName(), $this->plugin->getConfig()->get("whitelisted-worlds"))) {
             return true;
         }
-        $player->sendMessage(C::RED . str_replace("{world}", $levelName, $this->plugin->getConfig()->get("flight-not-allowed")));
+        $player->sendMessage(C::RED . str_replace("{world}", $levelName, $this->getMessages()->get("flight-not-allowed")));
         return false;
     }
     
@@ -189,22 +194,29 @@ class Util {
      * @return bool
      */
     public function toggleFlight(Player $player, int $time = null, bool $overwrite = false): bool {
+        if (is_null($time)) $time = $this->plugin->getConfig()->get("default-fly-seconds");
+        
         $name = $player->getName();
+        $playerData = $this->getFlightData($player, $time);
 
-        if(isset($this->cooldownArray[$name])) {
-            if (time() < $this->cooldownArray[$name] && !$overwrite) {
+        if(isset($playerData->cooldownArray[$name])) {
+            if (time() < $playerData->cooldownArray[$name] && !$overwrite) {
                 if ($this->plugin->getConfig()->get("send-cooldown-message")) {
-                    $player->sendMessage(C::RED . str_replace("{seconds}", $this->cooldownArray[$name] - time(), str_replace("{name}", $player->getName(), $this->plugin->getConfig()->get("currently-on-cooldown"))));
+                    $player->sendMessage(C::RED . str_replace("{seconds}", $playerData->cooldownArray[$name] - time(), str_replace("{name}", $player->getName(), $this->getMessages()->get("currently-on-cooldown"))));
                 }
                 return false;
             }
-            unset($this->cooldownArray[$name]);
+            unset($playerData->cooldownArray[$name]);
         }
 
         if ($player->getAllowFlight()) {
             $player->setAllowFlight(false);
             $player->setFlying(false);
-            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->plugin->getConfig()->get("toggled-flight-off")));
+            if ($this->plugin->getConfig()->get("save-flight-state")) {
+                $playerData->setFlightState(false);
+                $playerData->saveData();
+            }
+            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->getMessages()->get("toggled-flight-off")));
     
             if ($this->plugin->getConfig()->get("enable-fly-sound")) {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-disabled-sound"), new Vector3($player->x, $player->y, $player->z)));
@@ -212,22 +224,23 @@ class Util {
         } else {
             $player->setAllowFlight(true);
             $player->setFlying(true);
-            $player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->plugin->getConfig()->get("toggled-flight-on")));
+            if ($this->plugin->getConfig()->get("save-flight-state")) {
+                $playerData->setFlightState(true);
+                $playerData->saveData();
+            }
+            $player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->getMessages()->get("toggled-flight-on")));
     
             if ($this->plugin->getConfig()->get("enable-fly-sound")) {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-enabled-sound"), new Vector3($player->x, $player->y, $player->z)));
             }
             if ($this->plugin->getConfig()->get("time-fly")) {
-                if ($time === null) $time = $this->plugin->getConfig()->get("default-fly-seconds");
-
-                $data = $this->getFlightData($player, $time);
-                if (is_file($data->getDataPath())) {
-                    $data->resetDataTime();
-                    $data->saveData();
+                if (is_file($playerData->getDataPath())) {
+                    $playerData->resetDataTime();
+                    $playerData->saveData();
                 }
             }
         }
-        $this->cooldownArray[$name] = time() + $this->plugin->getConfig()->get("cooldown-seconds");
+        $playerData->cooldownArray[$name] = time() + $this->plugin->getConfig()->get("cooldown-seconds");
         return true;
     }
     
@@ -238,7 +251,9 @@ class Util {
      * @return bool
      */
     public function checkCooldown(Player $player): bool {
-        if (isset($this->cooldownArray[$player->getName()]) && time() < $this->cooldownArray[$player->getName()]) {
+        $data = $this->getFlightData($player, 0);
+
+        if (isset($data->cooldownArray[$player->getName()]) && time() < $data->cooldownArray[$player->getName()]) {
             return false;
         }
         return true;
@@ -319,7 +334,7 @@ class Util {
      * @return bool
      */
     public function checkIncompatible(): bool {
-        if ($this->plugin->getServer()->getPluginManager()->getPlugin("BlazinFly") !== null) {
+        if (!is_null($this->plugin->getServer()->getPluginManager()->getPlugin("BlazinFly"))) {
             $this->plugin->getLogger()->warning("FlyPE is not compatible with others fly plugins! (BlazinFly)");
             $this->plugin->getServer()->getPluginManager()->disablePlugin($this->plugin);
             return false;
@@ -333,7 +348,7 @@ class Util {
      * @return bool
      */
     public function checkFiles(): bool {
-        if (!is_dir($this->plugin->getDataFolder() . "data/") || !is_file($this->plugin->getDataFolder() . "config.yml") || !is_dir($this->plugin->getDataFolder())) {
+        if (!is_dir($this->plugin->getDataFolder() . "data/") || !is_dir($this->plugin->getDataFolder() . "lang/") || !is_file($this->plugin->getDataFolder() . "lang/" . $this->plugin->getConfig()->get("lang") . ".yml") || !is_file($this->plugin->getDataFolder() . "config.yml") || !is_dir($this->plugin->getDataFolder())) {
             $this->plugin->getLogger()->warning("Detected a missing directory/file!");
             $this->plugin->getServer()->getPluginManager()->disablePlugin($this->plugin);
             return false;
@@ -415,5 +430,14 @@ class Util {
      */
     public function getSoundList() {
         return new SoundList();
+    }
+    
+    /**
+     * getMessages
+     *
+     * @return void
+     */
+    public function getMessages() {
+        return $this->messages;
     }
 }

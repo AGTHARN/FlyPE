@@ -71,8 +71,8 @@ class EffectTask extends Task {
             if ($player->getAllowFlight() && $player->isFlying() && $player->hasPermission("flype.effects")) {
                 if (!$this->plugin->getConfig()->get("creative-mode-effects") && $player->getGamemode() === Player::CREATIVE) return;
 
-                if ($this->vanishv2 !== null && $this->plugin->getConfig()->get("vanishv2-support") && in_array($player->getName(), $this->vanishv2::$vanish)) return;
-                if ($this->simplelay !== null && $this->plugin->getConfig()->get("simplelay-support") && $this->simplelay->isLaying($player)) return;
+                if (!is_null($this->vanishv2) && $this->plugin->getConfig()->get("vanishv2-support") && in_array($player->getName(), $this->vanishv2::$vanish)) return;
+                if (!is_null($this->simplelay) && $this->plugin->getConfig()->get("simplelay-support") && $this->simplelay->isLaying($player)) return;
                 
                 $effect = new EffectInstance(Effect::getEffectByName($this->plugin->getConfig()->get("effect-type")) ?? Effect::getEffectByName("HASTE"));
                 $effect->setDuration(40);

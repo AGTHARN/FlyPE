@@ -4,6 +4,8 @@
 # |  __| | |   \   / |  ___/|  __|  
 # | |    | |____| |  | |    | |____ 
 # |_|    |______|_|  |_|    |______|
+#
+
 
 ##### VERSION #####
 
@@ -13,13 +15,26 @@ config-version: 3.9
 ###################
 
 
+##### LANGUAGE #####
+
+# Preset language file to use, set as "default" if you want to modify it in default.yml.
+# 
+# DEFAULT LANGUAGE: en_US
+# CURRENT AVAILABLE LANGUAGE CODES: en_US
+lang: "default"
+
+####################
+
+
 ##### FLY SETTINGS #####
 
 # NOTE: "apply-flight-settings-gmc" configuration will allow settings to be applied for gamemode creative.
 
 # If set to true, fly is disabled when a player joins.
 # If set to false, fly wouldn't be disabled when a player joins.
-join-disable-fly: true
+#
+# NOTE: Only works when save-flight-state is set to true.
+join-disable-fly: false
 
 # If set to true, fly is disabled when a punches another player.
 # If set to false, fly wouldn't be disabled when a punches another player.
@@ -46,6 +61,14 @@ block-placing: true
 player-eating: true
 
 #######################
+
+
+##### FLY STATE #####
+
+# Whether or not to save flight state when a player leaves.
+save-flight-state: true
+
+#####################
 
 
 ##### FLY SPEED #####
@@ -80,13 +103,17 @@ fly-speed-creative: false
 # If set to false, everything would be normal and players would be able to toggle flight normally.
 enable-fly-ui: false
 
-# If set to true and enableflyui is set to true, players would have to pay to enable fly. (NOTE THAT YOU NEED THE ECONOMYAPI PLUGIN)
-# If set to true and enableflyui is set to false, everything would be normal and player would be able to toggle flight.
-# If set to false and enableflyui is set to true, players would NOT have to pay for fly.
+# If set to true and enable-fly-ui is set to true, players would have to pay to enable fly. (NOTE THAT YOU NEED THE ECONOMYAPI PLUGIN)
+# If set to true and enable-fly-ui is set to false, everything would be normal and player would be able to toggle flight.
+# If set to false and enable-fly-ui is set to true, players would NOT have to pay for fly.
 pay-for-fly: false
 
 # If payforfly is set to true, set this to the amount of money a player needs to pay for fly. (1800, 4500, 8500 etc.)
 buy-fly-cost: 100000
+
+# If set to true and pay-for-fly is set to true, purchasing flight would be saved.
+# If set to false and pay-for-fly is set to true, purchasing flight would NOT be saved.
+save-purchased-data: true
 
 ##################
 
@@ -310,81 +337,3 @@ level-change-restricted: true
 level-change-unrestricted: false
  
 #########################################
- 
- 
-##### MESSAGES #####
-
-# NOTE: Adding a color will override the default color.
-
-# The message a player gets if joindisablefly is set to true and player is flying.
-# {name} = Player's Name
-onjoin-flight-disabled: "Your flight has been disabled!"
-
-# The message a player gets for toggling on flight.
-# {name} = Player's Name
-toggled-flight-on: "Toggled your flight on!"
-
-# The message a player gets for toggling off flight.
-# {name} = Player's Name
-toggled-flight-off: "Toggled your flight off!"
-
-# The message a player gets when they toggle on flight for others.
-# {name} = Player's Name
-flight-for-other-on: "Flight for {name} has been toggled on!"
-
-# The message a player gets when they toggle off flight for others.
-# {name} = Player's Name
-flight-for-other-off: "Flight for {name} has been toggled off!"
-
-# The message a player gets when the player stated could NOT be found.
-# {name} = Player's Name
-player-cant-be-found: "Player could not be found!"
-
-# The message a player gets when they try to toggle flight for others without permission.
-# {name} = Player's Name
-cant-toggle-flight-others: "You do not have permission to toggle flight for others!"
- 
-# The message a player gets when they try to toggle on flight in a restricted world.
-# {world} = Player's World Name
-flight-not-allowed: "This world does not allow flight!"
-
-# The message a player gets when they move to a unrestricted world.
-# {world} = Player's World Name
-flight-is-allowed: "This world allows flight!"
-
-# The message a player gets when they try to toggle off flight in creative mode.
-# {name} = Player's Name
-disable-fly-creative: "You can't disable fly in creative!"
-
-# The message a player gets when they attack a player.
-# {name} = Player's Name
-combat-fly-disable: "You can't fly during combat!"
-
-# The message a player gets when they do NOT have enough money to toggle flight.
-# {name} = Player's Name
-# {cost} = Flight Cost
-not-enough-money: "You do not have enough money!"
-
-# The message a player gets when they have successfully purchased flight.
-# {name} = Player's Name
-# {cost} = Flight Cost
-buy-fly-successful: "Successful purchase of fly!"
-
-# The message a player gets when they try to use the flight coupon while flight is toggled on.
-# {name} = Player's Name
-cant-use-coupon: "Unable to use the Coupon! Please re-run the fly command to turn flight off."
-
-# The message a player gets when they try to use the flight coupon while on cooldown.
-# {name} = Player's Name
-# {seconds} = Number of Seconds Left
-currently-on-cooldown: "You are currently on cooldown! Please wait {seconds} second(s)."
-
-# The message a player gets when they give an invalid argument for the temp flight command.
-# {name} = Player's Name
-invalid-temp-argument: "Invalid argument. Please state the right number of seconds as numbers."
-
-# The message a player gets when time-fly is disabled and the player tries to set temp flight on someone.
-# {name} = Player's Name
-temp-fly-config-disabled: "Temporal Flight is currently turned off. Please contact your administrator if this is an error."
-
-####################
