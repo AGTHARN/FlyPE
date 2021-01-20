@@ -435,7 +435,7 @@ class Util {
     /**
      * getMessages
      *
-     * @return void
+     * @return mixed
      */
     public function getMessages() {
         return $this->messages;
