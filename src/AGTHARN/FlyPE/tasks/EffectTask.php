@@ -72,7 +72,7 @@ class EffectTask extends Task {
                 if (!$this->plugin->getConfig()->get("creative-mode-effects") && $player->getGamemode() === Player::CREATIVE) return;
 
                 if (!is_null($this->vanishv2) && $this->plugin->getConfig()->get("vanishv2-support") && in_array($player->getName(), $this->vanishv2::$vanish)) return;
-                if (!is_null($this->simplelay) && $this->plugin->getConfig()->get("simplelay-support") && $this->simplelay->isLaying($player)) return;
+                if (!is_null($this->simplelay) && $this->plugin->getConfig()->get("simplelay-support") && ($this->simplelay->isLaying($player) || $this->simplelay->isSitting($player))) return;
                 
                 $effect = new EffectInstance(Effect::getEffectByName($this->plugin->getConfig()->get("effect-type")) ?? Effect::getEffectByName("HASTE"));
                 $effect->setDuration(40);

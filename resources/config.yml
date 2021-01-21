@@ -198,10 +198,14 @@ fly-effect-check-rate: 20
 
 # If set to true, players that are hidden from VanishV2 will NOT show the particles and effects.
 # If set to false, particles and effects will always show.
+#
+# VERSION SUPPORTED: 1.15
 vanishv2-support: true
 
 # If set to true, effects and particles underneath will be removed.
 # If set to false, effects and particles underneath are shown.
+#
+# VERSION SUPPORTED: 2.0.1
 simplelay-support: true
 
 ########################

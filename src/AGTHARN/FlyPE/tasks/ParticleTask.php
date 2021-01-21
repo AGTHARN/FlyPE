@@ -81,7 +81,7 @@ class ParticleTask extends Task {
             if (!$this->plugin->getConfig()->get("creative-mode-particles") && $player->getGamemode() === Player::CREATIVE) return;
             
             if (!is_null($this->vanishv2) && $this->plugin->getConfig()->get("vanishv2-support") && in_array($player->getName(), $this->vanishv2::$vanish)) return;
-            if (!is_null($this->simplelay) && $this->plugin->getConfig()->get("simplelay-support") && $this->simplelay->isLaying($player)) return;
+            if (!is_null($this->simplelay) && $this->plugin->getConfig()->get("simplelay-support") && ($this->simplelay->isLaying($player) || $this->simplelay->isSitting($player))) return;
 
             if ($player->getAllowFlight() && $player->isFlying() && $player->hasPermission("flype.particles")) {
                 $player->getLevel()->addParticle($this->util->getParticleList()->getParticle($this->plugin->getConfig()->get("fly-particle-type"), new Vector3($player->x, $player->y, $player->z), Block::get($this->plugin->getConfig()->get("particle-block-id")) ?? Block::get(1)));
