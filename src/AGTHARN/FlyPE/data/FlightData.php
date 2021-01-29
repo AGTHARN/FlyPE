@@ -123,9 +123,9 @@ class FlightData {
     /**
      * getDataTime
      *
-     * @return int
+     * @return mixed
      */
-    public function getDataTime(): int {
+    public function getDataTime() {
         return $this->time;
     }
     

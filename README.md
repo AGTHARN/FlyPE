@@ -59,12 +59,13 @@ Permissions required for players to use the command, /fly.
 
 Permission                | Description                                                        | Default |
 ------------------------- | ------------------------------------------------------------------ | ------- |
-flype.command             | Allows player to run the fly command                               | OP      |
-flype.command.others      | Allows player to run the fly command on others                     | OP      |
-flype.command.particles   | Allows player to have the flight particles                         | OP      |
-flype.command.effects     | Allows player to have the flight effects                           | OP      |
-flype.command.flightspeed | Allows player to have the flight speed modification                | OP      |
-flype.command.bypass      | Allows player to bypass checks when switching to a different world | false   |
+flype.command             | Allows player to run the Flight Command                            | OP      |
+flype.command.others      | Allows player to run the Flight Command on others                  | OP      |
+flype.tempfly.others      | Allows player to toggle Temp Flight for others or themselves       | OP      |
+flype.command.particles   | Allows player to have the Flight Particles                         | OP      |
+flype.command.effects     | Allows player to have the Flight Effects                           | OP      |
+flype.command.flightspeed | Allows player to have the Flight Speed Modification                | OP      |
+flype.command.bypass      | Allows player to Bypass Checks when switching to a different world | false   |
 
 ### Configuration
 These are the config versions of FlyPE. To find your config version, open the **config.yml** file in FlyPE's plugin data folder and find the header, **"VERSION"**.
