@@ -207,7 +207,7 @@ class EventListener implements Listener {
      * @return void
      */
     public function onEntityDamageEntity(EntityDamageByEntityEvent $event): void {
-	    if(!$event->isCancelled()){
+	    if (!$event->isCancelled()) {
 			$entity = $event->getEntity();
 			$damager = $event->getDamager();
 			$levelName = $event->getEntity()->getLevel()->getName();
