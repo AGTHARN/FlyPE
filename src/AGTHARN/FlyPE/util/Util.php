@@ -474,6 +474,15 @@ class Util {
     }
     
     /**
+     * getTranslator
+     *
+     * @return mixed
+     */
+    public function getTranslator() {
+        return $this->translator;
+    }
+    
+    /**
      * sendMessage
      *
      * @param  String $messageNode
@@ -483,7 +492,7 @@ class Util {
         if ($this->plugin->getConfig()->get("lang") === "autotranslate") {
             $player->sendMessage($this->getTranslator()->translateTo($this->getMessages()->get($messageNode), [], $player));
         } else {
-            return $player->sendMessage($this->getMessages()->get($messageNode));
+            $player->sendMessage($this->getMessages()->get($messageNode));
         }
     }
 }
