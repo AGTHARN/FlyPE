@@ -65,16 +65,29 @@ class Util {
     private $messages;
     
     /**
+     * translator
+     *
+     * @var mixed
+     */
+    private $translator;
+    
+    /**
      * __construct
      *
      * @param  Main $plugin
+     * @param  mixed $translator
      * @return void
-     */
-    public function __construct(Main $plugin) {
+     */    
+    public function __construct(Main $plugin, mixed $translator) {
         $this->plugin = $plugin;
+        $this->translator = $translator;
 
-        $this->plugin->saveResource( "lang/" . $this->plugin->getConfig()->get("lang") . ".yml");
-        $this->messages = new Config($this->plugin->getDataFolder() . "lang/" . $this->plugin->getConfig()->get("lang") . ".yml", Config::YAML);
+        if ($this->plugin->getConfig()->get("lang") === "autotranslate") {
+            // TO DO
+        } else {
+            $this->plugin->saveResource( "lang/" . $this->plugin->getConfig()->get("lang") . ".yml");
+            $this->messages = new Config($this->plugin->getDataFolder() . "lang/" . $this->plugin->getConfig()->get("lang") . ".yml", Config::YAML);
+        }
     }
     
     /**
@@ -380,6 +393,19 @@ class Util {
             mkdir($this->plugin->getDataFolder() . "data");
         }
     }
+        
+    /**
+     * saveDefaultLocales
+     *
+     * @return void
+     */
+    public function saveDefaultLocales(): void {  
+        foreach ($this->plugin->getResources() as $filePath => $info) {  
+            if (preg_match('/^locale\/[a-zA-Z]{3}\.ini$/', $filePath)) {  
+                $this->plugin->saveResource($filePath);  
+            }  
+        }  
+    }  
     
     /**
      * checkGamemodeCreative

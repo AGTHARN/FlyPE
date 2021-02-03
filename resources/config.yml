@@ -19,9 +19,9 @@ config-version: 3.9
 
 # Preset language file to use, set as "default" if you want to modify it in default.yml.
 # 
-# DEFAULT LANGUAGE: en_US
+# DEFAULT LANGUAGE: autotranslate
 # CURRENT AVAILABLE LANGUAGE CODES: en_US
-lang: "default"
+lang: "autotranslate"
 
 ####################
 
