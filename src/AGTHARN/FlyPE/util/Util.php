@@ -72,7 +72,6 @@ class Util {
      */
     public function __construct(Main $plugin) {
         $this->plugin = $plugin;
-        $this->translator = $translator;
 
         $this->plugin->saveResource( "lang/" . $this->plugin->getConfig()->get("lang") . ".yml");
         $this->messages = new Config($this->plugin->getDataFolder() . "lang/" . $this->plugin->getConfig()->get("lang") . ".yml", Config::YAML);
