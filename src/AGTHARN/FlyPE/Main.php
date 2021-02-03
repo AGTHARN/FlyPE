@@ -33,8 +33,6 @@ use pocketmine\utils\TextFormat as C;
 use AGTHARN\FlyPE\commands\FlyCommand;
 use AGTHARN\FlyPE\util\Util;
 
-use kim\present\lib\translator\Translator;
-
 class Main extends PluginBase {
     
     /**
@@ -52,7 +50,7 @@ class Main extends PluginBase {
      * @return void
      */
     public function onEnable(): void {
-        $this->util = new Util($this, new Translator($this));
+        $this->util = new Util($this);
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);
         $this->getServer()->getCommandMap()->register("FlyPE", new FlyCommand("fly", $this, $this->util));

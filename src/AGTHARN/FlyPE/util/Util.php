@@ -65,30 +65,17 @@ class Util {
     private $messages;
     
     /**
-     * translator
-     *
-     * @var mixed
-     */
-    private $translator;
-    
-    /**
      * __construct
      *
      * @param  Main $plugin
-     * @param  mixed $translator
      * @return void
-     */    
-    public function __construct(Main $plugin, mixed $translator) {
+     */
+    public function __construct(Main $plugin) {
         $this->plugin = $plugin;
         $this->translator = $translator;
 
-        if ($this->plugin->getConfig()->get("lang") === "autotranslate") {
-            $this->plugin->saveResource("lang/en_US.yml");
-            $this->messages = new Config($this->plugin->getDataFolder() . "lang/en_US.yml", Config::YAML);
-        } else {
-            $this->plugin->saveResource("lang/" . $this->plugin->getConfig()->get("lang") . ".yml");
-            $this->messages = new Config($this->plugin->getDataFolder() . "lang/" . $this->plugin->getConfig()->get("lang") . ".yml", Config::YAML);
-        }
+        $this->plugin->saveResource( "lang/" . $this->plugin->getConfig()->get("lang") . ".yml");
+        $this->messages = new Config($this->plugin->getDataFolder() . "lang/" . $this->plugin->getConfig()->get("lang") . ".yml", Config::YAML);
     }
     
     /**
@@ -237,7 +224,7 @@ class Util {
                 $playerData->setFlightState(false);
                 $playerData->saveData();
             }
-            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->sendMessage("toggled-flight-off", $player)));
+            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->getMessages()->get("toggled-flight-off")));
     
             if ($this->plugin->getConfig()->get("enable-fly-sound")) {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-disabled-sound"), new Vector3($player->x, $player->y, $player->z)));
@@ -249,7 +236,7 @@ class Util {
                 $playerData->setFlightState(true);
                 $playerData->saveData();
             }
-            $player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->sendMessage("toggled-flight-on", $player)));
+            $player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->getMessages()->get("toggled-flight-on")));
     
             if ($this->plugin->getConfig()->get("enable-fly-sound")) {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-enabled-sound"), new Vector3($player->x, $player->y, $player->z)));
@@ -394,19 +381,6 @@ class Util {
             mkdir($this->plugin->getDataFolder() . "data");
         }
     }
-        
-    /**
-     * saveDefaultLocales
-     *
-     * @return void
-     */
-    public function saveDefaultLocales(): void {  
-        foreach ($this->plugin->getResources() as $filePath => $info) {  
-            if (preg_match('/^locale\/[a-zA-Z]{3}\.ini$/', $filePath)) {  
-                $this->plugin->saveResource($filePath);  
-            }  
-        }  
-    }  
     
     /**
      * checkGamemodeCreative
@@ -471,28 +445,5 @@ class Util {
      */
     public function getMessages() {
         return $this->messages;
-    }
-    
-    /**
-     * getTranslator
-     *
-     * @return mixed
-     */
-    public function getTranslator() {
-        return $this->translator;
-    }
-    
-    /**
-     * sendMessage
-     *
-     * @param  String $messageNode
-     * @return mixed
-     */
-    public function sendMessage(String $messageNode, Player $player) {
-        if ($this->plugin->getConfig()->get("lang") === "autotranslate") {
-            $player->sendMessage($this->getTranslator()->translateTo($this->getMessages()->get($messageNode), [], $player));
-        } else {
-            $player->sendMessage($this->getMessages()->get($messageNode));
-        }
     }
 }
