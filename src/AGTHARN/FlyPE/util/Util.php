@@ -83,9 +83,10 @@ class Util {
         $this->translator = $translator;
 
         if ($this->plugin->getConfig()->get("lang") === "autotranslate") {
-            // TO DO
+            $this->plugin->saveResource("lang/en_US.yml");
+            $this->messages = new Config($this->plugin->getDataFolder() . "lang/en_US.yml", Config::YAML);
         } else {
-            $this->plugin->saveResource( "lang/" . $this->plugin->getConfig()->get("lang") . ".yml");
+            $this->plugin->saveResource("lang/" . $this->plugin->getConfig()->get("lang") . ".yml");
             $this->messages = new Config($this->plugin->getDataFolder() . "lang/" . $this->plugin->getConfig()->get("lang") . ".yml", Config::YAML);
         }
     }
@@ -236,7 +237,7 @@ class Util {
                 $playerData->setFlightState(false);
                 $playerData->saveData();
             }
-            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->getMessages()->get("toggled-flight-off")));
+            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->sendMessage("toggled-flight-off", $player)));
     
             if ($this->plugin->getConfig()->get("enable-fly-sound")) {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-disabled-sound"), new Vector3($player->x, $player->y, $player->z)));
@@ -248,7 +249,7 @@ class Util {
                 $playerData->setFlightState(true);
                 $playerData->saveData();
             }
-            $player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->getMessages()->get("toggled-flight-on")));
+            $player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->sendMessage("toggled-flight-on", $player)));
     
             if ($this->plugin->getConfig()->get("enable-fly-sound")) {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-enabled-sound"), new Vector3($player->x, $player->y, $player->z)));
@@ -470,5 +471,19 @@ class Util {
      */
     public function getMessages() {
         return $this->messages;
+    }
+    
+    /**
+     * sendMessage
+     *
+     * @param  String $messageNode
+     * @return mixed
+     */
+    public function sendMessage(String $messageNode, Player $player) {
+        if ($this->plugin->getConfig()->get("lang") === "autotranslate") {
+            $player->sendMessage($this->getTranslator()->translateTo($this->getMessages()->get($messageNode), [], $player));
+        } else {
+            return $player->sendMessage($this->getMessages()->get($messageNode));
+        }
     }
 }
