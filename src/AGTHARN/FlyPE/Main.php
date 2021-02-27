@@ -33,6 +33,8 @@ use pocketmine\utils\TextFormat as C;
 use AGTHARN\FlyPE\commands\FlyCommand;
 use AGTHARN\FlyPE\util\Util;
 
+use CortexPE\Commando\PacketHooker;
+
 class Main extends PluginBase {
     
     /**
@@ -42,7 +44,7 @@ class Main extends PluginBase {
      */
     private $util;
     
-    public const CONFIG_VERSION = 3.9;
+    public const CONFIG_VERSION = 4.0;
     
     /**
      * onEnable
@@ -53,7 +55,6 @@ class Main extends PluginBase {
         $this->util = new Util($this);
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);
-        $this->getServer()->getCommandMap()->register("FlyPE", new FlyCommand("fly", $this, $this->util));
 
         $this->util->addDataDir();
         $this->util->checkConfiguration();
@@ -67,5 +68,10 @@ class Main extends PluginBase {
             $this->getServer()->getPluginManager()->disablePlugin($this);
             return;
         }
+
+        if(!PacketHooker::isRegistered()) {
+            PacketHooker::register($this);
+        }
+        $this->getServer()->getCommandMap()->register("flype", new FlyCommand($this, $this->util, "fly", "Toggles your flight!"));
     }
 }

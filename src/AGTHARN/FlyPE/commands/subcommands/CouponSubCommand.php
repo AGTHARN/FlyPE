@@ -25,22 +25,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AGTHARN\FlyPE\commands;
+namespace AGTHARN\FlyPE\commands\subcommands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as C;
 use pocketmine\Player;
 
-use AGTHARN\FlyPE\commands\subcommands\ToggleSubCommand;
-use AGTHARN\FlyPE\commands\subcommands\HelpSubCommand;
-use AGTHARN\FlyPE\commands\subcommands\CouponSubCommand;
-use AGTHARN\FlyPE\commands\subcommands\TempFlightSubCommand;
 use AGTHARN\FlyPE\util\Util;
 use AGTHARN\FlyPE\Main;
 
-use CortexPE\Commando\BaseCommand;
+use CortexPE\Commando\args\RawStringArgument;
+use CortexPE\Commando\BaseSubCommand;
 
-class FlyCommand extends BaseCommand {
+class CouponSubCommand extends BaseSubCommand {
 
     /**
      * plugin
@@ -60,39 +57,41 @@ class FlyCommand extends BaseCommand {
         $this->plugin = $plugin;
         $this->util = $util;
         
-        parent::__construct($plugin, $name, $description, $aliases);
+        parent::__construct($name, $description, $aliases);
     }
 
     public function prepare(): void {
-        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->util, "toggle", "Toggles your flight"));
-        $this->registerSubCommand(new HelpSubCommand($this->plugin, $this->util, "help", "Displays basic information about the plugin"));
-        $this->registerSubCommand(new CouponSubCommand($this->plugin, $this->util, "coupon", "Gives a flight coupon"));
-        $this->registerSubCommand(new TempFlightSubCommand($this->plugin, $this->util, "tempflight", "Toggles your temporal flight"));
-
-        $this->setPermission("flype.command");
+        $this->setPermission("flype.command.coupon");
+        $this->registerArgument(0, new RawStringArgument("player", true));
 	}
 
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-        if(!isset($args)){
-            $this->sendUsage();
+        if (isset($args["player"])) {
+            $arg = $args["player"];
+
+            if (!$this->plugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
+                $sender->sendMessage(C::RED . str_replace("{name}", $arg, $this->util->messages->get("player-cant-be-found")));
+                return;
+            }
+
+            $target = $this->plugin->getServer()->getPlayer($arg);
+            $targetName = $target->getName();
+                
+            if ($this->util->doLevelChecks($target)) {
+                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") && $this->plugin->getConfig()->get("enable-coupon") && !$target->getAllowFlight()) {
+                    $target->getInventory()->addItem($this->util->getCouponItem());
+                }
+            }
         } else {
             if (!$sender instanceof Player) {
                 $sender->sendMessage("You can only use this command in-game!");
                 return;
             }
 
-            if ($this->plugin->getConfig()->get("enable-fly-ui")) {
-                $this->util->openFlyUI($sender);
-                return;
-            }
-    
             if ($this->util->doLevelChecks($sender)) {
                 if ($this->plugin->getConfig()->get("coupon-command-toggle-item") && $this->plugin->getConfig()->get("enable-coupon") && !$sender->getAllowFlight()) {
                     $sender->getInventory()->addItem($this->util->getCouponItem());
-                    return;
                 }
-                $this->util->toggleFlight($sender);
-                return;
             }
         }
 	}

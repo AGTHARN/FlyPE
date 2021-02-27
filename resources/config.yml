@@ -10,7 +10,7 @@
 ##### VERSION #####
 
 # CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 3.9
+config-version: 4.0
 
 ###################
 
@@ -305,13 +305,6 @@ fly-disabled-sound: "PopSound"
 # If set to true, players that toggle flight will be timed.
 # If set to false, players that toggle flight will NOT be timed.
 time-fly: false
-
-# Amount of seconds a player can fly for by default.
-#
-# FOR EXAMPLE:
-# If a player types /fly, they will have the default flight time applied to them.
-# If a player types /fly {player username} 50, the player will fly for 50 seconds.
-default-fly-seconds: 300
 
 ########################
 

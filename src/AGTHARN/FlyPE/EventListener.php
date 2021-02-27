@@ -89,7 +89,10 @@ class EventListener implements Listener {
                 $entity->sendMessage(C::RED . str_replace("{world}", $targetLevel, $this->util->getMessages()->get("flight-not-allowed")));
             }
             $this->util->toggleFlight($entity);
-        } elseif ($this->plugin->getConfig()->get("level-change-unrestricted")) {
+            return;
+        }
+        
+        if ($this->plugin->getConfig()->get("level-change-unrestricted")) {
             $entity->sendMessage(C::GREEN . str_replace("{world}", $targetLevel, $this->util->getMessages()->get("flight-is-allowed")));
         }
     }
@@ -125,9 +128,11 @@ class EventListener implements Listener {
             if ($this->plugin->getConfig()->get("save-flight-state")) {
                 if ($player->getAllowFlight()) {
                     $playerData->setFlightState(true);
-                } else {
-                    $playerData->setFlightState(false);
                 }
+                $playerData->setFlightState(false);
+            }
+            if ($playerData->checkNew()) {
+                unlink($playerData->getDataPath());
             }
             $playerData->saveData();
             unset($data[$player->getId()]);
@@ -221,12 +226,12 @@ class EventListener implements Listener {
             if ($player->getAllowFlight()) {
                 $player->sendMessage(C::RED . str_replace("{name}", $player->getName(), $this->util->getMessages()->get("cant-use-coupon")));
                 return;
-            } else {
-                if ($this->util->checkCooldown($player)) {
-                    $this->util->toggleFlight($player);
-                    $item->setCount($item->getCount() - 1);
-                    $inventory->setItem($inventory->getHeldItemIndex(), $item);
-                }
+            }
+
+            if ($this->util->checkCooldown($player)) {
+                $this->util->toggleFlight($player);
+                $item->setCount($item->getCount() - 1);
+                $inventory->setItem($inventory->getHeldItemIndex(), $item);
             }
         }
     }

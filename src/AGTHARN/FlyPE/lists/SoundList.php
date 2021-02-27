@@ -53,7 +53,7 @@ class SoundList {
      * @return void|object|mixed
      */
     public function getSound(string $soundName = "popsound", Vector3 $playerPos) {
-        switch(str_replace(" ", "", strtolower($soundName))):
+        switch (str_replace(" ", "", strtolower($soundName))):
             case "anvilbreaksound":
             case "anvilbreak":
                 return new AnvilBreakSound($playerPos);

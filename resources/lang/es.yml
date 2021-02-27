@@ -1,0 +1,77 @@
+##### es #####
+
+# NOTA: Agregar un color anulará el color predeterminado.
+# CRÉDITOS: ShurumbaPR
+
+# El mensaje que recibe un jugador si joindisable-fly está configurado como verdadero yel jugador está volando.
+# {name} = Nombre del jugadoron
+onjoin-flight-disabled: "¡Tu vuelo ha sido desactivado!"
+
+# El mensaje que recibe un jugador al cambiarde vuelo.
+# {name} = Nombre del jugador
+toggled-flight-on: "¡Activó su vuelo!"
+
+# El mensaje que recibe un jugador por cambiar de vuelo.
+# {name} = Nombre del jugador
+toggled-flight-off: "¡Ha desactivado su vuelo!"
+
+# El mensajeque recibe un jugador cuando cambia de vuelo para otros.
+# {name} = Nombre del jugador
+flight-for-other-on: "¡Se ha activado el vuelo para {name}!"
+
+# El mensaje que recibe un jugador cuando cambia de vuelo para otros.
+# {name} = Nombre del jugador
+flight-for-other-off: "¡Se ha desactivado el vuelo de {name}!"
+
+# El mensaje que recibe un jugador cuando el jugador indicado NO se pudo encontrar.
+# {name} = Nombre del jugador
+player-can't-be-found: "¡No se pudo encontrar el jugador!"
+
+# El mensaje que recibe un jugador cuando intenta cambiar de vuelo para otros sin permiso.
+# {name} = Nombre del jugador
+cant-toggle-flight-others: "¡No tienes permiso para cambiar de vuelo para otros!"
+
+# El mensaje que recibe un jugador cuando intenta cambiar de vuelo en un mundo restringido.
+# {world} = Nombre mundial del jugador
+flight-not-allowed: "¡Este mundo no permite elvuelo!"
+
+# El mensaje que recibe un jugador cuando se muda a un mundo sin restricciones.
+# {world} = Nombre mundial del jugador
+flight-is-allowed: "¡Este mundo permite el vuelo!"
+
+# El mensaje que recibe un jugador cuando intenta cambiar de vuelo en modo creativo.
+# {name} = Nombre del jugador
+disable-fly-creative: "¡No puede desactivar fly in creative!"
+
+# El mensaje que recibe un jugador cuando ataca a otro jugador.
+# {name} = Nombre del jugador
+combat-fly-disable: "¡No puedes volar durante el combate!"
+
+# El mensaje que recibe un jugador cuando NO tiene suficiente dinero para cambiar de vuelo.
+# {name} = Nombre del jugador
+# {cost} = costo de vuelo
+not-enough-money: "¡No tienes suficiente dinero!"
+
+# El mensaje que recibe un jugador cuando ha comprado un vuelo con éxito.
+# {name} = Nombre del jugador
+# {cost} = costo de vuelo
+buy-fly-successful: "¡Compra exitosa de fly!"
+
+# El mensaje que recibe un jugador cuando intenta usar el cupón de vuelo mientras el vuelo está activado.
+# {name} = Nombre del jugador
+cant-use-coupon: "¡No se puede usar el cupón! Vuelva a ejecutar el comando fly para apagar el vuelo."
+
+# El mensaje que recibe un jugador cuando intenta usar el cupón de vuelo mientras está en enfriamiento.
+# {name} = Nombre del jugador
+# {seconds} = Número de segundos
+currently-on-cooldown: "¡Actualmente estás en enfriamiento! Espera {seconds} segundo (s)."
+
+# El mensaje que recibe un jugador cuando da un argumento inválido para el comando de vuelo temporal.
+# {name} = Nombre del 
+invalid-temp-argument: "Invalid argument. Please state the right number of seconds as numbers."
+
+# El mensaje que recibe un jugador cuando el tiempo de vuelo está desactivado y el jugador intenta establecer un vuelo temporal en alguien.
+# {name} = Nombre del
+temp-fly-config-disabled: "Temporal Flight está actualmente desactivado. Comuníquese con su administrador si se trata de un error."
+
+####################

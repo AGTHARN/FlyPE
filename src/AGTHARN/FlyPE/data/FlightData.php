@@ -188,6 +188,18 @@ class FlightData {
             "flight-state" => $this->getFlightState()
         ]);
     }
+    
+    /**
+     * checkNew
+     *
+     * @return bool
+     */
+    public function checkNew(): bool {
+        if ($this->getFlightState() === false && $this->getPurchased() === false && $this->getDataTime() < 0) {
+            return true;
+        }
+        return false;
+    }
         
     /**
      * decreaseTime
