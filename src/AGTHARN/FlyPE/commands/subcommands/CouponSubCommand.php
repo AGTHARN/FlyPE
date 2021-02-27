@@ -52,19 +52,42 @@ class CouponSubCommand extends BaseSubCommand {
      * @var Util
      */
     private $util;
-
+    
+    /**
+     * __construct
+     *
+     * @param  Main $plugin
+     * @param  Util $util
+     * @param  string $name
+     * @param  string $description
+     * @param  array $aliases
+     * @return void
+     */
     public function __construct(Main $plugin, Util $util, string $name, string $description, $aliases = []) {
         $this->plugin = $plugin;
         $this->util = $util;
         
         parent::__construct($name, $description, $aliases);
     }
-
+    
+    /**
+     * prepare
+     *
+     * @return void
+     */
     public function prepare(): void {
         $this->setPermission("flype.command.coupon");
         $this->registerArgument(0, new RawStringArgument("player", true));
-	}
-
+    }
+    
+    /**
+     * onRun
+     *
+     * @param  CommandSender $sender
+     * @param  string $aliasUsed
+     * @param  array $args
+     * @return void
+     */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
         if (isset($args["player"])) {
             $arg = $args["player"];
@@ -94,5 +117,5 @@ class CouponSubCommand extends BaseSubCommand {
                 }
             }
         }
-	}
+    }
 }

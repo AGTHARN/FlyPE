@@ -55,14 +55,29 @@ class FlyCommand extends BaseCommand {
      * @var Util
      */
     private $util;
-
+    
+    /**
+     * __construct
+     *
+     * @param  Main $plugin
+     * @param  Util $util
+     * @param  string $name
+     * @param  string $description
+     * @param  array $aliases
+     * @return void
+     */
     public function __construct(Main $plugin, Util $util, string $name, string $description, $aliases = []) {
         $this->plugin = $plugin;
         $this->util = $util;
         
         parent::__construct($plugin, $name, $description, $aliases);
     }
-
+    
+    /**
+     * prepare
+     *
+     * @return void
+     */
     public function prepare(): void {
         $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->util, "toggle", "Toggles your flight"));
         $this->registerSubCommand(new HelpSubCommand($this->plugin, $this->util, "help", "Displays basic information about the plugin"));
@@ -70,8 +85,16 @@ class FlyCommand extends BaseCommand {
         $this->registerSubCommand(new TempFlightSubCommand($this->plugin, $this->util, "tempflight", "Toggles your temporal flight"));
 
         $this->setPermission("flype.command");
-	}
-
+    }
+    
+    /**
+     * onRun
+     *
+     * @param  CommandSender $sender
+     * @param  string $aliasUsed
+     * @param  array $args
+     * @return void
+     */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
         if(!isset($args)){
             $this->sendUsage();
@@ -95,5 +118,5 @@ class FlyCommand extends BaseCommand {
                 return;
             }
         }
-	}
+    }
 }

@@ -128,7 +128,6 @@ class Util {
         }
         });
         
-        /** @phpstan-ignore-next-line */
         if ($this->plugin->getConfig()->get("enable-fly-ui") && $this->plugin->getConfig()->get("pay-for-fly") && !$this->plugin->getConfig()->get("custom-ui-texts")) {
             $cost = $this->plugin->getConfig()->get("buy-fly-cost");
                     
