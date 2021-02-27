@@ -107,6 +107,11 @@ class TempFlightSubCommand extends BaseSubCommand {
                     return;
                 }
 
+                if (!$sender->hasPermission("flype.command.tempfly")) {
+                    $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->util->messages->get("cant-toggle-flight-others")));
+                    return;
+                }
+
                 $time = (int)$args["time"];
                 
                 if ($this->util->doLevelChecks($target)) {

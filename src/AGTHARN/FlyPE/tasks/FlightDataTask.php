@@ -29,9 +29,9 @@ namespace AGTHARN\FlyPE\tasks;
 
 use pocketmine\scheduler\Task;
 
-use AGTHARN\FlyPE\Main;
-use AGTHARN\FlyPE\util\Util;
 use AGTHARN\FlyPE\data\FlightData;
+use AGTHARN\FlyPE\util\Util;
+use AGTHARN\FlyPE\Main;
 
 class FlightDataTask extends Task {
 
@@ -50,11 +50,11 @@ class FlightDataTask extends Task {
     private $util;
     
     /**
-     * data
+     * playerData
      *
      * @var array
      */
-    private $data = [];
+    private $playerData = [];
         
     /**
      * __construct
@@ -76,17 +76,18 @@ class FlightDataTask extends Task {
      */
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            $this->data[$player->getId()] = new FlightData($this->plugin, $this->util, $player->getName(), $this->plugin->getConfig()->get("default-fly-seconds"));
+            $this->playerData[$player->getId()] = new FlightData($this->plugin, $this->util, $player->getName(), 0);
 
-            if(isset($this->data[$player->getId()]) && $player->getAllowFlight() && !$this->util->checkGamemodeCreative($player)){
-                $data = $this->data[$player->getId()];
-                $data->decreaseTime();
-                $data->saveData();
+            if (isset($this->playerData[$player->getId()]) && $this->playerData[$player->getId()]->getTempToggle() && $player->getAllowFlight() && !$this->util->checkGamemodeCreative($player)) {
+                $playerData = $this->playerData[$player->getId()];
+                $playerData->decreaseTime();
+                $playerData->saveData();
 
-                if ($data->getDataTime() < 0) {
-                    $this->util->toggleFlight($player, null, true);
-                    $data->resetDataTime();
-                    $data->saveData();
+                if ($playerData->getDataTime() < 0) {
+                    $this->util->toggleFlight($player, 0, true);
+                    $playerData->setTempToggle(false);
+                    $playerData->resetDataTime();
+                    $playerData->saveData();
                 }
             }
         }

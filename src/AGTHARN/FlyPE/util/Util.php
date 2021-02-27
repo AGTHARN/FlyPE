@@ -27,12 +27,12 @@
 
 namespace AGTHARN\FlyPE\util;
 
-use pocketmine\utils\TextFormat as C;
 use pocketmine\nbt\tag\StringTag;
-use pocketmine\item\Item;
+use pocketmine\utils\TextFormat as C;
+use pocketmine\utils\Config;
 use pocketmine\entity\Entity;
 use pocketmine\math\Vector3;
-use pocketmine\utils\Config;
+use pocketmine\item\Item;
 use pocketmine\Player;
 
 use AGTHARN\FlyPE\tasks\ParticleTask;
@@ -81,9 +81,9 @@ class Util {
      * openFlyUI
      *
      * @param  Player $player
-     * @return object
+     * @return mixed
      */
-    public function openFlyUI(Player $player): object {
+    public function openFlyUI(Player $player): mixed {
         $form = new SimpleForm(function (Player $player, $data) {
             
         if (is_null($data)) return;
@@ -203,8 +203,7 @@ class Util {
      * @param  Player $player
      * @return bool
      */
-    public function toggleFlight(Player $player, int $time = null, bool $overwrite = false, bool $temp = false): bool {
-        if (is_null($time)) $time = $this->plugin->getConfig()->get("default-fly-seconds");
+    public function toggleFlight(Player $player, int $time = 0, bool $overwrite = false, bool $temp = false): bool {
         
         $name = $player->getName();
         $playerData = $this->getFlightData($player, $time);
@@ -245,6 +244,7 @@ class Util {
             }
             if ($this->plugin->getConfig()->get("time-fly") && $temp) {
                 if (is_file($playerData->getDataPath())) {
+                    $playerData->setTempToggle(true);
                     $playerData->resetDataTime();
                     $playerData->saveData();
                 }

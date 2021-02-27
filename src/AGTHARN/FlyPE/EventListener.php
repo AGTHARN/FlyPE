@@ -27,23 +27,23 @@
 
 namespace AGTHARN\FlyPE;
 
+use pocketmine\event\inventory\InventoryPickupItemEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
-use pocketmine\event\inventory\InventoryPickupItemEvent;
-use pocketmine\event\block\BlockBreakEvent;
-use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\player\PlayerItemConsumeEvent;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\utils\TextFormat as C;
 use pocketmine\event\Listener;
 use pocketmine\Player;
 
-use AGTHARN\FlyPE\Main;
-use AGTHARN\FlyPE\util\Util;
 use AGTHARN\FlyPE\tasks\FlightDataTask;
+use AGTHARN\FlyPE\util\Util;
+use AGTHARN\FlyPE\Main;
 
 class EventListener implements Listener {
         

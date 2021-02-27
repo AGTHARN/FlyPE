@@ -33,6 +33,7 @@ use pocketmine\utils\TextFormat as C;
 use AGTHARN\FlyPE\commands\FlyCommand;
 use AGTHARN\FlyPE\util\Util;
 
+use JackMD\ConfigUpdater\ConfigUpdater;
 use CortexPE\Commando\PacketHooker;
 
 class Main extends PluginBase {
@@ -62,12 +63,7 @@ class Main extends PluginBase {
         $this->util->enableCoupon();
         
         if (!$this->util->checkDepend() || !$this->util->checkIncompatible() || !$this->util->checkFiles()) return;
-
-        if ($this->getConfig()->get("config-version") < self::CONFIG_VERSION) {
-            $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
-            $this->getServer()->getPluginManager()->disablePlugin($this);
-            return;
-        }
+        ConfigUpdater::checkUpdate($this, $this->getConfig(), "config-version", self::CONFIG_VERSION);
 
         if(!PacketHooker::isRegistered()) {
             PacketHooker::register($this);

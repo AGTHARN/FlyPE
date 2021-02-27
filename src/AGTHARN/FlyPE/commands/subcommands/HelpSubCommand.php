@@ -88,6 +88,11 @@ class HelpSubCommand extends BaseSubCommand {
      * @return void
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+        if (!$sender->hasPermission("flype.command.help")) {
+            $sender->sendMessage(C::RED . "You do not have the permission to use this command!");
+            return;
+        }
+
         $sender->sendMessage("WIP");
     }
 }

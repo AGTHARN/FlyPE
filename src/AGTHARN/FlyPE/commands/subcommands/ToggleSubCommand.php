@@ -99,6 +99,11 @@ class ToggleSubCommand extends BaseSubCommand {
 
             $target = $this->plugin->getServer()->getPlayer($arg);
             $targetName = $target->getName();
+
+            if (!$sender->hasPermission("flype.command.others")) {
+                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->util->messages->get("cant-toggle-flight-others")));
+                return;
+            }
                 
             if ($this->util->doLevelChecks($target)) {
                 $this->util->toggleFlight($target);

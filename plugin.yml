@@ -14,10 +14,8 @@ permissions:
   flype.command:
     default: op
   flype.command.help:
-    default: op
+    default: true
   flype.command.others:
-    default: op
-  flype.command.help:
     default: op
   flype.tempfly:
     default: op

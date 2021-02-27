@@ -89,11 +89,20 @@ class CouponSubCommand extends BaseSubCommand {
      * @return void
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+        if (!$this->plugin->getConfig()->get("enable-coupon")) {
+            $sender->sendMessage(C::RED . "Coupons are not enabled!");
+        }
+
         if (isset($args["player"])) {
             $arg = $args["player"];
 
             if (!$this->plugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
                 $sender->sendMessage(C::RED . str_replace("{name}", $arg, $this->util->messages->get("player-cant-be-found")));
+                return;
+            }
+
+            if (!$sender->hasPermission("flype.command.coupon")) {
+                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->util->messages->get("cant-toggle-flight-others")));
                 return;
             }
 
@@ -108,6 +117,11 @@ class CouponSubCommand extends BaseSubCommand {
         } else {
             if (!$sender instanceof Player) {
                 $sender->sendMessage("You can only use this command in-game!");
+                return;
+            }
+
+            if (!$sender->hasPermission("flype.command.coupon")) {
+                $sender->sendMessage(C::RED . "You do not have the permission to use this command!");
                 return;
             }
 

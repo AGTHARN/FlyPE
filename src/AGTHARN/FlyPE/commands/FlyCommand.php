@@ -96,27 +96,28 @@ class FlyCommand extends BaseCommand {
      * @return void
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-        if(!isset($args)){
-            $this->sendUsage();
-        } else {
-            if (!$sender instanceof Player) {
-                $sender->sendMessage("You can only use this command in-game!");
-                return;
-            }
+        if (!$sender instanceof Player) {
+            $sender->sendMessage("You can only use this command in-game!");
+            return;
+        }
 
-            if ($this->plugin->getConfig()->get("enable-fly-ui")) {
-                $this->util->openFlyUI($sender);
-                return;
-            }
+        if (!$sender->hasPermission("flype.command")) {
+            $sender->sendMessage(C::RED . "You do not have the permission to use this command!");
+            return;
+        }
+
+        if ($this->plugin->getConfig()->get("enable-fly-ui")) {
+            $this->util->openFlyUI($sender);
+            return;
+        }
     
-            if ($this->util->doLevelChecks($sender)) {
-                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") && $this->plugin->getConfig()->get("enable-coupon") && !$sender->getAllowFlight()) {
-                    $sender->getInventory()->addItem($this->util->getCouponItem());
-                    return;
-                }
-                $this->util->toggleFlight($sender);
+        if ($this->util->doLevelChecks($sender)) {
+            if ($this->plugin->getConfig()->get("coupon-command-toggle-item") && $this->plugin->getConfig()->get("enable-coupon") && !$sender->getAllowFlight()) {
+                $sender->getInventory()->addItem($this->util->getCouponItem());
                 return;
             }
+            $this->util->toggleFlight($sender);
+            return;
         }
     }
 }
