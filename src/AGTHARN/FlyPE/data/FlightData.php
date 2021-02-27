@@ -251,7 +251,7 @@ class FlightData {
      * @return bool
      */
     public function checkNew(): bool {
-        if (!$this->getFlightState() && !$this->getPurchased() && !$this->getTempToggle) {
+        if (!$this->getFlightState() && !$this->getPurchased() && !$this->getTempToggle()) {
             return true;
         }
         return false;

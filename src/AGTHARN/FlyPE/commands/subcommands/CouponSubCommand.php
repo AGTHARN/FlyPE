@@ -101,13 +101,13 @@ class CouponSubCommand extends BaseSubCommand {
                 return;
             }
 
+            $target = $this->plugin->getServer()->getPlayer($arg);
+            $targetName = $target->getName();
+
             if (!$sender->hasPermission("flype.command.coupon")) {
                 $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->util->messages->get("cant-toggle-flight-others")));
                 return;
             }
-
-            $target = $this->plugin->getServer()->getPlayer($arg);
-            $targetName = $target->getName();
                 
             if ($this->util->doLevelChecks($target)) {
                 if ($this->plugin->getConfig()->get("coupon-command-toggle-item") && $this->plugin->getConfig()->get("enable-coupon") && !$target->getAllowFlight()) {
