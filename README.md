@@ -42,6 +42,7 @@ These are the list of features in FlyPE. If you have any suggestions for the plu
 - [✔️] Creative Mode Settings
 - [✔️] Plugin Integrations
 - [✔️] Toggle Sounds
+- [✔️] Translations
 
 ### Requirements
 The list below state the requirements of FlyPE!
@@ -59,13 +60,14 @@ Permissions required for players to use the command, /fly.
 
 Permission                | Description                                                        | Default |
 ------------------------- | ------------------------------------------------------------------ | ------- |
-flype.command             | Allows player to run the Flight Command                            | OP      |
-flype.command.others      | Allows player to run the Flight Command on others                  | OP      |
-flype.tempfly.others      | Allows player to toggle Temp Flight for others or themselves       | OP      |
-flype.command.particles   | Allows player to have the Flight Particles                         | OP      |
-flype.command.effects     | Allows player to have the Flight Effects                           | OP      |
-flype.command.flightspeed | Allows player to have the Flight Speed Modification                | OP      |
+flype.command             | Allows player to run the Flight Command                            | op      |
+flype.command.help        | Allows player to run the Help Subcommand                           | true    |
+flype.command.others      | Allows player to run the Toggle Subcommand on others               | op      |
 flype.command.bypass      | Allows player to Bypass Checks when switching to a different world | false   |
+flype.tempfly             | Allows player to Toggle Temp Flight for others or themselves       | op      |
+flype.particles           | Allows player to have the Flight Particles                         | op      |
+flype.effects             | Allows player to have the Flight Effects                           | op      |
+flype.flightspeed         | Allows player to have the Flight Speed Modification                | op      |
 
 ### Configuration
 These are the config versions of FlyPE. To find your config version, open the **config.yml** file in FlyPE's plugin data folder and find the header, **"VERSION"**.
@@ -77,7 +79,10 @@ You can find the config file for v1.0.0, v1.0.1 [here](https://pastebin.com/raw/
 You can find the config file for v2.0.0, v2.0.1, v2.0.2, v2.0.3 [here](https://pastebin.com/raw/qgu9u1eJ)!
 
 + ![Config v3](https://img.shields.io/badge/Config-v3-orange?style=for-the-badge)
-You can find the config file for v3.3.2, v3.3.3, v3.3.4, v3.7.0, v3.8.3, v3.9.0 [here](https://raw.githubusercontent.com/AGTHARN/FlyPE/master/resources/config.yml)!
+You can find the config file for v3.3.2, v3.3.3, v3.3.4, v3.7.0, v3.8.3 [here](https://pastebin.com/raw/82znpD4P)!
+
++ ![Config v4](https://img.shields.io/badge/Config-v4-orange?style=for-the-badge)
+You can find the config file for v4.0.0 [here](https://raw.githubusercontent.com/AGTHARN/FlyPE/master/resources/config.yml)!
 
 ### Plugin Info
 + Name: FlyPE

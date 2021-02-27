@@ -27,8 +27,8 @@
 
 namespace AGTHARN\FlyPE\tasks;
 
-use pocketmine\scheduler\Task;
 use pocketmine\entity\Attribute;
+use pocketmine\scheduler\Task;
 use pocketmine\Player;
 
 use AGTHARN\FlyPE\Main;

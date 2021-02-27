@@ -20,7 +20,7 @@ config-version: 4.0
 # Preset language file to use, set as "default" if you want to modify it in default.yml.
 # 
 # DEFAULT LANGUAGE: en_US
-# CURRENT AVAILABLE LANGUAGE CODES: en_US
+# CURRENT AVAILABLE LANGUAGE CODES: en_US, es
 lang: "en_US"
 
 ####################
@@ -205,7 +205,7 @@ vanishv2-support: true
 # If set to true, effects and particles underneath will be removed.
 # If set to false, effects and particles underneath are shown.
 #
-# VERSION SUPPORTED: 2.0.1
+# VERSION SUPPORTED: 2.1.0
 simplelay-support: true
 
 ########################

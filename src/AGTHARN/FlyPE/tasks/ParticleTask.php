@@ -28,12 +28,12 @@
 namespace AGTHARN\FlyPE\tasks;
 
 use pocketmine\scheduler\Task;
-use pocketmine\math\Vector3;
 use pocketmine\block\Block;
+use pocketmine\math\Vector3;
 use pocketmine\Player;
 
-use AGTHARN\FlyPE\Main;
 use AGTHARN\FlyPE\util\Util;
+use AGTHARN\FlyPE\Main;
 
 class ParticleTask extends Task {
 
