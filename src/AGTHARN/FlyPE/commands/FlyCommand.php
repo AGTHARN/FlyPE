@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -79,10 +80,10 @@ class FlyCommand extends BaseCommand {
      * @return void
      */
     public function prepare(): void {
-        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->util, "toggle", "Toggles your flight"));
-        $this->registerSubCommand(new HelpSubCommand($this->plugin, $this->util, "help", "Displays basic information about the plugin"));
-        $this->registerSubCommand(new CouponSubCommand($this->plugin, $this->util, "coupon", "Gives a flight coupon"));
-        $this->registerSubCommand(new TempFlightSubCommand($this->plugin, $this->util, "tempflight", "Toggles your temporal flight"));
+        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->util, "toggle", "Toggles flight for others!"));
+        $this->registerSubCommand(new HelpSubCommand($this->plugin, $this->util, "help", "Displays basic information about the plugin!"));
+        $this->registerSubCommand(new CouponSubCommand($this->plugin, $this->util, "coupon", "Gives a flight coupon!"));
+        $this->registerSubCommand(new TempFlightSubCommand($this->plugin, $this->util, "tempflight", "Toggles temporal flight!"));
 
         $this->setPermission("flype.command");
     }
@@ -112,12 +113,7 @@ class FlyCommand extends BaseCommand {
         }
     
         if ($this->util->doLevelChecks($sender)) {
-            if ($this->plugin->getConfig()->get("coupon-command-toggle-item") && $this->plugin->getConfig()->get("enable-coupon") && !$sender->getAllowFlight()) {
-                $sender->getInventory()->addItem($this->util->getCouponItem());
-                return;
-            }
             $this->util->toggleFlight($sender);
-            return;
         }
     }
 }

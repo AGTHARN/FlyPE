@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -89,7 +90,7 @@ class ParticleList {
             case "blockdestroy":
                 return new DestroyBlockParticle($playerPos, $block);
             case "explodeparticle":
-			case "explode":
+            case "explode":
                 return new ExplodeParticle($playerPos);
             case "entityflameparticle":
             case "entityflame":
@@ -125,7 +126,7 @@ class ParticleList {
                 return new InstantEnchantParticle($playerPos);
             case "lavaparticle":
             case "lava":
-				return new LavaParticle($playerPos);
+                return new LavaParticle($playerPos);
             case "lavadripparticle":
             case "lavadrip":
             case "driplava":
@@ -133,10 +134,10 @@ class ParticleList {
             case "mobspawnparticle":
             case "mobspawn":
             case "spawnmob":
-				return new MobSpawnParticle($playerPos);
+                return new MobSpawnParticle($playerPos);
             case "portalparticle":
             case "portal":
-				return new PortalParticle($playerPos);
+                return new PortalParticle($playerPos);
             case "redstoneparticle":
             case "redstone":
                 return new RedstoneParticle($playerPos);
@@ -159,13 +160,13 @@ class ParticleList {
                 return new SnowballPoofParticle($playerPos);
             case "waterparticle":
             case "water":
-				return new WaterParticle($playerPos);
+                return new WaterParticle($playerPos);
             case "waterdripparticle":
             case "waterdrip":
             case "dripwater":
                 return new WaterDripParticle($playerPos);
             default:
                 return new FlameParticle($playerPos);
-		endswitch;
+        endswitch;
     }
 }

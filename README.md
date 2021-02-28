@@ -1,9 +1,9 @@
 # FlyPE [![HitCount](http://hits.dwyl.com/AGTHARN/FlyPE/master.svg)](http://hits.dwyl.com/AGTHARN/FlyPE/master) [![GitHub license](https://img.shields.io/github/license/AGTHARN/FlyPE)](https://github.com/AGTHARN/FlyPE/blob/master/LICENSE) [![](https://poggit.pmmp.io/shield.state/FlyPE)](https://poggit.pmmp.io/p/FlyPE)
 ![flypeicon](https://user-images.githubusercontent.com/63234276/83245243-0b6bb180-a1d3-11ea-9a01-3eb2fcb60115.jpg)
 
-![Latest version](https://img.shields.io/badge/Version-v3.9.0-orange?style=for-the-badge)
+![Latest version](https://img.shields.io/badge/Version-v4.0.0-orange?style=for-the-badge)
 
-[FlyPE](https://poggit.pmmp.io/p/FlyPE/3.9.0) is a fly plugin for PocketMine that allows you to fly in survival mode when you run the fly command! There are many different features in the plugin that makes it special, and you should check them out!
+[FlyPE](https://poggit.pmmp.io/p/FlyPE/4.0.0) is a fly plugin for PocketMine that allows you to fly in survival mode when you run the fly command! There are many different features in the plugin that makes it special, and you should check them out!
 
 This plugin would be useful for big or skyblock servers that would not like players to use fly in PVP zones or the hub. And if you would like players to pay for toggling flight, there's an option for that!
 
@@ -52,6 +52,8 @@ The list below state the requirements of FlyPE!
 
 ### Support
 If you have any issues with the plugin, or have any suggestions for the plugin, feel free to let me know [here](https://github.com/AGTHARN/FlyPE/issues) and I would look at it as soon as possible!
+
+Alternatively, you can get support from our [Discord Server](https://discord.gg/bGKEJTKPZc)!
 
 ![GitHub issues](https://img.shields.io/github/issues/AGTHARN/FlyPE?style=for-the-badge) ![GitHub closed issues](https://img.shields.io/github/issues-closed/AGTHARN/FlyPE?style=for-the-badge)
 

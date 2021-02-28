@@ -101,6 +101,6 @@ class SoundList {
                 return new PopSound($playerPos);
             default:
                 return new PopSound($playerPos);
-		endswitch;
+        endswitch;
     }
 }

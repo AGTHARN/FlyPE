@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -97,7 +98,7 @@ class CouponSubCommand extends BaseSubCommand {
             $arg = $args["player"];
 
             if (!$this->plugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
-                $sender->sendMessage(C::RED . str_replace("{name}", $arg, $this->util->messages->get("player-cant-be-found")));
+                $sender->sendMessage(C::RED . str_replace("{name}", $arg, Main::PREFIX . $this->util->messages->get("player-cant-be-found")));
                 return;
             }
 
@@ -105,7 +106,7 @@ class CouponSubCommand extends BaseSubCommand {
             $targetName = $target->getName();
 
             if (!$sender->hasPermission("flype.command.coupon")) {
-                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, $this->util->messages->get("cant-toggle-flight-others")));
+                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, Main::PREFIX . $this->util->messages->get("cant-toggle-flight-others")));
                 return;
             }
                 

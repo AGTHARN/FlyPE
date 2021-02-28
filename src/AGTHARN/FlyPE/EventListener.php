@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -86,14 +87,14 @@ class EventListener implements Listener {
         if (!$entity instanceof Player || $this->util->checkGamemodeCreative($entity) || $entity->hasPermission("flype.command.bypass") || !$entity->getAllowFlight()) return;
         if (!$this->util->doTargetLevelCheck($entity, $targetLevel)) {
             if ($this->plugin->getConfig()->get("level-change-restricted")) {
-                $entity->sendMessage(C::RED . str_replace("{world}", $targetLevel, $this->util->messages->get("flight-not-allowed")));
+                $entity->sendMessage(C::RED . str_replace("{world}", $targetLevel, Main::PREFIX . $this->util->messages->get("flight-not-allowed")));
             }
             $this->util->toggleFlight($entity);
             return;
         }
         
         if ($this->plugin->getConfig()->get("level-change-unrestricted")) {
-            $entity->sendMessage(C::GREEN . str_replace("{world}", $targetLevel, $this->util->messages->get("flight-is-allowed")));
+            $entity->sendMessage(C::GREEN . str_replace("{world}", $targetLevel, Main::PREFIX . $this->util->messages->get("flight-is-allowed")));
         }
     }
 
@@ -224,7 +225,7 @@ class EventListener implements Listener {
 
         if ($item->getNamedTag()->hasTag("coupon") && $this->plugin->getConfig()->get("enable-coupon") && $this->plugin->getConfig()->get("enable-cooldown") && $this->util->doLevelChecks($player)) {
             if ($player->getAllowFlight()) {
-                $player->sendMessage(C::RED . str_replace("{name}", $player->getName(), $this->util->messages->get("cant-use-coupon")));
+                $player->sendMessage(C::RED . str_replace("{name}", $player->getName(), Main::PREFIX . $this->util->messages->get("cant-use-coupon")));
                 return;
             }
 
@@ -252,12 +253,12 @@ class EventListener implements Listener {
                 
                 if ($damager->getAllowFlight()) {
                     $this->util->toggleFlight($entity);
-                    $damager->sendMessage(C::RED . str_replace("{world}", $levelName, $this->util->messages->get("combat-fly-disable")));
+                    $damager->sendMessage(C::RED . str_replace("{world}", $levelName, Main::PREFIX . $this->util->messages->get("combat-fly-disable")));
                 }
                 
                 if ($entity->getAllowFlight()) {
                     $this->util->toggleFlight($entity);
-                    $entity->sendMessage(C::RED . str_replace("{world}", $levelName, $this->util->messages->get("combat-fly-disable")));
+                    $entity->sendMessage(C::RED . str_replace("{world}", $levelName, Main::PREFIX . $this->util->messages->get("combat-fly-disable")));
                 }
             }
         }

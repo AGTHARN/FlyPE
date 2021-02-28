@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -29,9 +30,7 @@ namespace AGTHARN\FlyPE\commands\subcommands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as C;
-use pocketmine\Player;
 
-use AGTHARN\FlyPE\commands\FlyCommand;
 use AGTHARN\FlyPE\util\Util;
 use AGTHARN\FlyPE\Main;
 
@@ -93,6 +92,8 @@ class HelpSubCommand extends BaseSubCommand {
             return;
         }
 
-        $sender->sendMessage("WIP");
+        $sender->sendMessage(C::GRAY . "-=========[ " . C::GREEN . "FlyPE" . C::GRAY . " ]=========-" . C::EOL . C::GOLD . "Version: " . $this->plugin->getDescription()->getVersion() . 
+                        C::EOL . C::EOL . C::AQUA . "/fly - Toggles your flight!" . C::EOL . C::AQUA . "/fly help - Displays basic information about the plugin!"  . C::EOL . C::AQUA . 
+                        "/fly toggle - Toggles flight for others!" . C::EOL . C::AQUA . "/fly coupon - Gives a flight coupon!" . C::EOL . C::AQUA . "/fly tempflight - Toggles temporal flight!");
     }
 }

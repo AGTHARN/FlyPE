@@ -6,6 +6,9 @@
 # |_|    |______|_|  |_|    |______|
 #
 
+# Thanks for using FlyPE! All permissions are stated on our page on
+# poggit or github! If you have any issues, feel free to let me know at
+# https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/bGKEJTKPZc!
 
 ##### VERSION #####
 
@@ -74,8 +77,9 @@ save-flight-state: true
 ##### FLY SPEED #####
 
 # Enable fly speed modification.
-# PERMISSION: flype.flightspeed (op)
-# NOTE: This may be buggy. Use with caution.
+#
+# NOTE:
+# This may be buggy. Use with caution.
 fly-speed-mod: false
 
 # Multiplies the current fly speed.
@@ -138,8 +142,6 @@ fly-ui-exit: "§cExit"
 
 # If set to true, particles will appear on player's feet if they are flying.
 # If set to false, no particles will appear.
-#
-# PERMISSION: flype.particles (op)
 enable-fly-particles: false
 
 # Type of particle to spawn. Default: FlameParticle.
@@ -166,7 +168,6 @@ particle-block-id: 1
 
 # If set to true, players will get effects if they are flying.
 # If set to false, no effects will be given.
-# PERMISSION: flype.effects (op)
 enable-fly-effects: false
 
 # Type of effect to be given. Default: HASTE.
@@ -302,8 +303,8 @@ fly-disabled-sound: "PopSound"
 
 ##### TEMPORAL FLY #####
 
-# If set to true, players that toggle flight will be timed.
-# If set to false, players that toggle flight will NOT be timed.
+# If set to true, players that toggle flight using the tempflight subcommand will be timed.
+# If set to false, players that toggle flight using the tempflight subcommand will NOT be timed.
 time-fly: false
 
 ########################
@@ -311,8 +312,8 @@ time-fly: false
 
 ##### BLACKLIST OR WHITELIST WORLDS #####
 
-# If set to blacklist, players that are in the worlds listed in blacklisted-worlds wouldn't be able to run /fly.
-# If set to whitelist, players that are in the worlds listed in whitelisted-worlds would be able to run /fly.
+# If set to blacklist, players that are in the worlds listed in blacklisted-worlds wouldn't be able to run the fly command.
+# If set to whitelist, players that are in the worlds listed in whitelisted-worlds would be able to run the fly command.
 mode: blacklist
 
 # (BLACKLIST) These worlds only apply if the mode is set to blacklist.

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -47,6 +48,7 @@ use AGTHARN\FlyPE\Main;
 use JackMD\UpdateNotifier\UpdateNotifier;
 use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
+use CortexPE\Commando\PacketHooker;
 
 class Util {
         
@@ -96,7 +98,7 @@ class Util {
                 
                 if ($this->plugin->getConfig()->get("pay-for-fly")) {
                     if (EconomyAPI::getInstance()->myMoney($player) < $cost) {
-                        $player->sendMessage(C::RED . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->messages->get("not-enough-money"))));
+                        $player->sendMessage(C::RED . str_replace("{cost}", $cost, str_replace("{name}", $name, Main::PREFIX . $this->messages->get("not-enough-money"))));
                         return;
                     }
                     if (!$player->getAllowFlight()) {
@@ -106,7 +108,7 @@ class Util {
                             if ($this->plugin->getConfig()->get("save-purchased-data")) {
                                 if (!$playerData->getPurchased()) {
                                     EconomyAPI::getInstance()->reduceMoney($player, $cost);
-                                    $player->sendMessage(C::GREEN . str_replace("{cost}", $cost, str_replace("{name}", $name, $this->messages->get("buy-fly-successful"))));
+                                    $player->sendMessage(C::GREEN . str_replace("{cost}", $cost, str_replace("{name}", $name, Main::PREFIX . $this->messages->get("buy-fly-successful"))));
                                     $playerData->setPurchased(true);
                                     $playerData->saveData();
                                 }
@@ -168,7 +170,7 @@ class Util {
         $name = $player->getName();
 
         if ($this->checkGamemodeCreative($player) && $player->getAllowFlight() && !$this->plugin->getConfig()->get("allow-toggle-flight-gmc")) {
-            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->messages->get("disable-fly-creative")));
+            $player->sendMessage(C::RED . str_replace("{name}", $name, Main::PREFIX . $this->messages->get("disable-fly-creative")));
             return false;
         }
 
@@ -178,7 +180,7 @@ class Util {
         if ($this->plugin->getConfig()->get("mode") === "whitelist" && in_array($player->getLevel()->getName(), $this->plugin->getConfig()->get("whitelisted-worlds"))) {
             return true;
         }
-        $player->sendMessage(C::RED . str_replace("{world}", $levelName, $this->messages->get("flight-not-allowed")));
+        $player->sendMessage(C::RED . str_replace("{world}", $levelName, Main::PREFIX . $this->messages->get("flight-not-allowed")));
         return false;
     }
     
@@ -204,14 +206,13 @@ class Util {
      * @return bool
      */
     public function toggleFlight(Player $player, int $time = 0, bool $overwrite = false, bool $temp = false): bool {
-        
         $name = $player->getName();
         $playerData = $this->getFlightData($player, $time);
-
+        
         if(isset($playerData->cooldownArray[$name])) {
             if (time() < $playerData->cooldownArray[$name] && !$overwrite) {
                 if ($this->plugin->getConfig()->get("send-cooldown-message")) {
-                    $player->sendMessage(C::RED . str_replace("{seconds}", $playerData->cooldownArray[$name] - time(), str_replace("{name}", $player->getName(), $this->messages->get("currently-on-cooldown"))));
+                    $player->sendMessage(C::RED . str_replace("{seconds}", $playerData->cooldownArray[$name] - time(), str_replace("{name}", $player->getName(), Main::PREFIX . $this->messages->get("currently-on-cooldown"))));
                 }
                 return false;
             }
@@ -225,7 +226,7 @@ class Util {
                 $playerData->setFlightState(false);
                 $playerData->saveData();
             }
-            $player->sendMessage(C::RED . str_replace("{name}", $name, $this->messages->get("toggled-flight-off")));
+            $player->sendMessage(C::RED . str_replace("{name}", $name, Main::PREFIX . $this->messages->get("toggled-flight-off")));
     
             if ($this->plugin->getConfig()->get("enable-fly-sound")) {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-disabled-sound"), new Vector3($player->x, $player->y, $player->z)));
@@ -237,7 +238,7 @@ class Util {
                 $playerData->setFlightState(true);
                 $playerData->saveData();
             }
-            $player->sendMessage(C::GREEN . str_replace("{name}", $name, $this->messages->get("toggled-flight-on")));
+            $player->sendMessage(C::GREEN . str_replace("{name}", $name, Main::PREFIX . $this->messages->get("toggled-flight-on")));
     
             if ($this->plugin->getConfig()->get("enable-fly-sound")) {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get("fly-enabled-sound"), new Vector3($player->x, $player->y, $player->z)));
@@ -381,6 +382,17 @@ class Util {
     public function addDataDir(): void {
         if (!is_dir($this->plugin->getDataFolder() . "data/")) {
             mkdir($this->plugin->getDataFolder() . "data");
+        }
+    }
+    
+    /**
+     * registerPacketHooker
+     *
+     * @return void
+     */
+    public function registerPacketHooker(): void {
+        if(!PacketHooker::isRegistered()) {
+            PacketHooker::register($this->plugin);
         }
     }
     

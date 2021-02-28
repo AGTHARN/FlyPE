@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -34,7 +35,6 @@ use AGTHARN\FlyPE\commands\FlyCommand;
 use AGTHARN\FlyPE\util\Util;
 
 use JackMD\ConfigUpdater\ConfigUpdater;
-use CortexPE\Commando\PacketHooker;
 
 class Main extends PluginBase {
     
@@ -44,6 +44,8 @@ class Main extends PluginBase {
      * @var Util
      */
     private $util;
+
+    public const PREFIX = C::GRAY . "[" . C::GOLD . "FlyPE". C::GRAY . "] " . C::RESET;
     
     public const CONFIG_VERSION = 4.0;
     
@@ -61,13 +63,11 @@ class Main extends PluginBase {
         $this->util->checkConfiguration();
         $this->util->checkUpdates();
         $this->util->enableCoupon();
+        $this->util->registerPacketHooker();
         
         if (!$this->util->checkDepend() || !$this->util->checkIncompatible() || !$this->util->checkFiles()) return;
-        ConfigUpdater::checkUpdate($this, $this->getConfig(), "config-version", self::CONFIG_VERSION);
+        ConfigUpdater::checkUpdate($this, $this->getConfig(), "config-version", (int)self::CONFIG_VERSION);
 
-        if(!PacketHooker::isRegistered()) {
-            PacketHooker::register($this);
-        }
         $this->getServer()->getCommandMap()->register("flype", new FlyCommand($this, $this->util, "fly", "Toggles your flight!"));
     }
 }
