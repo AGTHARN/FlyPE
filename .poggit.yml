@@ -7,7 +7,11 @@ projects:
     path: ""
     libs:
     - src: jojoe77777/FormAPI/libFormAPI
-      version: ^1.3
+      version: ^1.3.0
     - src: JackMD/UpdateNotifier/UpdateNotifier
-      version: ^2.0.0
+      version: ^2.1.0
+    - src: CortexPE/Commando/Commando
+      version: ^2.1.1
+    - src: Ifera/ConfigUpdater/ConfigUpdater
+      version: ^1.2.0
 ...

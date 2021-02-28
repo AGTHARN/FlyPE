@@ -26,22 +26,19 @@ declare(strict_types = 1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AGTHARN\FlyPE\commands;
+namespace AGTHARN\FlyPE\commands\subcommands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as C;
 use pocketmine\Player;
 
-use AGTHARN\FlyPE\commands\subcommands\ToggleSubCommand;
-use AGTHARN\FlyPE\commands\subcommands\HelpSubCommand;
-use AGTHARN\FlyPE\commands\subcommands\CouponSubCommand;
-use AGTHARN\FlyPE\commands\subcommands\TempFlightSubCommand;
 use AGTHARN\FlyPE\util\Util;
 use AGTHARN\FlyPE\Main;
 
-use CortexPE\Commando\BaseCommand;
+use CortexPE\Commando\args\RawStringArgument;
+use CortexPE\Commando\BaseSubCommand;
 
-class FlyCommand extends BaseCommand {
+class ToggleSubCommand extends BaseSubCommand {
 
     /**
      * plugin
@@ -71,7 +68,7 @@ class FlyCommand extends BaseCommand {
         $this->plugin = $plugin;
         $this->util = $util;
         
-        parent::__construct($plugin, $name, $description, $aliases);
+        parent::__construct($name, $description, $aliases);
     }
     
     /**
@@ -80,12 +77,8 @@ class FlyCommand extends BaseCommand {
      * @return void
      */
     public function prepare(): void {
-        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->util, 'toggle', 'Toggles flight for others!'));
-        $this->registerSubCommand(new HelpSubCommand($this->plugin, $this->util, 'help', 'Displays basic information about the plugin!'));
-        $this->registerSubCommand(new CouponSubCommand($this->plugin, $this->util, 'coupon', 'Gives a flight coupon!'));
-        $this->registerSubCommand(new TempFlightSubCommand($this->plugin, $this->util, 'tempflight', 'Toggles temporal flight!'));
-
-        $this->setPermission('flype.command');
+        $this->setPermission('flype.command.others');
+        $this->registerArgument(0, new RawStringArgument('player', true));
     }
     
     /**
@@ -97,23 +90,33 @@ class FlyCommand extends BaseCommand {
      * @return void
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-        if (!$sender instanceof Player) {
-            $sender->sendMessage('You can only use this command in-game!');
-            return;
-        }
+        if (isset($args['player'])) {
+            $arg = $args['player'];
 
-        if (!$sender->hasPermission('flype.command')) {
-            $sender->sendMessage(C::RED . 'You do not have the permission to use this command!');
-            return;
-        }
+            if (!$this->plugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
+                $sender->sendMessage(C::RED . str_replace('{name}', $arg, Main::PREFIX . $this->util->messages->get('player-cant-be-found')));
+                return;
+            }
 
-        if ($this->plugin->getConfig()->get('enable-fly-ui')) {
-            $this->util->openFlyUI($sender);
-            return;
-        }
-    
-        if ($this->util->doLevelChecks($sender)) {
-            $this->util->toggleFlight($sender);
+            $target = $this->plugin->getServer()->getPlayer($arg);
+            $targetName = $target->getName();
+
+            if (!$sender->hasPermission('flype.command.others')) {
+                $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('cant-toggle-flight-others')));
+                return;
+            }
+                
+            if ($this->util->doLevelChecks($target)) {
+                if ($this->util->toggleFlight($target)) {
+                    if ($target->getAllowFlight()) {
+                        $sender->sendMessage(C::GREEN . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-on')));
+                    } else {
+                        $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-off')));
+                    }
+                }
+            }
+        } else {
+            $this->sendUsage();
         }
     }
 }

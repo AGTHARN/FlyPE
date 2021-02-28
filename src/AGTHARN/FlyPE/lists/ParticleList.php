@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -67,105 +68,105 @@ class ParticleList {
      * @param  Block $block
      * @return void|object|mixed
      */
-    public function getParticle(string $particleName = "FlameParticle", Vector3 $playerPos, Block $block) {
-        switch(str_replace(" ", "", strtolower($particleName))):
-            case "angryvillagerparticle":
-            case "angryvillager":
-            case "angry":
+    public function getParticle(string $particleName = 'FlameParticle', Vector3 $playerPos, Block $block) {
+        switch (str_replace(' ', '', strtolower($particleName))):
+            case 'angryvillagerparticle':
+            case 'angryvillager':
+            case 'angry':
                 return new AngryVillagerParticle($playerPos);
-            case "bubbleparticle":
-            case "bubble":
+            case 'bubbleparticle':
+            case 'bubble':
                 return new BubbleParticle($playerPos);
-            case "blockforcefield":
-            case "blockforce":
-            case "forcefield":
+            case 'blockforcefield':
+            case 'blockforce':
+            case 'forcefield':
                 return new BlockForceFieldParticle($playerPos, 0);
-            case "criticalparticle":
-            case "critical":
-            case "crit":
+            case 'criticalparticle':
+            case 'critical':
+            case 'crit':
                 return new CriticalParticle($playerPos);
-            case "destroyblockparticle":
-            case "destroyblock":
-            case "blockdestroy":
+            case 'destroyblockparticle':
+            case 'destroyblock':
+            case 'blockdestroy':
                 return new DestroyBlockParticle($playerPos, $block);
-            case "explodeparticle":
-			case "explode":
+            case 'explodeparticle':
+            case 'explode':
                 return new ExplodeParticle($playerPos);
-            case "entityflameparticle":
-            case "entityflame":
-            case "flameentity":
+            case 'entityflameparticle':
+            case 'entityflame':
+            case 'flameentity':
                 return new EntityFlameParticle($playerPos);
-            case "enchantmenttableparticle":
-            case "enchantmenttable":
-            case "enchantment":
+            case 'enchantmenttableparticle':
+            case 'enchantmenttable':
+            case 'enchantment':
                 return new EnchantmentTableParticle($playerPos);
-            case "enchantparticle":
-            case "enchant":
+            case 'enchantparticle':
+            case 'enchant':
                 return new EnchantParticle($playerPos);
-            case "flameparticle":
-            case "flame":
-            case "fire":
+            case 'flameparticle':
+            case 'flame':
+            case 'fire':
                 return new FlameParticle($playerPos);
-            case "hugeexplodeparticle":
-            case "hugeexplode":
+            case 'hugeexplodeparticle':
+            case 'hugeexplode':
                 return new HugeExplodeParticle($playerPos);
-            case "heartparticle":
-            case "heart":
+            case 'heartparticle':
+            case 'heart':
                 return new HeartParticle($playerPos);
-            case "happyvillagerparticle":
-            case "happyvillager":
-            case "happy":
+            case 'happyvillagerparticle':
+            case 'happyvillager':
+            case 'happy':
                 return new HappyVillagerParticle($playerPos);
-            case "inkparticle":
-            case "ink":
+            case 'inkparticle':
+            case 'ink':
                 return new InkParticle($playerPos);
-            case "instantenchantparticle":
-            case "instantenchant":
-            case "instant":
+            case 'instantenchantparticle':
+            case 'instantenchant':
+            case 'instant':
                 return new InstantEnchantParticle($playerPos);
-            case "lavaparticle":
-            case "lava":
-				return new LavaParticle($playerPos);
-            case "lavadripparticle":
-            case "lavadrip":
-            case "driplava":
+            case 'lavaparticle':
+            case 'lava':
+                return new LavaParticle($playerPos);
+            case 'lavadripparticle':
+            case 'lavadrip':
+            case 'driplava':
                 return new LavaDripParticle($playerPos);
-            case "mobspawnparticle":
-            case "mobspawn":
-            case "spawnmob":
-				return new MobSpawnParticle($playerPos);
-            case "portalparticle":
-            case "portal":
-				return new PortalParticle($playerPos);
-            case "redstoneparticle":
-            case "redstone":
+            case 'mobspawnparticle':
+            case 'mobspawn':
+            case 'spawnmob':
+                return new MobSpawnParticle($playerPos);
+            case 'portalparticle':
+            case 'portal':
+                return new PortalParticle($playerPos);
+            case 'redstoneparticle':
+            case 'redstone':
                 return new RedstoneParticle($playerPos);
-            case "rainsplashparticle":
-            case "rainsplash":
-            case "rain":
+            case 'rainsplashparticle':
+            case 'rainsplash':
+            case 'rain':
                 return new RainSplashParticle($playerPos);
-            case "smokeparticle":
-            case "smoke":
+            case 'smokeparticle':
+            case 'smoke':
                 return new SmokeParticle($playerPos);
-            case "splashparticle":
-            case "splash":
+            case 'splashparticle':
+            case 'splash':
                 return new SplashParticle($playerPos);
-            case "sporeparticle":
-            case "spore":
+            case 'sporeparticle':
+            case 'spore':
                 return new SporeParticle($playerPos);
-            case "snowballpoofparticle":
-            case "snowballpoof":
-            case "snowball":
+            case 'snowballpoofparticle':
+            case 'snowballpoof':
+            case 'snowball':
                 return new SnowballPoofParticle($playerPos);
-            case "waterparticle":
-            case "water":
-				return new WaterParticle($playerPos);
-            case "waterdripparticle":
-            case "waterdrip":
-            case "dripwater":
+            case 'waterparticle':
+            case 'water':
+                return new WaterParticle($playerPos);
+            case 'waterdripparticle':
+            case 'waterdrip':
+            case 'dripwater':
                 return new WaterDripParticle($playerPos);
             default:
                 return new FlameParticle($playerPos);
-		endswitch;
+        endswitch;
     }
 }

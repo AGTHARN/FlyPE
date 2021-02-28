@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -33,39 +34,40 @@ use pocketmine\utils\TextFormat as C;
 use AGTHARN\FlyPE\commands\FlyCommand;
 use AGTHARN\FlyPE\util\Util;
 
-use JackMD\UpdateNotifier\UpdateNotifier;
+use JackMD\ConfigUpdater\ConfigUpdater;
 
 class Main extends PluginBase {
-	
-	/**
-	 * util
-	 * 
+    
+    /**
+     * util
+     * 
      * @var Util
      */
-	private $util;
-	
-	public const CONFIG_VERSION = 3.8;
-	
-	/**
-	 * onEnable
-	 *
-	 * @return void
-	 */
-	public function onEnable(): void {
-		$this->util = new Util($this);
+    private $util;
 
-		$this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);
-		$this->getServer()->getCommandMap()->register("FlyPE", new FlyCommand("fly", $this, $this->util));
+    public const PREFIX = C::GRAY . "[" . C::GOLD . "FlyPE". C::GRAY . "] " . C::RESET;
+    
+    public const CONFIG_VERSION = 4.0;
+    
+    /**
+     * onEnable
+     *
+     * @return void
+     */
+    public function onEnable(): void {
+        $this->util = new Util($this);
 
-		$this->util->addDataDir();
-		$this->util->checkConfiguration();
-		if (!$this->util->checkDepend() || !$this->util->checkIncompatible() || !$this->util->checkFiles()) return;
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);
 
-		if ($this->getConfig()->get("config-version") < self::CONFIG_VERSION) {
-		    $this->getLogger()->warning("Your config is outdated! Please delete your old config to get the latest features!");
-		    $this->getServer()->getPluginManager()->disablePlugin($this);
-		    return;
-	    }
-	    UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
-	}
+        $this->util->addDataDir();
+        $this->util->checkConfiguration();
+        $this->util->checkUpdates();
+        $this->util->enableCoupon();
+        $this->util->registerPacketHooker();
+        
+        if (!$this->util->checkDepend() || !$this->util->checkIncompatible() || !$this->util->checkFiles()) return;
+        ConfigUpdater::checkUpdate($this, $this->getConfig(), 'config-version', (int)self::CONFIG_VERSION);
+
+        $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, $this->util, 'fly', 'Toggles your flight!'));
+    }
 }

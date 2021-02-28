@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -29,9 +30,9 @@ namespace AGTHARN\FlyPE\tasks;
 
 use pocketmine\scheduler\Task;
 
-use AGTHARN\FlyPE\Main;
-use AGTHARN\FlyPE\util\Util;
 use AGTHARN\FlyPE\data\FlightData;
+use AGTHARN\FlyPE\util\Util;
+use AGTHARN\FlyPE\Main;
 
 class FlightDataTask extends Task {
 
@@ -43,30 +44,30 @@ class FlightDataTask extends Task {
     private $plugin;
 
     /**
-	 * util
-	 * 
+     * util
+     * 
      * @var Util
      */
     private $util;
     
     /**
-     * data
+     * playerData
      *
      * @var array
      */
-    private $data = [];
-	
-	/**
-	 * __construct
-	 *
-	 * @param  Main $plugin
+    private $playerData = [];
+        
+    /**
+     * __construct
+     *
+     * @param  Main $plugin
      * @param  Util $util
-	 * @return void
-	 */
-	public function __construct(Main $plugin, Util $util) {
+     * @return void
+     */
+    public function __construct(Main $plugin, Util $util) {
         $this->plugin = $plugin;
         $this->util = $util;
-	}
+    }
         
     /**
      * onRun
@@ -76,21 +77,19 @@ class FlightDataTask extends Task {
      */
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            $this->data[$player->getId()] = new FlightData($this->plugin, $this->util, $player->getName());
+            $this->playerData[$player->getId()] = new FlightData($this->plugin, $this->util, $player->getName(), 0);
 
-            if(isset($this->data[$player->getId()]) && $player->getAllowFlight() === true && $this->util->checkGamemodeCreative($player) === false){
-                $data = $this->data[$player->getId()];
-                $data->incrementTime();
-                $data->saveData();
+            if (isset($this->playerData[$player->getId()]) && $this->playerData[$player->getId()]->getTempToggle() && $player->getAllowFlight() && !$this->util->checkGamemodeCreative($player)) {
+                $playerData = $this->playerData[$player->getId()];
+                $playerData->decreaseTime();
+                $playerData->saveData();
 
-                if ($data->getDataTime() >= $this->plugin->getConfig()->get("fly-seconds")) {
-                    $this->util->toggleFlight($player);
-                    $data->resetDataTime();
-                    $data->saveData();
+                if ($playerData->getDataTime() < 0) {
+                    $this->util->toggleFlight($player, 0, true);
+                    $playerData->setTempToggle(false);
+                    $playerData->resetDataTime();
+                    $playerData->saveData();
                 }
-                
-                // for debug (if this is not disabled please contact me immediately)
-                // $this->plugin->getLogger()->info("FlightDataTask " . $player->getName() . " " . $data->getDataTime()); 
             }
         }
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -27,8 +28,8 @@
 
 namespace AGTHARN\FlyPE\tasks;
 
-use pocketmine\scheduler\Task;
 use pocketmine\entity\Attribute;
+use pocketmine\scheduler\Task;
 use pocketmine\Player;
 
 use AGTHARN\FlyPE\Main;
@@ -41,16 +42,16 @@ class FlightSpeedTask extends Task {
      * @var Main
      */
     private $plugin;
-	
-	/**
-	 * __construct
-	 *
-	 * @param  Main $plugin
-	 * @return void
-	 */
-	public function __construct(Main $plugin) {
+    
+    /**
+     * __construct
+     *
+     * @param  Main $plugin
+     * @return void
+     */
+    public function __construct(Main $plugin) {
         $this->plugin = $plugin;
-	}
+    }
         
     /**
      * onRun
@@ -62,9 +63,9 @@ class FlightSpeedTask extends Task {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
             $attribute = $player->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
             
-            if ($this->plugin->getConfig()->get("fly-speed-creative") === false && $player->getGamemode() === Player::CREATIVE) return;
-            if ($player->getAllowFlight() === true && $player->isFlying() && !$player->onGround && $player->hasPermission("flype.flightspeed")) {
-                $attribute->setValue($attribute->getValue() * $this->plugin->getConfig()->get("fly-speed"));
+            if (!$this->plugin->getConfig()->get('fly-speed-creative') && $player->getGamemode() === Player::CREATIVE) return;
+            if ($player->getAllowFlight() && $player->isFlying() && !$player->onGround && $player->hasPermission('flype.flightspeed')) {
+                $attribute->setValue($attribute->getValue() * $this->plugin->getConfig()->get('fly-speed'));
             } elseif (!$player->isSprinting() && $player->onGround) {
                 $attribute->resetToDefault();
             }

@@ -26,22 +26,17 @@ declare(strict_types = 1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AGTHARN\FlyPE\commands;
+namespace AGTHARN\FlyPE\commands\subcommands;
 
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as C;
-use pocketmine\Player;
 
-use AGTHARN\FlyPE\commands\subcommands\ToggleSubCommand;
-use AGTHARN\FlyPE\commands\subcommands\HelpSubCommand;
-use AGTHARN\FlyPE\commands\subcommands\CouponSubCommand;
-use AGTHARN\FlyPE\commands\subcommands\TempFlightSubCommand;
 use AGTHARN\FlyPE\util\Util;
 use AGTHARN\FlyPE\Main;
 
-use CortexPE\Commando\BaseCommand;
+use CortexPE\Commando\BaseSubCommand;
 
-class FlyCommand extends BaseCommand {
+class HelpSubCommand extends BaseSubCommand {
 
     /**
      * plugin
@@ -71,7 +66,7 @@ class FlyCommand extends BaseCommand {
         $this->plugin = $plugin;
         $this->util = $util;
         
-        parent::__construct($plugin, $name, $description, $aliases);
+        parent::__construct($name, $description, $aliases);
     }
     
     /**
@@ -80,12 +75,7 @@ class FlyCommand extends BaseCommand {
      * @return void
      */
     public function prepare(): void {
-        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->util, 'toggle', 'Toggles flight for others!'));
-        $this->registerSubCommand(new HelpSubCommand($this->plugin, $this->util, 'help', 'Displays basic information about the plugin!'));
-        $this->registerSubCommand(new CouponSubCommand($this->plugin, $this->util, 'coupon', 'Gives a flight coupon!'));
-        $this->registerSubCommand(new TempFlightSubCommand($this->plugin, $this->util, 'tempflight', 'Toggles temporal flight!'));
-
-        $this->setPermission('flype.command');
+        $this->setPermission('flype.command.help');
     }
     
     /**
@@ -97,23 +87,13 @@ class FlyCommand extends BaseCommand {
      * @return void
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-        if (!$sender instanceof Player) {
-            $sender->sendMessage('You can only use this command in-game!');
-            return;
-        }
-
-        if (!$sender->hasPermission('flype.command')) {
+        if (!$sender->hasPermission('flype.command.help')) {
             $sender->sendMessage(C::RED . 'You do not have the permission to use this command!');
             return;
         }
 
-        if ($this->plugin->getConfig()->get('enable-fly-ui')) {
-            $this->util->openFlyUI($sender);
-            return;
-        }
-    
-        if ($this->util->doLevelChecks($sender)) {
-            $this->util->toggleFlight($sender);
-        }
+        $sender->sendMessage(C::GRAY . '-=========[ ' . C::GREEN . 'FlyPE' . C::GRAY . ' ]=========-' . C::EOL . C::GOLD . 'Version: ' . $this->plugin->getDescription()->getVersion() . 
+                        C::EOL . C::EOL . C::AQUA . '/fly - Toggles your flight!' . C::EOL . C::AQUA . '/fly help - Displays basic information about the plugin!'  . C::EOL . C::AQUA . 
+                        '/fly toggle - Toggles flight for others!' . C::EOL . C::AQUA . '/fly coupon - Gives a flight coupon!' . C::EOL . C::AQUA . '/fly tempflight - Toggles temporal flight!');
     }
 }
