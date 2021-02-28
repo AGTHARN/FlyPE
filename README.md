@@ -16,7 +16,7 @@ Note: If you are updating from v2 to v3, please delete your old configuration or
 ### Installation
 If you are new and need help with installing the plugin, here's a step-by-step guide on how to do that!
 
-1. Download the [latest phar](https://poggit.pmmp.io/p/FlyPE/3.9.0) by pressing on **Direct Download** on the top left corner of your screen. Make sure you have chosen the latest version before that.
+1. Download the [latest phar](https://poggit.pmmp.io/p/FlyPE/4.0.0) by pressing on **Direct Download** on the top left corner of your screen. Make sure you have chosen the latest version before that.
 2. Open your server's plugins folder and put the phar into your server's plugins folder. Make sure to also check if you're putting it into the right server. 
 3. Ensure you have the permission to use the fly command, restart your server and type the command, /fly ingame to toggle flight!
 
@@ -89,5 +89,5 @@ You can find the config file for v4.0.0 [here](https://raw.githubusercontent.com
 ### Plugin Info
 + Name: FlyPE
 + Author: AGTHARN
-+ Version: 3.9.0
++ Version: 4.0.0
 + Api: 3.0.0
