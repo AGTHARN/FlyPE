@@ -77,9 +77,9 @@ class TempFlightSubCommand extends BaseSubCommand {
      * @return void
      */
     public function prepare(): void {
-        $this->setPermission("flype.command.tempfly");
-        $this->registerArgument(0, new RawStringArgument("player", true));
-        $this->registerArgument(1, new RawStringArgument("time", true));
+        $this->setPermission('flype.command.tempfly');
+        $this->registerArgument(0, new RawStringArgument('player', true));
+        $this->registerArgument(1, new RawStringArgument('time', true));
     }
     
     /**
@@ -91,41 +91,41 @@ class TempFlightSubCommand extends BaseSubCommand {
      * @return void
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-        if (!$this->plugin->getConfig()->get("time-fly")) {
-            $sender->sendMessage(C::RED . "Temporal Flight is not enabled!");
+        if (!$this->plugin->getConfig()->get('time-fly')) {
+            $sender->sendMessage(C::RED . 'Temporal Flight is not enabled!');
         }
 
-        if (isset($args["player"])) {
-            $arg = $args["player"];
+        if (isset($args['player'])) {
+            $arg = $args['player'];
 
             if (!$this->plugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
-                $sender->sendMessage(C::RED . str_replace("{name}", $arg, Main::PREFIX . $this->util->messages->get("player-cant-be-found")));
+                $sender->sendMessage(C::RED . str_replace('{name}', $arg, Main::PREFIX . $this->util->messages->get('player-cant-be-found')));
                 return;
             }
 
-            if (isset($args["time"])) {
+            if (isset($args['time'])) {
                 $target = $this->plugin->getServer()->getPlayer($arg);
                 $targetName = $target->getName();
 
-                if (!is_numeric($args["time"])) {
-                    $sender->sendMessage(C::RED . str_replace("{name}", $targetName, Main::PREFIX . $this->util->messages->get("invalid-temp-argument")));
+                if (!is_numeric($args['time'])) {
+                    $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('invalid-temp-argument')));
                     return;
                 }
 
-                if (!$sender->hasPermission("flype.command.tempfly")) {
-                    $sender->sendMessage(C::RED . str_replace("{name}", $targetName, Main::PREFIX . $this->util->messages->get("cant-toggle-flight-others")));
+                if (!$sender->hasPermission('flype.command.tempfly')) {
+                    $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('cant-toggle-flight-others')));
                     return;
                 }
 
-                $time = (int)$args["time"];
+                $time = (int)$args['time'];
                 
                 if ($this->util->doLevelChecks($target)) {
                     $this->util->toggleFlight($target, $time, false, true);
 
                     if ($target->getAllowFlight()) {
-                        $sender->sendMessage(C::GREEN . str_replace("{name}", $targetName, Main::PREFIX . $this->util->messages->get("flight-for-other-on")));
+                        $sender->sendMessage(C::GREEN . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-on')));
                     } else {
-                        $sender->sendMessage(C::RED . str_replace("{name}", $targetName, Main::PREFIX . $this->util->messages->get("flight-for-other-off")));
+                        $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-off')));
                     }
                 }
             }

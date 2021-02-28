@@ -77,8 +77,8 @@ class CouponSubCommand extends BaseSubCommand {
      * @return void
      */
     public function prepare(): void {
-        $this->setPermission("flype.command.coupon");
-        $this->registerArgument(0, new RawStringArgument("player", true));
+        $this->setPermission('flype.command.coupon');
+        $this->registerArgument(0, new RawStringArgument('player', true));
     }
     
     /**
@@ -90,44 +90,44 @@ class CouponSubCommand extends BaseSubCommand {
      * @return void
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-        if (!$this->plugin->getConfig()->get("enable-coupon")) {
-            $sender->sendMessage(C::RED . "Coupons are not enabled!");
+        if (!$this->plugin->getConfig()->get('enable-coupon')) {
+            $sender->sendMessage(C::RED . 'Coupons are not enabled!');
         }
 
-        if (isset($args["player"])) {
-            $arg = $args["player"];
+        if (isset($args['player'])) {
+            $arg = $args['player'];
 
             if (!$this->plugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
-                $sender->sendMessage(C::RED . str_replace("{name}", $arg, Main::PREFIX . $this->util->messages->get("player-cant-be-found")));
+                $sender->sendMessage(C::RED . str_replace('{name}', $arg, Main::PREFIX . $this->util->messages->get('player-cant-be-found')));
                 return;
             }
 
             $target = $this->plugin->getServer()->getPlayer($arg);
             $targetName = $target->getName();
 
-            if (!$sender->hasPermission("flype.command.coupon")) {
-                $sender->sendMessage(C::RED . str_replace("{name}", $targetName, Main::PREFIX . $this->util->messages->get("cant-toggle-flight-others")));
+            if (!$sender->hasPermission('flype.command.coupon')) {
+                $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('cant-toggle-flight-others')));
                 return;
             }
                 
             if ($this->util->doLevelChecks($target)) {
-                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") && $this->plugin->getConfig()->get("enable-coupon") && !$target->getAllowFlight()) {
+                if ($this->plugin->getConfig()->get('coupon-command-toggle-item') && $this->plugin->getConfig()->get('enable-coupon') && !$target->getAllowFlight()) {
                     $target->getInventory()->addItem($this->util->getCouponItem());
                 }
             }
         } else {
             if (!$sender instanceof Player) {
-                $sender->sendMessage("You can only use this command in-game!");
+                $sender->sendMessage('You can only use this command in-game!');
                 return;
             }
 
-            if (!$sender->hasPermission("flype.command.coupon")) {
-                $sender->sendMessage(C::RED . "You do not have the permission to use this command!");
+            if (!$sender->hasPermission('flype.command.coupon')) {
+                $sender->sendMessage(C::RED . 'You do not have the permission to use this command!');
                 return;
             }
 
             if ($this->util->doLevelChecks($sender)) {
-                if ($this->plugin->getConfig()->get("coupon-command-toggle-item") && $this->plugin->getConfig()->get("enable-coupon") && !$sender->getAllowFlight()) {
+                if ($this->plugin->getConfig()->get('coupon-command-toggle-item') && $this->plugin->getConfig()->get('enable-coupon') && !$sender->getAllowFlight()) {
                     $sender->getInventory()->addItem($this->util->getCouponItem());
                 }
             }

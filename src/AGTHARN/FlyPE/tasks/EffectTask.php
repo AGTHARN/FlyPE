@@ -57,8 +57,8 @@ class EffectTask extends Task {
     public function __construct(Main $plugin) {
         $this->plugin = $plugin;
 
-        $this->vanishv2 = $this->plugin->getServer()->getPluginManager()->getPlugin("VanishV2") ?? null;
-        $this->simplelay = $this->plugin->getServer()->getPluginManager()->getPlugin("SimpleLay") ?? null;
+        $this->vanishv2 = $this->plugin->getServer()->getPluginManager()->getPlugin('VanishV2') ?? null;
+        $this->simplelay = $this->plugin->getServer()->getPluginManager()->getPlugin('SimpleLay') ?? null;
     }
         
     /**
@@ -69,16 +69,16 @@ class EffectTask extends Task {
      */
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            if ($player->getAllowFlight() && $player->isFlying() && $player->hasPermission("flype.effects")) {
-                if (!$this->plugin->getConfig()->get("creative-mode-effects") && $player->getGamemode() === Player::CREATIVE) return;
+            if ($player->getAllowFlight() && $player->isFlying() && $player->hasPermission('flype.effects')) {
+                if (!$this->plugin->getConfig()->get('creative-mode-effects') && $player->getGamemode() === Player::CREATIVE) return;
 
-                if (!is_null($this->vanishv2) && $this->plugin->getConfig()->get("vanishv2-support") && in_array($player->getName(), $this->vanishv2::$vanish)) return;
-                if (!is_null($this->simplelay) && $this->plugin->getConfig()->get("simplelay-support") && ($this->simplelay->isLaying($player) || $this->simplelay->isSitting($player))) return;
+                if (!is_null($this->vanishv2) && $this->plugin->getConfig()->get('vanishv2-support') && in_array($player->getName(), $this->vanishv2::$vanish)) return;
+                if (!is_null($this->simplelay) && $this->plugin->getConfig()->get('simplelay-support') && ($this->simplelay->isLaying($player) || $this->simplelay->isSitting($player))) return;
                 
-                $effect = new EffectInstance(Effect::getEffectByName($this->plugin->getConfig()->get("effect-type")) ?? Effect::getEffectByName("HASTE"));
+                $effect = new EffectInstance(Effect::getEffectByName($this->plugin->getConfig()->get('effect-type')) ?? Effect::getEffectByName('HASTE'));
                 $effect->setDuration(40);
-                $effect->setAmplifier(intval($this->plugin->getConfig()->get("effect-amplifier")));
-                $effect->setVisible($this->plugin->getConfig()->get("effect-visible"));
+                $effect->setAmplifier(intval($this->plugin->getConfig()->get('effect-amplifier')));
+                $effect->setVisible($this->plugin->getConfig()->get('effect-visible'));
 
                 $player->addEffect($effect);
             }

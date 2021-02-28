@@ -75,7 +75,7 @@ class HelpSubCommand extends BaseSubCommand {
      * @return void
      */
     public function prepare(): void {
-        $this->setPermission("flype.command.help");
+        $this->setPermission('flype.command.help');
     }
     
     /**
@@ -87,13 +87,13 @@ class HelpSubCommand extends BaseSubCommand {
      * @return void
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-        if (!$sender->hasPermission("flype.command.help")) {
-            $sender->sendMessage(C::RED . "You do not have the permission to use this command!");
+        if (!$sender->hasPermission('flype.command.help')) {
+            $sender->sendMessage(C::RED . 'You do not have the permission to use this command!');
             return;
         }
 
-        $sender->sendMessage(C::GRAY . "-=========[ " . C::GREEN . "FlyPE" . C::GRAY . " ]=========-" . C::EOL . C::GOLD . "Version: " . $this->plugin->getDescription()->getVersion() . 
-                        C::EOL . C::EOL . C::AQUA . "/fly - Toggles your flight!" . C::EOL . C::AQUA . "/fly help - Displays basic information about the plugin!"  . C::EOL . C::AQUA . 
-                        "/fly toggle - Toggles flight for others!" . C::EOL . C::AQUA . "/fly coupon - Gives a flight coupon!" . C::EOL . C::AQUA . "/fly tempflight - Toggles temporal flight!");
+        $sender->sendMessage(C::GRAY . '-=========[ ' . C::GREEN . 'FlyPE' . C::GRAY . ' ]=========-' . C::EOL . C::GOLD . 'Version: ' . $this->plugin->getDescription()->getVersion() . 
+                        C::EOL . C::EOL . C::AQUA . '/fly - Toggles your flight!' . C::EOL . C::AQUA . '/fly help - Displays basic information about the plugin!'  . C::EOL . C::AQUA . 
+                        '/fly toggle - Toggles flight for others!' . C::EOL . C::AQUA . '/fly coupon - Gives a flight coupon!' . C::EOL . C::AQUA . '/fly tempflight - Toggles temporal flight!');
     }
 }

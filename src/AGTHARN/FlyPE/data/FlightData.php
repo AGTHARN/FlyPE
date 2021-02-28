@@ -88,13 +88,6 @@ class FlightData {
      * @var bool
      */
     private $tempFlight;
-
-    /**
-     * cooldownArray
-     *
-     * @var array
-     */
-    public $cooldownArray = [];
     
     /**
      * __construct
@@ -114,12 +107,12 @@ class FlightData {
 
         $data = yaml_parse_file($this->getDataPath());
 
-        $this->tempFlight = $data["temp-toggle"];
-        $this->time = $data["time"];
+        $this->tempFlight = $data['temp-toggle'];
+        $this->time = $data['time'];
         $this->setTime = $setTime;
 
-        $this->purchased = $data["purchased"];
-        $this->flightState = $data["flight-state"];
+        $this->purchased = $data['purchased'];
+        $this->flightState = $data['flight-state'];
     }
     
     /**
@@ -130,20 +123,20 @@ class FlightData {
     public function checkKeys(): void {
         $data = yaml_parse_file($this->getDataPath());
 
-        if (empty($data["temp-toggle"])) {
-            $data["temp-toggle"] = false;
+        if (empty($data['temp-toggle'])) {
+            $data['temp-toggle'] = false;
         }
 
-        if (empty($data["time"])) {
-            $data["time"] = 0;
+        if (empty($data['time'])) {
+            $data['time'] = 0;
         }
 
-        if (empty($data["purchased"])) {
-            $data["purchased"] = false;
+        if (empty($data['purchased'])) {
+            $data['purchased'] = false;
         }
 
-        if (empty($data["flight-state"])) {
-            $data["flight-state"] = false;
+        if (empty($data['flight-state'])) {
+            $data['flight-state'] = false;
         }
         yaml_emit_file($this->getDataPath(), $data);
     }
@@ -154,7 +147,7 @@ class FlightData {
      * @return string
      */
     public function getDataPath(): string {
-        return $this->plugin->getDataFolder() . "data/". strtolower($this->playerName) . ".yml";
+        return $this->plugin->getDataFolder() . 'data/'. strtolower($this->playerName) . '.yml';
     }
     
     /**
@@ -199,7 +192,7 @@ class FlightData {
      * @param  bool $toggle
      * @return void
      */
-    public function setTempToggle(bool $toggle) {
+    public function setTempToggle(bool $toggle): void {
         $this->tempFlight = $toggle;
     }
 
@@ -239,10 +232,10 @@ class FlightData {
      */
     public function saveData(): void {
         yaml_emit_file($this->getDataPath(), [
-            "temp-toggle" => $this->getTempToggle(),
-            "time" => $this->getDataTime(),
-            "purchased" => $this->getPurchased(),
-            "flight-state" => $this->getFlightState()
+            'temp-toggle' => $this->getTempToggle(),
+            'time' => $this->getDataTime(),
+            'purchased' => $this->getPurchased(),
+            'flight-state' => $this->getFlightState()
         ]);
     }
     

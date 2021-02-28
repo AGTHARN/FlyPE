@@ -84,17 +84,17 @@ class EventListener implements Listener {
         $entity = $event->getEntity();
         $targetLevel = $event->getTarget()->getName();
 
-        if (!$entity instanceof Player || $this->util->checkGamemodeCreative($entity) || $entity->hasPermission("flype.command.bypass") || !$entity->getAllowFlight()) return;
+        if (!$entity instanceof Player || $this->util->checkGamemodeCreative($entity) || $entity->hasPermission('flype.command.bypass') || !$entity->getAllowFlight()) return;
         if (!$this->util->doTargetLevelCheck($entity, $targetLevel)) {
-            if ($this->plugin->getConfig()->get("level-change-restricted")) {
-                $entity->sendMessage(C::RED . str_replace("{world}", $targetLevel, Main::PREFIX . $this->util->messages->get("flight-not-allowed")));
+            if ($this->plugin->getConfig()->get('level-change-restricted')) {
+                $entity->sendMessage(C::RED . str_replace('{world}', $targetLevel, Main::PREFIX . $this->util->messages->get('flight-not-allowed')));
             }
             $this->util->toggleFlight($entity);
             return;
         }
         
-        if ($this->plugin->getConfig()->get("level-change-unrestricted")) {
-            $entity->sendMessage(C::GREEN . str_replace("{world}", $targetLevel, Main::PREFIX . $this->util->messages->get("flight-is-allowed")));
+        if ($this->plugin->getConfig()->get('level-change-unrestricted')) {
+            $entity->sendMessage(C::GREEN . str_replace('{world}', $targetLevel, Main::PREFIX . $this->util->messages->get('flight-is-allowed')));
         }
     }
 
@@ -109,7 +109,7 @@ class EventListener implements Listener {
         $name = $player->getName();
         $playerData = $this->util->getFlightData($player, 0);
         
-        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get("join-disable-fly") && $playerData->getFlightState() && $player instanceof Player) {
+        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get('join-disable-fly') && $playerData->getFlightState() && $player instanceof Player) {
             $this->util->toggleFlight($player);
         }
     }
@@ -126,7 +126,7 @@ class EventListener implements Listener {
         $data[$player->getId()] = new FlightDataTask($this->plugin, $this->util);
 
         if (isset($data[$player->getId()])) {
-            if ($this->plugin->getConfig()->get("save-flight-state")) {
+            if ($this->plugin->getConfig()->get('save-flight-state')) {
                 if ($player->getAllowFlight()) {
                     $playerData->setFlightState(true);
                 }
@@ -151,7 +151,7 @@ class EventListener implements Listener {
         /** @phpstan-ignore-next-line */
         $player = $event->getInventory()->getHolder();
 
-        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get("picking-up-items") && $player->getAllowFlight() && $player instanceof Player) {
+        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get('picking-up-items') && $player->getAllowFlight() && $player instanceof Player) {
             $event->setCancelled();
         }
     }
@@ -165,7 +165,7 @@ class EventListener implements Listener {
     public function onPlayerDropItem(PlayerDropItemEvent $event): void {
         $player = $event->getPlayer();
         
-        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get("item-dropping") && $player->getAllowFlight() && $player instanceof Player) {
+        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get('item-dropping') && $player->getAllowFlight() && $player instanceof Player) {
             $event->setCancelled();
         }
     }
@@ -179,7 +179,7 @@ class EventListener implements Listener {
     public function onBlockBreak(BlockBreakEvent $event): void {
         $player = $event->getPlayer();
         
-        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get("block-breaking") && $player->getAllowFlight() && $player instanceof Player) {
+        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get('block-breaking') && $player->getAllowFlight() && $player instanceof Player) {
             $event->setCancelled();
         }
     }
@@ -193,7 +193,7 @@ class EventListener implements Listener {
     public function onBlockPlace(BlockPlaceEvent $event): void {
         $player = $event->getPlayer();
         
-        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get("block-placing") && $player->getAllowFlight() && $player instanceof Player) {
+        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get('block-placing') && $player->getAllowFlight() && $player instanceof Player) {
             $event->setCancelled();
         }
     }
@@ -207,7 +207,7 @@ class EventListener implements Listener {
     public function onPlayerItemConsume(PlayerItemConsumeEvent $event): void {
         $player = $event->getPlayer();
         
-        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get("player-eating") && $player->getAllowFlight()) {
+        if ((!$this->util->checkGamemodeCreative($player) || $this->util->checkGamemodeCreativeSetting($player)) && !$this->plugin->getConfig()->get('player-eating') && $player->getAllowFlight()) {
             $event->setCancelled();
         }
     }
@@ -223,9 +223,9 @@ class EventListener implements Listener {
         $inventory = $player->getInventory();
         $item = $player->getInventory()->getItemInHand();
 
-        if ($item->getNamedTag()->hasTag("coupon") && $this->plugin->getConfig()->get("enable-coupon") && $this->plugin->getConfig()->get("enable-cooldown") && $this->util->doLevelChecks($player)) {
+        if ($item->getNamedTag()->hasTag('coupon') && $this->plugin->getConfig()->get('enable-coupon') && $this->plugin->getConfig()->get('enable-cooldown') && $this->util->doLevelChecks($player)) {
             if ($player->getAllowFlight()) {
-                $player->sendMessage(C::RED . str_replace("{name}", $player->getName(), Main::PREFIX . $this->util->messages->get("cant-use-coupon")));
+                $player->sendMessage(C::RED . str_replace('{name}', $player->getName(), Main::PREFIX . $this->util->messages->get('cant-use-coupon')));
                 return;
             }
 
@@ -249,16 +249,16 @@ class EventListener implements Listener {
         $levelName = $event->getEntity()->getLevel()->getName();
 
         if ($entity instanceof Player && $damager instanceof Player) {
-            if (((!$this->util->checkGamemodeCreative($damager) || $this->util->checkGamemodeCreativeSetting($damager)) || (!$this->util->checkGamemodeCreative($entity) || $this->util->checkGamemodeCreativeSetting($entity))) && $this->plugin->getConfig()->get("combat-disable-fly")) {
+            if (((!$this->util->checkGamemodeCreative($damager) || $this->util->checkGamemodeCreativeSetting($damager)) || (!$this->util->checkGamemodeCreative($entity) || $this->util->checkGamemodeCreativeSetting($entity))) && $this->plugin->getConfig()->get('combat-disable-fly')) {
                 
                 if ($damager->getAllowFlight()) {
                     $this->util->toggleFlight($entity);
-                    $damager->sendMessage(C::RED . str_replace("{world}", $levelName, Main::PREFIX . $this->util->messages->get("combat-fly-disable")));
+                    $damager->sendMessage(C::RED . str_replace('{world}', $levelName, Main::PREFIX . $this->util->messages->get('combat-fly-disable')));
                 }
                 
                 if ($entity->getAllowFlight()) {
                     $this->util->toggleFlight($entity);
-                    $entity->sendMessage(C::RED . str_replace("{world}", $levelName, Main::PREFIX . $this->util->messages->get("combat-fly-disable")));
+                    $entity->sendMessage(C::RED . str_replace('{world}', $levelName, Main::PREFIX . $this->util->messages->get('combat-fly-disable')));
                 }
             }
         }

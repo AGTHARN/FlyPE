@@ -52,52 +52,52 @@ class SoundList {
      * @param  Vector3 $playerPos
      * @return void|object|mixed
      */
-    public function getSound(string $soundName = "popsound", Vector3 $playerPos) {
-        switch (str_replace(" ", "", strtolower($soundName))):
-            case "anvilbreaksound":
-            case "anvilbreak":
+    public function getSound(string $soundName = 'popsound', Vector3 $playerPos) {
+        switch (str_replace(' ', '', strtolower($soundName))):
+            case 'anvilbreaksound':
+            case 'anvilbreak':
                 return new AnvilBreakSound($playerPos);
-            case "anvilfallsound":
-            case "anvilfall":
+            case 'anvilfallsound':
+            case 'anvilfall':
                 return new AnvilFallSound($playerPos);
-            case "anvilusesound":
-            case "anviluse":
+            case 'anvilusesound':
+            case 'anviluse':
                 return new AnvilUseSound($playerPos);
-            case "blazeshootsound":
-            case "blazeshoot":
-            case "blaze":
+            case 'blazeshootsound':
+            case 'blazeshoot':
+            case 'blaze':
                 return new BlazeShootSound($playerPos);
-            case "clicksound":
-            case "click":
+            case 'clicksound':
+            case 'click':
                 return new ClickSound($playerPos);
-            case "doorbumpsound":
-            case "doorbump":
+            case 'doorbumpsound':
+            case 'doorbump':
                 return new DoorBumpSound($playerPos);
-            case "doorcrashsound":
-            case "doorcrash":
+            case 'doorcrashsound':
+            case 'doorcrash':
                 return new DoorCrashSound($playerPos);
-            case "doorsound":
-            case "door":
+            case 'doorsound':
+            case 'door':
                 return new DoorSound($playerPos);
-            case "endermanteleportsound":
-            case "endermanteleport":
-            case "enderman":
-            case "teleport":
+            case 'endermanteleportsound':
+            case 'endermanteleport':
+            case 'enderman':
+            case 'teleport':
                 return new EndermanTeleportSound($playerPos);
-            case "fizzsound":
-            case "fizz":
+            case 'fizzsound':
+            case 'fizz':
                 return new FizzSound($playerPos);
-            case "ghastshootsound":
-            case "ghastshoot":
+            case 'ghastshootsound':
+            case 'ghastshoot':
                 return new GhastShootSound($playerPos);
-            case "ghastsound":
-            case "ghast":
+            case 'ghastsound':
+            case 'ghast':
                 return new GhastSound($playerPos);
-            case "launchsound":
-            case "launch":
+            case 'launchsound':
+            case 'launch':
                 return new LaunchSound($playerPos);
-            case "popsound":
-            case "pop":
+            case 'popsound':
+            case 'pop':
                 return new PopSound($playerPos);
             default:
                 return new PopSound($playerPos);

@@ -80,12 +80,12 @@ class FlyCommand extends BaseCommand {
      * @return void
      */
     public function prepare(): void {
-        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->util, "toggle", "Toggles flight for others!"));
-        $this->registerSubCommand(new HelpSubCommand($this->plugin, $this->util, "help", "Displays basic information about the plugin!"));
-        $this->registerSubCommand(new CouponSubCommand($this->plugin, $this->util, "coupon", "Gives a flight coupon!"));
-        $this->registerSubCommand(new TempFlightSubCommand($this->plugin, $this->util, "tempflight", "Toggles temporal flight!"));
+        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->util, 'toggle', 'Toggles flight for others!'));
+        $this->registerSubCommand(new HelpSubCommand($this->plugin, $this->util, 'help', 'Displays basic information about the plugin!'));
+        $this->registerSubCommand(new CouponSubCommand($this->plugin, $this->util, 'coupon', 'Gives a flight coupon!'));
+        $this->registerSubCommand(new TempFlightSubCommand($this->plugin, $this->util, 'tempflight', 'Toggles temporal flight!'));
 
-        $this->setPermission("flype.command");
+        $this->setPermission('flype.command');
     }
     
     /**
@@ -98,16 +98,16 @@ class FlyCommand extends BaseCommand {
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
         if (!$sender instanceof Player) {
-            $sender->sendMessage("You can only use this command in-game!");
+            $sender->sendMessage('You can only use this command in-game!');
             return;
         }
 
-        if (!$sender->hasPermission("flype.command")) {
-            $sender->sendMessage(C::RED . "You do not have the permission to use this command!");
+        if (!$sender->hasPermission('flype.command')) {
+            $sender->sendMessage(C::RED . 'You do not have the permission to use this command!');
             return;
         }
 
-        if ($this->plugin->getConfig()->get("enable-fly-ui")) {
+        if ($this->plugin->getConfig()->get('enable-fly-ui')) {
             $this->util->openFlyUI($sender);
             return;
         }

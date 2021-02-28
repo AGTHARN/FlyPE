@@ -66,8 +66,8 @@ class Main extends PluginBase {
         $this->util->registerPacketHooker();
         
         if (!$this->util->checkDepend() || !$this->util->checkIncompatible() || !$this->util->checkFiles()) return;
-        ConfigUpdater::checkUpdate($this, $this->getConfig(), "config-version", (int)self::CONFIG_VERSION);
+        ConfigUpdater::checkUpdate($this, $this->getConfig(), 'config-version', (int)self::CONFIG_VERSION);
 
-        $this->getServer()->getCommandMap()->register("flype", new FlyCommand($this, $this->util, "fly", "Toggles your flight!"));
+        $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, $this->util, 'fly', 'Toggles your flight!'));
     }
 }
