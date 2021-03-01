@@ -95,7 +95,7 @@ class Util {
     public function openFlyUI(Player $player): mixed {
         $form = new SimpleForm(function (Player $player, $data) {
             
-        if (is_null($data)) return;
+        if ($data === null) return;
             
         switch ($data) {
             case 0:
@@ -231,7 +231,6 @@ class Util {
             $player->setFlying(false);
             if ($this->plugin->getConfig()->get('save-flight-state')) {
                 $playerData->setFlightState(false);
-                $playerData->saveData();
             }
             $player->sendMessage(C::RED . str_replace('{name}', $name, Main::PREFIX . $this->messages->get('toggled-flight-off')));
     
@@ -243,7 +242,6 @@ class Util {
             $player->setFlying(true);
             if ($this->plugin->getConfig()->get('save-flight-state')) {
                 $playerData->setFlightState(true);
-                $playerData->saveData();
             }
             $player->sendMessage(C::GREEN . str_replace('{name}', $name, Main::PREFIX . $this->messages->get('toggled-flight-on')));
     
@@ -254,11 +252,11 @@ class Util {
                 if (is_file($playerData->getDataPath())) {
                     $playerData->setTempToggle(true);
                     $playerData->resetDataTime();
-                    $playerData->saveData();
                 }
             }
         }
         $this->cooldownArray[$name] = time() + $this->plugin->getConfig()->get('cooldown-seconds');
+        $playerData->saveData();
         return true;
     }
     
@@ -350,7 +348,7 @@ class Util {
      * @return bool
      */
     public function checkIncompatible(): bool {
-        if (!is_null($this->plugin->getServer()->getPluginManager()->getPlugin('BlazinFly'))) {
+        if ($this->plugin->getServer()->getPluginManager()->getPlugin('BlazinFly') !== null) {
             $this->plugin->getLogger()->warning('FlyPE is not compatible with others fly plugins! (BlazinFly)');
             $this->plugin->getServer()->getPluginManager()->disablePlugin($this->plugin);
             return false;

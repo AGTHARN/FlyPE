@@ -126,10 +126,8 @@ class CouponSubCommand extends BaseSubCommand {
                 return;
             }
 
-            if ($this->util->doLevelChecks($sender)) {
-                if ($this->plugin->getConfig()->get('coupon-command-toggle-item') && $this->plugin->getConfig()->get('enable-coupon') && !$sender->getAllowFlight()) {
-                    $sender->getInventory()->addItem($this->util->getCouponItem());
-                }
+            if ($this->plugin->getConfig()->get('coupon-command-toggle-item') && $this->plugin->getConfig()->get('enable-coupon')) {
+                $sender->getInventory()->addItem($this->util->getCouponItem());
             }
         }
     }

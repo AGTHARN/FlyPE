@@ -230,9 +230,10 @@ class EventListener implements Listener {
             }
 
             if ($this->util->checkCooldown($player)) {
-                $this->util->toggleFlight($player);
-                $item->setCount($item->getCount() - 1);
-                $inventory->setItem($inventory->getHeldItemIndex(), $item);
+                if ($this->util->toggleFlight($player)){
+                    $item->setCount($item->getCount() - 1);
+                    $inventory->setItem($inventory->getHeldItemIndex(), $item);
+                }
             }
         }
     }
@@ -244,21 +245,23 @@ class EventListener implements Listener {
      * @return void
      */
     public function onEntityDamageEntity(EntityDamageByEntityEvent $event): void {
-        $entity = $event->getEntity();
-        $damager = $event->getDamager();
-        $levelName = $event->getEntity()->getLevel()->getName();
+        if (!$event->isCancelled()) {
+            $entity = $event->getEntity();
+            $damager = $event->getDamager();
+            $levelName = $event->getEntity()->getLevel()->getName();
 
-        if ($entity instanceof Player && $damager instanceof Player) {
-            if (((!$this->util->checkGamemodeCreative($damager) || $this->util->checkGamemodeCreativeSetting($damager)) || (!$this->util->checkGamemodeCreative($entity) || $this->util->checkGamemodeCreativeSetting($entity))) && $this->plugin->getConfig()->get('combat-disable-fly')) {
+            if ($entity instanceof Player && $damager instanceof Player) {
+                if (((!$this->util->checkGamemodeCreative($damager) || $this->util->checkGamemodeCreativeSetting($damager)) || (!$this->util->checkGamemodeCreative($entity) || $this->util->checkGamemodeCreativeSetting($entity))) && $this->plugin->getConfig()->get('combat-disable-fly')) {
                 
-                if ($damager->getAllowFlight()) {
-                    $this->util->toggleFlight($entity);
-                    $damager->sendMessage(C::RED . str_replace('{world}', $levelName, Main::PREFIX . $this->util->messages->get('combat-fly-disable')));
-                }
+                    if ($damager->getAllowFlight()) {
+                        $this->util->toggleFlight($entity);
+                        $damager->sendMessage(C::RED . str_replace('{world}', $levelName, Main::PREFIX . $this->util->messages->get('combat-fly-disable')));
+                    }
                 
-                if ($entity->getAllowFlight()) {
-                    $this->util->toggleFlight($entity);
-                    $entity->sendMessage(C::RED . str_replace('{world}', $levelName, Main::PREFIX . $this->util->messages->get('combat-fly-disable')));
+                    if ($entity->getAllowFlight()) {
+                        $this->util->toggleFlight($entity);
+                        $entity->sendMessage(C::RED . str_replace('{world}', $levelName, Main::PREFIX . $this->util->messages->get('combat-fly-disable')));
+                    }
                 }
             }
         }

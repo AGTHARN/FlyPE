@@ -147,7 +147,7 @@ class FlightData {
      * @return string
      */
     public function getDataPath(): string {
-        return $this->plugin->getDataFolder() . 'data/'. strtolower($this->playerName) . '.yml';
+        return $this->plugin->getDataFolder() . 'data' . DIRECTORY_SEPARATOR . strtolower($this->playerName) . '.yml';
     }
     
     /**
@@ -245,7 +245,7 @@ class FlightData {
      * @return bool
      */
     public function checkNew(): bool {
-        if (!$this->getFlightState() && !$this->getPurchased() && !$this->getTempToggle()) {
+        if ((!$this->getFlightState() || $this->getFlightState() === "~") && (!$this->getPurchased() || $this->getPurchased() === "~") && (!$this->getTempToggle() || $this->getTempToggle() === "")) {
             return true;
         }
         return false;
