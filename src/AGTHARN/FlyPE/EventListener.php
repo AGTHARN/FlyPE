@@ -132,7 +132,7 @@ class EventListener implements Listener {
                 }
                 $playerData->setFlightState(false);
             }
-            if ($playerData->checkNew()) {
+            if (file_exists($playerData->getDataPath()) && $playerData->checkNew()) {
                 unlink($playerData->getDataPath());
             }
             $playerData->saveData();

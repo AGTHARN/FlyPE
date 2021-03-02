@@ -222,7 +222,7 @@ class FlightData {
      * @return void
      */
     public function resetDataTime(): void {
-        $this->time = $this->setTime;
+        $this->time = time() + $this->setTime;
     }
             
     /**

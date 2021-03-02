@@ -30,7 +30,6 @@ namespace AGTHARN\FlyPE\tasks;
 
 use pocketmine\scheduler\Task;
 
-use AGTHARN\FlyPE\data\FlightData;
 use AGTHARN\FlyPE\util\Util;
 use AGTHARN\FlyPE\Main;
 
@@ -49,13 +48,6 @@ class FlightDataTask extends Task {
      * @var Util
      */
     private $util;
-    
-    /**
-     * playerData
-     *
-     * @var array
-     */
-    private $playerData = [];
         
     /**
      * __construct
@@ -77,14 +69,10 @@ class FlightDataTask extends Task {
      */
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            $this->playerData[$player->getId()] = new FlightData($this->plugin, $this->util, $player->getName(), 0);
+            $playerData = $this->util->getFlightData($player, 0);
 
-            if (isset($this->playerData[$player->getId()]) && $this->playerData[$player->getId()]->getTempToggle() && $player->getAllowFlight() && !$this->util->checkGamemodeCreative($player)) {
-                $playerData = $this->playerData[$player->getId()];
-                $playerData->decreaseTime();
-                $playerData->saveData();
-
-                if ($playerData->getDataTime() < 0) {
+            if ($playerData->getDataTime() < time()) {
+                if ($playerData->getTempToggle() && $player->getAllowFlight() && !$this->util->checkGamemodeCreative($player)) {
                     $this->util->toggleFlight($player, 0, true);
                     $playerData->setTempToggle(false);
                     $playerData->resetDataTime();
