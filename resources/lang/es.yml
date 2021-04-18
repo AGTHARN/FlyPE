@@ -29,11 +29,11 @@ player-can't-be-found: "¡No se pudo encontrar el jugador!"
 
 # El mensaje que recibe un jugador cuando intenta cambiar de vuelo para otros sin permiso.
 # {name} = Nombre del jugador
-cant-toggle-flight-others: "¡No tienes permiso para cambiar de vuelo para otros!"
+cant-toggle-flight-others: "¡No tienes permiso para cambiar el vuelo de otros!"
 
 # El mensaje que recibe un jugador cuando intenta cambiar de vuelo en un mundo restringido.
 # {world} = Nombre mundial del jugador
-flight-not-allowed: "¡Este mundo no permite elvuelo!"
+flight-not-allowed: "¡Este mundo no permite el vuelo!"
 
 # El mensaje que recibe un jugador cuando se muda a un mundo sin restricciones.
 # {world} = Nombre mundial del jugador
@@ -41,7 +41,7 @@ flight-is-allowed: "¡Este mundo permite el vuelo!"
 
 # El mensaje que recibe un jugador cuando intenta cambiar de vuelo en modo creativo.
 # {name} = Nombre del jugador
-disable-fly-creative: "¡No puede desactivar fly in creative!"
+disable-fly-creative: "¡No puede desactivar el vuelo en creativo!"
 
 # El mensaje que recibe un jugador cuando ataca a otro jugador.
 # {name} = Nombre del jugador
@@ -55,7 +55,7 @@ not-enough-money: "¡No tienes suficiente dinero!"
 # El mensaje que recibe un jugador cuando ha comprado un vuelo con éxito.
 # {name} = Nombre del jugador
 # {cost} = costo de vuelo
-buy-fly-successful: "¡Compra exitosa de fly!"
+buy-fly-successful: "¡Compra exitosa de vuelo!"
 
 # El mensaje que recibe un jugador cuando intenta usar el cupón de vuelo mientras el vuelo está activado.
 # {name} = Nombre del jugador
@@ -64,14 +64,14 @@ cant-use-coupon: "¡No se puede usar el cupón! Vuelva a ejecutar el comando fly
 # El mensaje que recibe un jugador cuando intenta usar el cupón de vuelo mientras está en enfriamiento.
 # {name} = Nombre del jugador
 # {seconds} = Número de segundos
-currently-on-cooldown: "¡Actualmente estás en enfriamiento! Espera {seconds} segundo (s)."
+currently-on-cooldown: "¡Actualmente estás en enfriamiento! Espera {seconds} segundos."
 
 # El mensaje que recibe un jugador cuando da un argumento inválido para el comando de vuelo temporal.
 # {name} = Nombre del 
-invalid-temp-argument: "Invalid argument. Please state the right number of seconds as numbers."
+invalid-temp-argument: "Argumento no válido. Indique la cantidad correcta de segundos como números."
 
 # El mensaje que recibe un jugador cuando el tiempo de vuelo está desactivado y el jugador intenta establecer un vuelo temporal en alguien.
 # {name} = Nombre del
-temp-fly-config-disabled: "Temporal Flight está actualmente desactivado. Comuníquese con su administrador si se trata de un error."
+temp-fly-config-disabled: "El vuelo temporal está actualmente desactivado. Comuníquese con su administrador si se trata de un error."
 
 ####################
