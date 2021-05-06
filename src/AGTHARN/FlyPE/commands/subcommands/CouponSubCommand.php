@@ -138,7 +138,7 @@ class CouponSubCommand extends BaseSubCommand {
                 }
     
                 if (!$sender->hasPermission('flype.command.coupon')) {
-                    $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('no-permission')));
+                    $sender->sendMessage(C::RED . str_replace('{name}', $sender, Main::PREFIX . $this->util->messages->get('no-permission')));
                     return;
                 }
     

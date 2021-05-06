@@ -244,7 +244,7 @@ class Util /** aka api */ {
             }
             if ($this->plugin->getConfig()->get('time-fly') && $temp) {
                 if (!$this->plugin->getConfig()->get('time-fly')) {
-                    $player->sendMessage(C::RED . str_replace('{name}', $player, Main::PREFIX . $this->util->messages->get('temp-fly-config-disabled')));
+                    $player->sendMessage(C::RED . str_replace('{name}', $player, Main::PREFIX . $this->messages->get('temp-fly-config-disabled')));
                     return false;
                 }
 
@@ -285,10 +285,9 @@ class Util /** aka api */ {
      */
     public function getCouponItem(string $type = 'norm', int $count = 1, Player $player = null, int $cost = null, int $time = 0): Item {
         if (!$this->plugin->getConfig()->get('enable-coupon')) {
-            $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . $this->util->messages->get('coupon-config-disabled')));
+            $player->sendMessage(C::RED . str_replace('{name}', $player->getName(), Main::PREFIX . $this->messages->get('coupon-config-disabled')));
             return Item::get(0);
         }
-
         if ($player === null) {
             return Item::get(0);
         }
@@ -306,6 +305,7 @@ class Util /** aka api */ {
                 $item->setCount($count);
                 return $item;
         }
+        return Item::get(0);
     }
     
     /**
