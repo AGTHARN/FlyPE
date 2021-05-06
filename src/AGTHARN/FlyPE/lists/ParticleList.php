@@ -69,7 +69,7 @@ class ParticleList {
      * @return void|object|mixed
      */
     public function getParticle(string $particleName = 'FlameParticle', Vector3 $playerPos, Block $block) {
-        switch (str_replace(' ', '', strtolower($particleName))):
+        switch(str_replace(' ', '', strtolower($particleName))) {
             case 'angryvillagerparticle':
             case 'angryvillager':
             case 'angry':
@@ -167,6 +167,6 @@ class ParticleList {
                 return new WaterDripParticle($playerPos);
             default:
                 return new FlameParticle($playerPos);
-        endswitch;
+        }
     }
 }

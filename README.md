@@ -1,22 +1,22 @@
 # FlyPE [![HitCount](http://hits.dwyl.com/AGTHARN/FlyPE/master.svg)](http://hits.dwyl.com/AGTHARN/FlyPE/master) [![GitHub license](https://img.shields.io/github/license/AGTHARN/FlyPE)](https://github.com/AGTHARN/FlyPE/blob/master/LICENSE) [![](https://poggit.pmmp.io/shield.state/FlyPE)](https://poggit.pmmp.io/p/FlyPE)
 ![flypeicon](https://user-images.githubusercontent.com/63234276/83245243-0b6bb180-a1d3-11ea-9a01-3eb2fcb60115.jpg)
 
-![Latest version](https://img.shields.io/badge/Version-v4.0.2-orange?style=for-the-badge)
+![Latest version](https://img.shields.io/badge/Version-v4.1.0-orange?style=for-the-badge)
 
-[FlyPE](https://poggit.pmmp.io/p/FlyPE/4.0.2) is a fly plugin for PocketMine that allows you to fly in survival mode when you run the fly command! There are many different features in the plugin that makes it special, and you should check them out!
+Time to abandon BlazinFly and move to a better alternative! [FlyPE](https://poggit.pmmp.io/p/FlyPE/4.1.0) is probably the best fly plugin for PocketMine-MP that is featured packed with multiple commands that allows you to experiment with flying in survival mode! There are many different features in this plugin that makes it special, and you should check them out! We even have the most requested feature, temporal flight!
 
-This plugin would be useful for big or skyblock servers that would not like players to use fly in PVP zones or the hub. And if you would like players to pay for toggling flight, there's an option for that!
+This plugin would be useful for big or skyblock servers that would not like players to use fly in PvP zones or the hub. And if you would like players to pay for toggling flight, there's an option for that!
 
-This plugin is in English and there are even customizable messages for those that want to use other languages. And there are also fly settings to prevent players from doing different actions while in flight mode.
+This plugin is in English and there are even customizable preset messages for those that want to use other languages. And there are also fly settings to prevent players from doing different actions while in flight mode.
 
 Thanks to the Contributors for helping FlyPE!
 
-Note: If you are updating from v2 to v3, please delete your old configuration or update it.
+Note: If you are updating to any major version changes, for example, from v2 to v3, please delete your old configuration or update it.
 
 ### Installation
 If you are new and need help with installing the plugin, here's a step-by-step guide on how to do that!
 
-1. Download the [latest phar](https://poggit.pmmp.io/p/FlyPE/4.0.2) by pressing on **Direct Download** on the top left corner of your screen. Make sure you have chosen the latest version before that.
+1. Download the [latest phar](https://poggit.pmmp.io/p/FlyPE/4.1.0) by pressing on **Direct Download** on the top left corner of your screen. Make sure you have chosen the latest version before that.
 2. Open your server's plugins folder and put the phar into your server's plugins folder. Make sure to also check if you're putting it into the right server. 
 3. Ensure you have the permission to use the fly command, restart your server and type the command, /fly ingame to toggle flight!
 
@@ -27,6 +27,7 @@ These are the list of features in FlyPE. If you have any suggestions for the plu
 
 - [✔️] Blacklist/Whitelist Worlds
 - [✔️] Multiple Flight Rules/Permissions
+- [✔️] 
 - [✔️] No Creative Toggling
 - [✔️] Toggling Flight For Others
 - [✔️] Flight UI
@@ -84,10 +85,10 @@ You can find the config file for v2.0.0, v2.0.1, v2.0.2, v2.0.3 [here](https://p
 You can find the config file for v3.3.2, v3.3.3, v3.3.4, v3.7.0, v3.8.3 [here](https://pastebin.com/raw/82znpD4P)!
 
 + ![Config v4](https://img.shields.io/badge/Config-v4-orange?style=for-the-badge)
-You can find the config file for v4.0.2 [here](https://raw.githubusercontent.com/AGTHARN/FlyPE/master/resources/config.yml)!
+You can find the config file for v4.0.2, v4.1.0 [here](https://raw.githubusercontent.com/AGTHARN/FlyPE/master/resources/config.yml)!
 
 ### Plugin Info
 + Name: FlyPE
 + Author: AGTHARN
-+ Version: 4.0.2
++ Version: 4.1.0
 + Api: 3.0.0

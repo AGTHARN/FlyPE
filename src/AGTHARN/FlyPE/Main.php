@@ -43,7 +43,7 @@ class Main extends PluginBase {
      * 
      * @var Util
      */
-    private $util;
+    protected $util;
 
     public const PREFIX = C::GRAY . "[" . C::GOLD . "FlyPE". C::GRAY . "] " . C::RESET;
     
@@ -69,5 +69,6 @@ class Main extends PluginBase {
         ConfigUpdater::checkUpdate($this, $this->getConfig(), 'config-version', (int)self::CONFIG_VERSION);
 
         $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, $this->util, 'fly', 'Toggles your flight!'));
+        $this->util->checkLanguageFiles();
     }
 }

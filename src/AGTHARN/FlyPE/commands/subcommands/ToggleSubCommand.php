@@ -45,7 +45,7 @@ class ToggleSubCommand extends BaseSubCommand {
      *
      * @var Main
      */
-    private $plugin;
+    protected $plugin;
 
     /**
      * util
@@ -68,7 +68,7 @@ class ToggleSubCommand extends BaseSubCommand {
         $this->plugin = $plugin;
         $this->util = $util;
         
-        parent::__construct($name, $description, $aliases);
+        parent::__construct($plugin, $name, $description, $aliases);
     }
     
     /**
@@ -102,13 +102,13 @@ class ToggleSubCommand extends BaseSubCommand {
             $targetName = $target->getName();
 
             if (!$sender->hasPermission('flype.command.others')) {
-                $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('cant-toggle-flight-others')));
+                $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('no-permission')));
                 return;
             }
                 
             if ($this->util->doLevelChecks($target)) {
                 if ($this->util->toggleFlight($target)) {
-                    if ($target->getAllowFlight()) {
+                    if ($target->isFlying()) {
                         $sender->sendMessage(C::GREEN . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-on')));
                     } else {
                         $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-off')));

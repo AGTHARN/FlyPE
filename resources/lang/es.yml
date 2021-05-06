@@ -27,10 +27,6 @@ flight-for-other-off: "¡Se ha desactivado el vuelo de {name}!"
 # {name} = Nombre del jugador
 player-can't-be-found: "¡No se pudo encontrar el jugador!"
 
-# El mensaje que recibe un jugador cuando intenta cambiar de vuelo para otros sin permiso.
-# {name} = Nombre del jugador
-cant-toggle-flight-others: "¡No tienes permiso para cambiar de vuelo para otros!"
-
 # El mensaje que recibe un jugador cuando intenta cambiar de vuelo en un mundo restringido.
 # {world} = Nombre mundial del jugador
 flight-not-allowed: "¡Este mundo no permite elvuelo!"
@@ -74,4 +70,17 @@ invalid-temp-argument: "Invalid argument. Please state the right number of secon
 # {name} = Nombre del
 temp-fly-config-disabled: "Temporal Flight está actualmente desactivado. Comuníquese con su administrador si se trata de un error."
 
+# The message a player gets when enable-coupon is disabled and the player tries to get a coupon.
+# {name} = Player's Name
+coupon-config-disabled: "Coupons are not enabled! Please contact your administrator if this is an error."
+
+# The message a player gets when they provide an invalid type of coupon.
+# {name} = Player's Name
+invalid-coupon-type: "Invalid Coupon type!"
+
+# The message a player gets when they do not have permissions to run a command.
+# {name} = Player's Name
+no-permission: "You do not have the permission to run this command!"
+
 ####################
+lang-version: 1

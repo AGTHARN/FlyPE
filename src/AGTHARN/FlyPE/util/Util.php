@@ -50,27 +50,15 @@ use jojoe77777\FormAPI\SimpleForm;
 use onebone\economyapi\EconomyAPI;
 use CortexPE\Commando\PacketHooker;
 
-class Util {
+class Util /** aka api */ { 
         
-    /**
-     * plugin
-     *
-     * @var Main
-     */
-    private $plugin;
+    /** @var Main */
+    protected $plugin;
 
-    /**
-     * cooldownArray
-     *
-     * @var array
-     */
+    /** @var array */
     private $cooldownArray = [];
     
-    /**
-     * messages
-     *
-     * @var mixed
-     */
+    /** @var mixed */
     public $messages;
     
     /**
@@ -83,7 +71,7 @@ class Util {
         $this->plugin = $plugin;
 
         $this->plugin->saveResource( 'lang/' . $this->plugin->getConfig()->get('lang') . '.yml');
-        $this->messages = new Config($this->plugin->getDataFolder() . 'lang/' . $this->plugin->getConfig()->get('lang') . '.yml', Config::YAML);
+        $this->messages = new Config($this->plugin->getDataFolder() . 'lang/' . $this->plugin->getConfig()->get('lang') . '.yml', Config::YAML) ?? new Config($this->plugin->getDataFolder() . 'lang' . DIRECTORY_SEPARATOR . 'en_US.yml', Config::YAML);
     }
     
     /**
@@ -97,7 +85,7 @@ class Util {
             
         if ($data === null) return;
             
-        switch ($data) {
+        switch($data) {
             case 0:
                 $cost = $this->plugin->getConfig()->get('buy-fly-cost');
                 $name = $player->getName();
@@ -108,7 +96,7 @@ class Util {
                         $player->sendMessage(C::RED . str_replace('{cost}', $cost, str_replace('{name}', $name, Main::PREFIX . $this->messages->get('not-enough-money'))));
                         return;
                     }
-                    if (!$player->getAllowFlight()) {
+                    if (!$player->isFlying()) {
                         if ($this->doLevelChecks($player)) {
                             $this->toggleFlight($player);
                             
@@ -124,16 +112,16 @@ class Util {
                         return;
                     }
 
-                    if ($this->doLevelChecks($player) && $player->getAllowFlight()) {
+                    if ($this->doLevelChecks($player) && $player->isFlying()) {
                         $this->toggleFlight($player);
                     }
                     return;
                 }
                 $this->toggleFlight($player);
-            break;
+                break;
             case 1:
                 // exit button
-            break;
+                break;
         }
         });
         
@@ -176,7 +164,7 @@ class Util {
         $levelName = $player->getLevel()->getName();
         $name = $player->getName();
 
-        if ($this->checkGamemodeCreative($player) && $player->getAllowFlight() && !$this->plugin->getConfig()->get('allow-toggle-flight-gmc')) {
+        if ($this->checkGamemodeCreative($player) && $player->isFlying() && !$this->plugin->getConfig()->get('allow-toggle-flight-gmc')) {
             $player->sendMessage(C::RED . str_replace('{name}', $name, Main::PREFIX . $this->messages->get('disable-fly-creative')));
             return false;
         }
@@ -195,12 +183,12 @@ class Util {
      * doTargetLevelCheck
      *
      * @param  Player $entity
-     * @param  String $targetLevel
+     * @param  string $targetLevel
      * @return bool
      */
-    public function doTargetLevelCheck(Player $entity, String $targetLevel): bool {
+    public function doTargetLevelCheck(Player $entity, string $targetLevel): bool {
         // returns false if not allowed
-        if (($this->plugin->getConfig()->get('mode') === 'blacklist' && in_array($targetLevel, $this->plugin->getConfig()->get('blacklisted-worlds')) || $this->plugin->getConfig()->get('mode') === 'whitelist' && !in_array($targetLevel, $this->plugin->getConfig()->get('whitelisted-worlds'))) && $entity->getAllowFlight()) {
+        if (($this->plugin->getConfig()->get('mode') === 'blacklist' && in_array($targetLevel, $this->plugin->getConfig()->get('blacklisted-worlds')) || $this->plugin->getConfig()->get('mode') === 'whitelist' && !in_array($targetLevel, $this->plugin->getConfig()->get('whitelisted-worlds'))) && $entity->isFlying()) {
             return false;
         }
         return true;
@@ -210,30 +198,34 @@ class Util {
      * toggleFlight
      *
      * @param  Player $player
+     * @param  int $time
+     * @param  bool $overwrite
+     * @param  bool $temp
      * @return bool
      */
     public function toggleFlight(Player $player, int $time = 0, bool $overwrite = false, bool $temp = false): bool {
         $name = $player->getName();
         $playerData = $this->getFlightData($player, $time);
         
-        if (isset($this->cooldownArray[$name])) {
-            if (time() < $this->cooldownArray[$name] && !$overwrite) {
-                if ($this->plugin->getConfig()->get('send-cooldown-message')) {
-                    $player->sendMessage(C::RED . str_replace('{seconds}', $this->cooldownArray[$name] - time(), str_replace('{name}', $player->getName(), Main::PREFIX . $this->messages->get('currently-on-cooldown'))));
-                }
-                return false;
+        if ($this->checkCooldown($player, $overwrite)) {
+            if ($this->plugin->getConfig()->get('send-cooldown-message')) {
+                $player->sendMessage(C::RED . str_replace('{seconds}', $this->cooldownArray[$name] - time(), str_replace('{name}', $player->getName(), Main::PREFIX . $this->messages->get('currently-on-cooldown'))));
             }
-            unset($this->cooldownArray[$name]);
+            return false;
         }
+        unset($this->cooldownArray[$name]);
 
-        if ($player->getAllowFlight()) {
+        if ($player->isFlying()) {
             $player->setAllowFlight(false);
             $player->setFlying(false);
-            if ($this->plugin->getConfig()->get('save-flight-state')) {
-                $playerData->setFlightState(false);
+            if (is_file($playerData->getDataPath())) {
+                if ($this->plugin->getConfig()->get('save-flight-state')) {
+                    $playerData->setFlightState(false);
+                }
+                $playerData->setTempToggle(false);
             }
             $player->sendMessage(C::RED . str_replace('{name}', $name, Main::PREFIX . $this->messages->get('toggled-flight-off')));
-    
+            
             if ($this->plugin->getConfig()->get('enable-fly-sound')) {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get('fly-disabled-sound'), new Vector3($player->x, $player->y, $player->z)));
             }
@@ -241,7 +233,9 @@ class Util {
             $player->setAllowFlight(true);
             $player->setFlying(true);
             if ($this->plugin->getConfig()->get('save-flight-state')) {
-                $playerData->setFlightState(true);
+                if (is_file($playerData->getDataPath())) {
+                    $playerData->setFlightState(true);
+                }
             }
             $player->sendMessage(C::GREEN . str_replace('{name}', $name, Main::PREFIX . $this->messages->get('toggled-flight-on')));
     
@@ -249,9 +243,14 @@ class Util {
                 $player->getLevel()->addSound($this->getSoundList()->getSound($this->plugin->getConfig()->get('fly-enabled-sound'), new Vector3($player->x, $player->y, $player->z)));
             }
             if ($this->plugin->getConfig()->get('time-fly') && $temp) {
+                if (!$this->plugin->getConfig()->get('time-fly')) {
+                    $player->sendMessage(C::RED . str_replace('{name}', $player, Main::PREFIX . $this->util->messages->get('temp-fly-config-disabled')));
+                    return false;
+                }
+
                 if (is_file($playerData->getDataPath())) {
-                    $playerData->setTempToggle(true);
                     $playerData->resetDataTime();
+                    $playerData->setTempToggle(true);
                 }
             }
         }
@@ -259,33 +258,54 @@ class Util {
         $playerData->saveData();
         return true;
     }
-    
+        
     /**
      * checkCooldown
      *
      * @param  Player $player
+     * @param  bool $overwrite
      * @return bool
      */
-    public function checkCooldown(Player $player): bool {
-        $data = $this->getFlightData($player, 0);
-
-        if (isset($data->cooldownArray[$player->getName()]) && time() < $data->cooldownArray[$player->getName()]) {
-            return false;
+    public function checkCooldown(Player $player, bool $overwrite): bool {
+        if (isset($this->cooldownArray[$player->getName()]) && time() < $this->cooldownArray[$player->getName()] && !$overwrite) {
+            return true;
         }
-        return true;
+        return false;
     }
-
+    
     /**
      * getCouponItem
      *
+     * @param  string $type
+     * @param  int $count
+     * @param  Player $player
+     * @param  int $cost
+     * @param  int $time
      * @return Item
      */
-    public function getCouponItem(): Item {
+    public function getCouponItem(string $type = 'norm', int $count = 1, Player $player = null, int $cost = null, int $time = 0): Item {
+        if (!$this->plugin->getConfig()->get('enable-coupon')) {
+            $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . $this->util->messages->get('coupon-config-disabled')));
+            return Item::get(0);
+        }
+
+        if ($player === null) {
+            return Item::get(0);
+        }
         $item = Item::get($this->plugin->getConfig()->get('coupon-item-id'));
 
-        $item->setCustomName(str_replace('&', '§', $this->plugin->getConfig()->get('coupon-name')));
-        $item->setNamedTagEntry(new StringTag('coupon', 'default'));
-        return $item;
+        switch($type) {
+            case 'norm':
+                $item->setCustomName(str_replace('&', '§', $this->plugin->getConfig()->get('coupon-name')));
+                $item->setNamedTagEntry(new StringTag('default', ''));
+                $item->setCount($count);
+                return $item;
+            case 'temp':
+                $item->setCustomName(str_replace('&', '§', $this->plugin->getConfig()->get('coupon-name')));
+                $item->setNamedTagEntry(new StringTag('temporal', (string)$time)); 
+                $item->setCount($count);
+                return $item;
+        }
     }
     
     /**
@@ -398,6 +418,18 @@ class Util {
     public function registerPacketHooker(): void {
         if(!PacketHooker::isRegistered()) {
             PacketHooker::register($this->plugin);
+        }
+    }
+    
+    /**
+     * checkLanguageFiles
+     *
+     * @return void
+     */
+    public function checkLanguageFiles(): void {
+        if ($this->messages->get('lang-version') < 1) {
+            $this->plugin->saveResource('lang/' . $this->plugin->getConfig()->get('lang') . '.yml');
+            $this->messages = new Config($this->plugin->getDataFolder() . 'lang/' . $this->plugin->getConfig()->get('lang') . '.yml', Config::YAML);
         }
     }
     

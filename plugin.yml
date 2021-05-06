@@ -1,7 +1,7 @@
 main: AGTHARN\FlyPE\Main
 name: FlyPE
 author: AGTHARN
-version: 4.0.2
+version: 4.1.0
 api: 3.0.0
 
 softdepend:
@@ -17,7 +17,9 @@ permissions:
     default: true
   flype.command.others:
     default: op
-  flype.tempfly:
+  flype.command.tempfly:
+    default: op
+  flype.command.coupon:
     default: op
   flype.particles:
     default: op
