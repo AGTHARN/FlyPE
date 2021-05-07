@@ -119,7 +119,7 @@ class TempFlightSubCommand extends BaseSubCommand {
                 if ($this->util->doLevelChecks($target)) {
                     $this->util->toggleFlight($target, $time, false, true);
 
-                    if ($target->isFlying()) {
+                    if ($target->getAllowFlight()) {
                         $sender->sendMessage(C::GREEN . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-on')));
                     } else {
                         $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-off')));

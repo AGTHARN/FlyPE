@@ -96,7 +96,7 @@ class Util /** aka api */ {
                         $player->sendMessage(C::RED . str_replace('{cost}', $cost, str_replace('{name}', $name, Main::PREFIX . $this->messages->get('not-enough-money'))));
                         return;
                     }
-                    if (!$player->isFlying()) {
+                    if (!$player->getAllowFlight()) {
                         if ($this->doLevelChecks($player)) {
                             $this->toggleFlight($player);
                             
@@ -112,7 +112,7 @@ class Util /** aka api */ {
                         return;
                     }
 
-                    if ($this->doLevelChecks($player) && $player->isFlying()) {
+                    if ($this->doLevelChecks($player) && $player->getAllowFlight()) {
                         $this->toggleFlight($player);
                     }
                     return;
@@ -164,7 +164,7 @@ class Util /** aka api */ {
         $levelName = $player->getLevel()->getName();
         $name = $player->getName();
 
-        if ($this->checkGamemodeCreative($player) && $player->isFlying() && !$this->plugin->getConfig()->get('allow-toggle-flight-gmc')) {
+        if ($this->checkGamemodeCreative($player) && $player->getAllowFlight() && !$this->plugin->getConfig()->get('allow-toggle-flight-gmc')) {
             $player->sendMessage(C::RED . str_replace('{name}', $name, Main::PREFIX . $this->messages->get('disable-fly-creative')));
             return false;
         }
@@ -188,7 +188,7 @@ class Util /** aka api */ {
      */
     public function doTargetLevelCheck(Player $entity, string $targetLevel): bool {
         // returns false if not allowed
-        if (($this->plugin->getConfig()->get('mode') === 'blacklist' && in_array($targetLevel, $this->plugin->getConfig()->get('blacklisted-worlds')) || $this->plugin->getConfig()->get('mode') === 'whitelist' && !in_array($targetLevel, $this->plugin->getConfig()->get('whitelisted-worlds'))) && $entity->isFlying()) {
+        if (($this->plugin->getConfig()->get('mode') === 'blacklist' && in_array($targetLevel, $this->plugin->getConfig()->get('blacklisted-worlds')) || $this->plugin->getConfig()->get('mode') === 'whitelist' && !in_array($targetLevel, $this->plugin->getConfig()->get('whitelisted-worlds'))) && $entity->getAllowFlight()) {
             return false;
         }
         return true;
@@ -215,7 +215,7 @@ class Util /** aka api */ {
         }
         unset($this->cooldownArray[$name]);
 
-        if ($player->isFlying()) {
+        if ($player->getAllowFlight()) {
             $player->setAllowFlight(false);
             $player->setFlying(false);
             if (is_file($playerData->getDataPath())) {

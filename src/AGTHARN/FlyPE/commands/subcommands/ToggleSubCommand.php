@@ -108,7 +108,7 @@ class ToggleSubCommand extends BaseSubCommand {
                 
             if ($this->util->doLevelChecks($target)) {
                 if ($this->util->toggleFlight($target)) {
-                    if ($target->isFlying()) {
+                    if ($target->getAllowFlight()) {
                         $sender->sendMessage(C::GREEN . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-on')));
                     } else {
                         $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-off')));

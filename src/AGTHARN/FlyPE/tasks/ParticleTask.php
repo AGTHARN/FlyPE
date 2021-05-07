@@ -83,7 +83,7 @@ class ParticleTask extends Task {
             if ($this->vanishv2 !== null && $this->plugin->getConfig()->get('vanishv2-support') && in_array($player->getName(), $this->vanishv2::$vanish)) return;
             if ($this->simplelay !== null && $this->plugin->getConfig()->get('simplelay-support') && ($this->simplelay->isLaying($player) || $this->simplelay->isSitting($player))) return;
 
-            if ($player->isFlying() && $player->isFlying() && $player->hasPermission('flype.particles')) {
+            if ($player->getAllowFlight() && $player->getAllowFlight() && $player->hasPermission('flype.particles')) {
                 $player->getLevel()->addParticle($this->util->getParticleList()->getParticle($this->plugin->getConfig()->get('fly-particle-type'), new Vector3($player->x, $player->y, $player->z), Block::get($this->plugin->getConfig()->get('particle-block-id')) ?? Block::get(1)));
             }
         }

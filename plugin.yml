@@ -1,7 +1,7 @@
 main: AGTHARN\FlyPE\Main
 name: FlyPE
 author: AGTHARN
-version: 4.1.0
+version: 4.1.1
 api: 3.0.0
 
 softdepend:
@@ -27,5 +27,5 @@ permissions:
     default: op
   flype.flightspeed:
     default: op
-  flype.command.bypass:
+  flype.bypass:
     default: false

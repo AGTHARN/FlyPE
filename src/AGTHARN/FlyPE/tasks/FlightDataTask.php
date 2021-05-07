@@ -72,7 +72,7 @@ class FlightDataTask extends Task {
             $playerData = $this->util->getFlightData($player, 0);
 
             if ($playerData->getDataTime() < time()) {
-                if ($playerData->getTempToggle() && $player->isFlying() && !$this->util->checkGamemodeCreative($player)) {
+                if ($playerData->getTempToggle() && $player->getAllowFlight() && !$this->util->checkGamemodeCreative($player)) {
                     $this->util->toggleFlight($player, 0, true);
                     $playerData->setTempToggle(false);
                     $playerData->resetDataTime();
