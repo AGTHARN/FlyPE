@@ -40,14 +40,14 @@ class FlightDataTask extends Task {
      * 
      * @var Main
      */
-    private $plugin;
+    protected $plugin;
 
     /**
      * util
      * 
      * @var Util
      */
-    private $util;
+    protected $util;
         
     /**
      * __construct

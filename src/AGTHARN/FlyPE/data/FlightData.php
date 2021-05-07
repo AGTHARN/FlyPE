@@ -38,14 +38,14 @@ class FlightData {
      * 
      * @var Main
      */
-    private $plugin;
+    protected $plugin;
 
     /**
      * util
      * 
      * @var Util
      */
-    private $util;
+    protected $util;
     
     /**
      * playerName
@@ -245,7 +245,7 @@ class FlightData {
      * @return bool
      */
     public function checkNew(): bool {
-        if ((!$this->getFlightState() || $this->getFlightState() === "~") && (!$this->getPurchased() || $this->getPurchased() === "~") && (!$this->getTempToggle() || $this->getTempToggle() === "")) {
+        if ((!$this->getFlightState() || $this->getFlightState() === '~') && (!$this->getPurchased() || $this->getPurchased() === '~') && (!$this->getTempToggle() || $this->getTempToggle() === '')) {
             return true;
         }
         return false;

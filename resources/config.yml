@@ -8,7 +8,7 @@
 
 # Thanks for using FlyPE! All permissions are stated on our page on
 # poggit or github! If you have any issues, feel free to let me know at
-# https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/bGKEJTKPZc!
+# https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/bGKEJTKPZc !
 
 ##### VERSION #####
 
@@ -200,13 +200,13 @@ fly-effect-check-rate: 20
 # If set to true, players that are hidden from VanishV2 will NOT show the particles and effects.
 # If set to false, particles and effects will always show.
 #
-# VERSION SUPPORTED: 1.15
+# VERSION SUPPORTED: 1.18
 vanishv2-support: true
 
 # If set to true, effects and particles underneath will be removed.
 # If set to false, effects and particles underneath are shown.
 #
-# VERSION SUPPORTED: 2.1.0
+# VERSION SUPPORTED: 2.1.3
 simplelay-support: true
 
 ########################
@@ -215,8 +215,8 @@ simplelay-support: true
 ##### FLIGHT COUPON #####
 
 # If set to true, players will be able to use the flight coupon.
-# If set to true, players will NOT be able to use the flight coupon.
-enable-coupon: false
+# If set to false, players will NOT be able to use the flight coupon.
+enable-coupon: true
 
 # The item texture of the flight coupon. (only applies to newer coupons)
 coupon-item-id: 339
@@ -305,7 +305,7 @@ fly-disabled-sound: "PopSound"
 
 # If set to true, players that toggle flight using the tempflight subcommand will be timed.
 # If set to false, players that toggle flight using the tempflight subcommand will NOT be timed.
-time-fly: false
+time-fly: true
 
 ########################
 

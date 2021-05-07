@@ -26,10 +26,6 @@ flight-for-other-off: "Flight for {name} has been toggled off!"
 # The message a player gets when the player stated could NOT be found.
 # {name} = Player's Name
 player-cant-be-found: "Player could not be found!"
-
-# The message a player gets when they try to toggle flight for others without permission.
-# {name} = Player's Name
-cant-toggle-flight-others: "You do not have permission to toggle flight for others!"
  
 # The message a player gets when they try to toggle on flight in a restricted world.
 # {world} = Player's World Name
@@ -72,6 +68,19 @@ invalid-temp-argument: "Invalid argument. Please state the right number of secon
 
 # The message a player gets when time-fly is disabled and the player tries to set temp flight on someone.
 # {name} = Player's Name
-temp-fly-config-disabled: "Temporal Flight is currently turned off. Please contact your administrator if this is an error."
+temp-fly-config-disabled: "Temporal Flight is not enabled! Please contact your administrator if this is an error."
+
+# The message a player gets when enable-coupon is disabled and the player tries to get a coupon.
+# {name} = Player's Name
+coupon-config-disabled: "Coupons are not enabled! Please contact your administrator if this is an error."
+
+# The message a player gets when they provide an invalid type of coupon.
+# {name} = Player's Name
+invalid-coupon-type: "Invalid Coupon type!"
+
+# The message a player gets when they do not have permissions to run a command.
+# {name} = Player's Name
+no-permission: "You do not have the permission to run this command!"
 
 ####################
+lang-version: 1

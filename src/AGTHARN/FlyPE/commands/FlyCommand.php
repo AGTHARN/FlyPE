@@ -48,7 +48,7 @@ class FlyCommand extends BaseCommand {
      *
      * @var Main
      */
-    private $plugin;
+    protected $plugin;
 
     /**
      * util
@@ -103,7 +103,7 @@ class FlyCommand extends BaseCommand {
         }
 
         if (!$sender->hasPermission('flype.command')) {
-            $sender->sendMessage(C::RED . 'You do not have the permission to use this command!');
+            $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . $this->util->messages->get('no-permission')));
             return;
         }
 

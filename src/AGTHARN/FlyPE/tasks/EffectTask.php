@@ -42,7 +42,7 @@ class EffectTask extends Task {
      * 
      * @var Main
      */
-    private $plugin;
+    protected $plugin;
 
     private $vanishv2;
     
@@ -69,7 +69,7 @@ class EffectTask extends Task {
      */
     public function onRun(int $tick): void {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            if ($player->getAllowFlight() && $player->isFlying() && $player->hasPermission('flype.effects')) {
+            if ($player->getAllowFlight() && $player->getAllowFlight() && $player->hasPermission('flype.effects')) {
                 if (!$this->plugin->getConfig()->get('creative-mode-effects') && $player->getGamemode() === Player::CREATIVE) return;
 
                 if ($this->vanishv2 !== null && $this->plugin->getConfig()->get('vanishv2-support') && in_array($player->getName(), $this->vanishv2::$vanish)) return;

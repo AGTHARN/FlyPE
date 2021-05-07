@@ -36,6 +36,7 @@ use AGTHARN\FlyPE\util\Util;
 use AGTHARN\FlyPE\Main;
 
 use CortexPE\Commando\args\RawStringArgument;
+use CortexPE\Commando\args\IntegerArgument;
 use CortexPE\Commando\BaseSubCommand;
 
 class TempFlightSubCommand extends BaseSubCommand {
@@ -45,7 +46,7 @@ class TempFlightSubCommand extends BaseSubCommand {
      *
      * @var Main
      */
-    private $plugin;
+    protected $plugin;
 
     /**
      * util
@@ -68,7 +69,7 @@ class TempFlightSubCommand extends BaseSubCommand {
         $this->plugin = $plugin;
         $this->util = $util;
         
-        parent::__construct($name, $description, $aliases);
+        parent::__construct($plugin, $name, $description, $aliases);
     }
     
     /**
@@ -79,7 +80,7 @@ class TempFlightSubCommand extends BaseSubCommand {
     public function prepare(): void {
         $this->setPermission('flype.command.tempfly');
         $this->registerArgument(0, new RawStringArgument('player', true));
-        $this->registerArgument(1, new RawStringArgument('time', true));
+        $this->registerArgument(1, new IntegerArgument('time', true));
     }
     
     /**
@@ -91,10 +92,6 @@ class TempFlightSubCommand extends BaseSubCommand {
      * @return void
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
-        if (!$this->plugin->getConfig()->get('time-fly')) {
-            $sender->sendMessage(C::RED . 'Temporal Flight is not enabled!');
-        }
-
         if (isset($args['player'])) {
             $arg = $args['player'];
 
@@ -113,11 +110,11 @@ class TempFlightSubCommand extends BaseSubCommand {
                 }
 
                 if (!$sender->hasPermission('flype.command.tempfly')) {
-                    $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('cant-toggle-flight-others')));
+                    $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('no-permission')));
                     return;
                 }
 
-                $time = (int)$args['time'];
+                $time = $args['time'];
                 
                 if ($this->util->doLevelChecks($target)) {
                     $this->util->toggleFlight($target, $time, false, true);

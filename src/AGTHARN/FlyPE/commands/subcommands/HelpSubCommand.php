@@ -43,7 +43,7 @@ class HelpSubCommand extends BaseSubCommand {
      *
      * @var Main
      */
-    private $plugin;
+    protected $plugin;
 
     /**
      * util
@@ -66,7 +66,7 @@ class HelpSubCommand extends BaseSubCommand {
         $this->plugin = $plugin;
         $this->util = $util;
         
-        parent::__construct($name, $description, $aliases);
+        parent::__construct($plugin, $name, $description, $aliases);
     }
     
     /**
