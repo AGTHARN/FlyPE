@@ -1,7 +1,7 @@
 ##### es #####
 
 # NOTA: Agregar un color anulará el color predeterminado.
-# CRÉDITOS: ShurumbaPR
+# CRÉDITOS: ShurumbaPR, UnEnanoMas
 
 # El mensaje que recibe un jugador si joindisable-fly está configurado como verdadero yel jugador está volando.
 # {name} = Nombre del jugadoron
@@ -83,4 +83,4 @@ invalid-coupon-type: "Tipo de cupón no válido!"
 no-permission: "No tienes permiso para ejecutar este comando.!"
 
 ####################
-lang-version: 1
+lang-version: 2

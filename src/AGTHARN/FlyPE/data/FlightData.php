@@ -105,7 +105,7 @@ class FlightData {
         if (!is_file($this->getDataPath())) return;
         $this->checkKeys();
 
-        $data = yaml_parse_file($this->getDataPath());
+        $data = @yaml_parse_file($this->getDataPath());
 
         $this->tempFlight = $data['temp-toggle'];
         $this->time = $data['time'];
@@ -121,7 +121,8 @@ class FlightData {
      * @return void
      */
     public function checkKeys(): void {
-        $data = yaml_parse_file($this->getDataPath());
+        if (!is_file($this->getDataPath())) return;
+        $data = @yaml_parse_file($this->getDataPath());
 
         if (empty($data['temp-toggle'])) {
             $data['temp-toggle'] = false;
@@ -138,7 +139,7 @@ class FlightData {
         if (empty($data['flight-state'])) {
             $data['flight-state'] = false;
         }
-        yaml_emit_file($this->getDataPath(), $data);
+        @yaml_emit_file($this->getDataPath(), $data);
     }
     
     /**
@@ -231,7 +232,7 @@ class FlightData {
      * @return void
      */
     public function saveData(): void {
-        yaml_emit_file($this->getDataPath(), [
+        @yaml_emit_file($this->getDataPath(), [
             'temp-toggle' => $this->getTempToggle(),
             'time' => $this->getDataTime(),
             'purchased' => $this->getPurchased(),

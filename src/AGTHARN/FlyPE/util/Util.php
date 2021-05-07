@@ -405,9 +405,7 @@ class Util /** aka api */ {
      * @return void
      */
     public function addDataDir(): void {
-        if (!is_dir($this->plugin->getDataFolder() . 'data/')) {
-            mkdir($this->plugin->getDataFolder() . 'data');
-        }
+        @mkdir($this->plugin->getDataFolder() . 'data');
     }
     
     /**
@@ -427,7 +425,7 @@ class Util /** aka api */ {
      * @return void
      */
     public function checkLanguageFiles(): void {
-        if ($this->messages->get('lang-version') < 1) {
+        if ($this->messages->get('lang-version') < 2) {
             $this->plugin->saveResource('lang/' . $this->plugin->getConfig()->get('lang') . '.yml');
             $this->messages = new Config($this->plugin->getDataFolder() . 'lang/' . $this->plugin->getConfig()->get('lang') . '.yml', Config::YAML);
         }
