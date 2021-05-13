@@ -103,7 +103,7 @@ class FlyCommand extends BaseCommand {
         }
 
         if (!$sender->hasPermission('flype.command')) {
-            $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . $this->util->messages->get('no-permission')));
+            $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . C::colorize($this->util->messages->get('no-permission'))));
             return;
         }
 

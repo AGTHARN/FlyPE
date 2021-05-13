@@ -295,12 +295,12 @@ class Util /** aka api */ {
 
         switch($type) {
             case 'norm':
-                $item->setCustomName(str_replace('&', '§', $this->plugin->getConfig()->get('coupon-name')));
+                $item->setCustomName(C::colorize($this->plugin->getConfig()->get('coupon-name')) . ' (Normal)');
                 $item->setNamedTagEntry(new StringTag('default', ''));
                 $item->setCount($count);
                 return $item;
             case 'temp':
-                $item->setCustomName(str_replace('&', '§', $this->plugin->getConfig()->get('coupon-name')));
+                $item->setCustomName(C::colorize($this->plugin->getConfig()->get('coupon-name')) . ' (Temporal ' . (string)$time . 's)');
                 $item->setNamedTagEntry(new StringTag('temporal', (string)$time)); 
                 $item->setCount($count);
                 return $item;

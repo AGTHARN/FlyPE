@@ -100,12 +100,12 @@ class CouponSubCommand extends BaseSubCommand {
             if ($type === 'norm' || $type === 'temp') {
                 // nothing yet
             } else {
-                $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . $this->util->messages->get('invalid-coupon-type')));
+                $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . C::colorize($this->util->messages->get('invalid-coupon-type'))));
                 return;
             }
 
             if ($type === 'temp' && empty($args['time'])) {
-                $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . $this->util->messages->get('invalid-temp-argument')));
+                $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . C::colorize($this->util->messages->get('invalid-temp-argument'))));
                 return;
             }
 
@@ -114,7 +114,7 @@ class CouponSubCommand extends BaseSubCommand {
                 $count = $args['amount'] ?? 1;
     
                 if (!$this->plugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
-                    $sender->sendMessage(C::RED . str_replace('{name}', $arg, Main::PREFIX . $this->util->messages->get('player-cant-be-found')));
+                    $sender->sendMessage(C::RED . str_replace('{name}', $arg, Main::PREFIX . C::colorize($this->util->messages->get('player-cant-be-found'))));
                     return;
                 }
     
@@ -122,7 +122,7 @@ class CouponSubCommand extends BaseSubCommand {
                 $targetName = $target->getName();
     
                 if (!$sender->hasPermission('flype.command.coupon')) {
-                    $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('no-permission')));
+                    $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . C::colorize($this->util->messages->get('no-permission'))));
                     return;
                 }
                     
@@ -138,7 +138,7 @@ class CouponSubCommand extends BaseSubCommand {
                 }
     
                 if (!$sender->hasPermission('flype.command.coupon')) {
-                    $sender->sendMessage(C::RED . str_replace('{name}', $sender, Main::PREFIX . $this->util->messages->get('no-permission')));
+                    $sender->sendMessage(C::RED . str_replace('{name}', $sender, Main::PREFIX . C::colorize($this->util->messages->get('no-permission'))));
                     return;
                 }
     
@@ -147,7 +147,7 @@ class CouponSubCommand extends BaseSubCommand {
                 }
             }
         } else {
-            $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . $this->util->messages->get('invalid-coupon-type')));
+            $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . C::colorize($this->util->messages->get('invalid-coupon-type'))));
         }
     }
 }

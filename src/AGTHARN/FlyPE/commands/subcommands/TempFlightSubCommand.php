@@ -96,7 +96,7 @@ class TempFlightSubCommand extends BaseSubCommand {
             $arg = $args['player'];
 
             if (!$this->plugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
-                $sender->sendMessage(C::RED . str_replace('{name}', $arg, Main::PREFIX . $this->util->messages->get('player-cant-be-found')));
+                $sender->sendMessage(C::RED . str_replace('{name}', $arg, Main::PREFIX . C::colorize($this->util->messages->get('player-cant-be-found'))));
                 return;
             }
 
@@ -105,12 +105,12 @@ class TempFlightSubCommand extends BaseSubCommand {
                 $targetName = $target->getName();
 
                 if (!is_numeric($args['time'])) {
-                    $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('invalid-temp-argument')));
+                    $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . C::colorize($this->util->messages->get('invalid-temp-argument'))));
                     return;
                 }
 
                 if (!$sender->hasPermission('flype.command.tempfly')) {
-                    $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('no-permission')));
+                    $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . C::colorize($this->util->messages->get('no-permission'))));
                     return;
                 }
 
@@ -120,9 +120,9 @@ class TempFlightSubCommand extends BaseSubCommand {
                     $this->util->toggleFlight($target, $time, false, true);
 
                     if ($target->getAllowFlight()) {
-                        $sender->sendMessage(C::GREEN . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-on')));
+                        $sender->sendMessage(C::GREEN . str_replace('{name}', $targetName, Main::PREFIX . C::colorize($this->util->messages->get('flight-for-other-on'))));
                     } else {
-                        $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . $this->util->messages->get('flight-for-other-off')));
+                        $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . C::colorize($this->util->messages->get('flight-for-other-off'))));
                     }
                 }
             }
