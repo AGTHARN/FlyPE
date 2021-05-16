@@ -1,7 +1,7 @@
 main: AGTHARN\FlyPE\Main
 name: FlyPE
 author: AGTHARN
-version: 4.1.3
+version: 4.1.4
 api: 3.0.0
 
 softdepend:
