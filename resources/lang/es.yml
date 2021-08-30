@@ -1,21 +1,21 @@
 ##### es #####
 
 # NOTA: Agregar un color anulará el color predeterminado.
-# CRÉDITOS: ShurumbaPR, UnEnanoMas
+# CRÉDITOS: ShurumbaPR, MrBlasyMSK
 
 # El mensaje que recibe un jugador si joindisable-fly está configurado como verdadero yel jugador está volando.
-# {name} = Nombre del jugadoron
+# {name} = Nombre del jugador
 onjoin-flight-disabled: "¡Tu vuelo ha sido desactivado!"
 
 # El mensaje que recibe un jugador al cambiarde vuelo.
 # {name} = Nombre del jugador
-toggled-flight-on: "¡Activó su vuelo!"
+toggled-flight-on: "¡Has activado tu vuelo!"
 
 # El mensaje que recibe un jugador por cambiar de vuelo.
 # {name} = Nombre del jugador
-toggled-flight-off: "¡Ha desactivado su vuelo!"
+toggled-flight-off: "¡Has desactivado tu vuelo!"
 
-# El mensajeque recibe un jugador cuando cambia de vuelo para otros.
+# El mensaje que recibe un jugador cuando cambia de vuelo para otros.
 # {name} = Nombre del jugador
 flight-for-other-on: "¡Se ha activado el vuelo para {name}!"
 
@@ -25,7 +25,7 @@ flight-for-other-off: "¡Se ha desactivado el vuelo de {name}!"
 
 # El mensaje que recibe un jugador cuando el jugador indicado NO se pudo encontrar.
 # {name} = Nombre del jugador
-player-can't-be-found: "¡No se pudo encontrar el jugador!"
+player-can't-be-found: "¡No se pudo encontrar al jugador!"
 
 # El mensaje que recibe un jugador cuando intenta cambiar de vuelo en un mundo restringido.
 # {world} = Nombre mundial del jugador
@@ -37,7 +37,7 @@ flight-is-allowed: "¡Este mundo permite el vuelo!"
 
 # El mensaje que recibe un jugador cuando intenta cambiar de vuelo en modo creativo.
 # {name} = Nombre del jugador
-disable-fly-creative: "¡No puede desactivar el vuelo en creativo!"
+disable-fly-creative: "¡No puedes desactivar el vuelo en creativo!"
 
 # El mensaje que recibe un jugador cuando ataca a otro jugador.
 # {name} = Nombre del jugador
@@ -45,17 +45,17 @@ combat-fly-disable: "¡No puedes volar durante el combate!"
 
 # El mensaje que recibe un jugador cuando NO tiene suficiente dinero para cambiar de vuelo.
 # {name} = Nombre del jugador
-# {cost} = costo de vuelo
+# {cost} = Costo de vuelo
 not-enough-money: "¡No tienes suficiente dinero!"
 
 # El mensaje que recibe un jugador cuando ha comprado un vuelo con éxito.
 # {name} = Nombre del jugador
-# {cost} = costo de vuelo
+# {cost} = Costo de vuelo
 buy-fly-successful: "¡Compra exitosa de vuelo!"
 
 # El mensaje que recibe un jugador cuando intenta usar el cupón de vuelo mientras el vuelo está activado.
 # {name} = Nombre del jugador
-cant-use-coupon: "¡No se puede usar el cupón! Vuelva a ejecutar el comando fly para apagar el vuelo."
+cant-use-coupon: "¡No se puede usar el cupón! Vuelva a ejecutar el comando fly para desactivar el vuelo."
 
 # El mensaje que recibe un jugador cuando intenta usar el cupón de vuelo mientras está en enfriamiento.
 # {name} = Nombre del jugador
@@ -63,24 +63,24 @@ cant-use-coupon: "¡No se puede usar el cupón! Vuelva a ejecutar el comando fly
 currently-on-cooldown: "¡Actualmente estás en enfriamiento! Espera {seconds} segundos."
 
 # El mensaje que recibe un jugador cuando da un argumento inválido para el comando de vuelo temporal.
-# {name} = Nombre del 
+# {name} = Nombre del jugador
 invalid-temp-argument: "Argumento no válido. Indique la cantidad correcta de segundos como números."
 
 # El mensaje que recibe un jugador cuando el tiempo de vuelo está desactivado y el jugador intenta establecer un vuelo temporal en alguien.
-# {name} = Nombre del
+# {name} = Nombre del jugador
 temp-fly-config-disabled: "El vuelo temporal está actualmente desactivado. Comuníquese con su administrador si se trata de un error."
 
-# The message a player gets when enable-coupon is disabled and the player tries to get a coupon.
-# {name} = Player's Name
+# El mensaje que recibe un jugador cuando el cupón habilitado está desactivado y el jugador intenta obtener un cupón.
+# {name} = Nombre del jugador
 coupon-config-disabled: "Los cupones no están habilitados! Comuníquese con su administrador si se trata de un error."
 
-# The message a player gets when they provide an invalid type of coupon.
-# {name} = Player's Name
+# El mensaje que recibe un jugador cuando proporciona un tipo de cupón no válido.
+# {name} = Nombre del jugador
 invalid-coupon-type: "Tipo de cupón no válido!"
 
-# The message a player gets when they do not have permissions to run a command.
-# {name} = Player's Name
-no-permission: "No tienes permiso para ejecutar este comando.!"
+# El mensaje que recibe un jugador cuando no tiene permisos para ejecutar un comando.
+# {name} = Nombre del jugador
+no-permission: "No tienes permiso para ejecutar este comando!"
 
 ####################
 lang-version: 2
