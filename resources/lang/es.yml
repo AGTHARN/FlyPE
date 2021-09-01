@@ -3,7 +3,7 @@
 # NOTA: Agregar un color anulará el color predeterminado.
 # CRÉDITOS: ShurumbaPR, MrBlasyMSK
 
-# El mensaje que recibe un jugador si joindisable-fly está configurado como verdadero yel jugador está volando.
+# El mensaje que recibe un jugador si joindisable-fly está configurado como verdadero y el jugador está volando.
 # {name} = Nombre del jugador
 onjoin-flight-disabled: "¡Tu vuelo ha sido desactivado!"
 
