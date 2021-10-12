@@ -28,48 +28,50 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE\lists;
 
-use pocketmine\level\particle\BubbleParticle;
-use pocketmine\level\particle\CriticalParticle;
-use pocketmine\level\particle\EnchantParticle;
-use pocketmine\level\particle\InstantEnchantParticle;
-use pocketmine\level\particle\ExplodeParticle;
-use pocketmine\level\particle\HugeExplodeParticle;
-use pocketmine\level\particle\EntityFlameParticle;
+use pocketmine\block\Block;
+use pocketmine\math\Vector3;
+use pocketmine\level\particle\Particle;
+use pocketmine\level\particle\InkParticle;
+use pocketmine\level\particle\LavaParticle;
 use pocketmine\level\particle\FlameParticle;
 use pocketmine\level\particle\HeartParticle;
-use pocketmine\level\particle\InkParticle;
-use pocketmine\level\particle\LavaDripParticle;
-use pocketmine\level\particle\LavaParticle;
-use pocketmine\level\particle\PortalParticle;
-use pocketmine\level\particle\RedstoneParticle;
 use pocketmine\level\particle\SmokeParticle;
-use pocketmine\level\particle\SplashParticle;
 use pocketmine\level\particle\SporeParticle;
-use pocketmine\level\particle\MobSpawnParticle;
-use pocketmine\level\particle\WaterDripParticle;
 use pocketmine\level\particle\WaterParticle;
-use pocketmine\level\particle\EnchantmentTableParticle;
-use pocketmine\level\particle\HappyVillagerParticle;
-use pocketmine\level\particle\AngryVillagerParticle;
+use pocketmine\level\particle\BubbleParticle;
+use pocketmine\level\particle\PortalParticle;
+use pocketmine\level\particle\SplashParticle;
+use pocketmine\level\particle\EnchantParticle;
+use pocketmine\level\particle\ExplodeParticle;
+use pocketmine\level\particle\CriticalParticle;
+use pocketmine\level\particle\LavaDripParticle;
+use pocketmine\level\particle\MobSpawnParticle;
+use pocketmine\level\particle\RedstoneParticle;
+use pocketmine\level\particle\WaterDripParticle;
 use pocketmine\level\particle\RainSplashParticle;
-use pocketmine\level\particle\BlockForceFieldParticle;
+use pocketmine\level\particle\EntityFlameParticle;
+use pocketmine\level\particle\HugeExplodeParticle;
 use pocketmine\level\particle\DestroyBlockParticle;
 use pocketmine\level\particle\SnowballPoofParticle;
-use pocketmine\math\Vector3;
-use pocketmine\block\Block;
+use pocketmine\level\particle\AngryVillagerParticle;
+use pocketmine\level\particle\HappyVillagerParticle;
+use pocketmine\level\particle\InstantEnchantParticle;
+use pocketmine\level\particle\BlockForceFieldParticle;
+use pocketmine\level\particle\EnchantmentTableParticle;
 
-class ParticleList {
-        
+class ParticleList
+{
     /**
      * getParticle
      *
-     * @param  string $particleName
      * @param  Vector3 $playerPos
      * @param  Block $block
-     * @return void|object|mixed
+     * @param  string $particleName
+     * @return Particle
      */
-    public function getParticle(string $particleName = 'FlameParticle', Vector3 $playerPos, Block $block) {
-        switch(str_replace(' ', '', strtolower($particleName))) {
+    public function getParticle(Vector3 $playerPos, Block $block, string $particleName = 'FlameParticle'): Particle
+    {
+        switch (str_replace(' ', '', strtolower($particleName))) {
             case 'angryvillagerparticle':
             case 'angryvillager':
             case 'angry':

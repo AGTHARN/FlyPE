@@ -28,32 +28,23 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE\tasks;
 
-use pocketmine\scheduler\Task;
-use pocketmine\block\Block;
-use pocketmine\math\Vector3;
-use pocketmine\Player;
-
-use AGTHARN\FlyPE\util\Util;
 use AGTHARN\FlyPE\Main;
+use pocketmine\block\Block;
+use AGTHARN\FlyPE\util\Util;
+use pocketmine\math\Vector3;
+use pocketmine\scheduler\Task;
 
-class ParticleTask extends Task {
-
-    /**
-     * plugin
-     * 
-     * @var Main
-     */
-    protected $plugin;
-
-    /**
-     * util
-     * 
-     * @var Util
-     */
-    protected $util;
+class ParticleTask extends Task
+{
+    /** @var Main */
+    protected Main $plugin;
+    /** @var Util */
+    protected Util $util;
     
-    private $vanishv2;
-    private $simplelay;
+    /** @var mixed */
+    private $vanishV2;
+    /** @var mixed */
+    private $simpleLay;
     
     /**
      * __construct
@@ -62,12 +53,13 @@ class ParticleTask extends Task {
      * @param  Util $util
      * @return void
      */
-    public function __construct(Main $plugin, Util $util) {
+    public function __construct(Main $plugin, Util $util)
+    {
         $this->plugin = $plugin;
         $this->util = $util;
 
-        $this->vanishv2 = $this->plugin->getServer()->getPluginManager()->getPlugin('VanishV2') ?? null;
-        $this->simplelay = $this->plugin->getServer()->getPluginManager()->getPlugin('SimpleLay') ?? null;
+        $this->vanishV2 = $this->plugin->getServer()->getPluginManager()->getPlugin('VanishV2') ?? null;
+        $this->simpleLay = $this->plugin->getServer()->getPluginManager()->getPlugin('SimpleLay') ?? null;
     }
         
     /**
@@ -76,15 +68,19 @@ class ParticleTask extends Task {
      * @param  int $tick
      * @return void
      */
-    public function onRun(int $tick): void {
+    public function onRun(int $tick): void
+    {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            if (!$this->plugin->getConfig()->get('creative-mode-particles') && $player->getGamemode() === Player::CREATIVE) return;
+            if (!$this->plugin->getConfig()->get('creative-mode-particles') && $player->isCreative(true))
+                return;
             
-            if ($this->vanishv2 !== null && $this->plugin->getConfig()->get('vanishv2-support') && in_array($player->getName(), $this->vanishv2::$vanish)) return;
-            if ($this->simplelay !== null && $this->plugin->getConfig()->get('simplelay-support') && ($this->simplelay->isLaying($player) || $this->simplelay->isSitting($player))) return;
+            if ($this->vanishV2 !== null && $this->plugin->getConfig()->get('vanishv2-support') && in_array($player->getName(), $this->vanishV2::$vanish))
+                return;
+            if ($this->simpleLay !== null && $this->plugin->getConfig()->get('simplelay-support') && ($this->simpleLay->isLaying($player) || $this->simpleLay->isSitting($player)))
+                return;
 
             if ($player->getAllowFlight() && $player->getAllowFlight() && $player->hasPermission('flype.particles')) {
-                $player->getLevel()->addParticle($this->util->getParticleList()->getParticle($this->plugin->getConfig()->get('fly-particle-type'), new Vector3($player->x, $player->y, $player->z), Block::get($this->plugin->getConfig()->get('particle-block-id')) ?? Block::get(1)));
+                $player->getLevel()->addParticle($this->util->getParticleList()->getParticle(new Vector3($player->x, $player->y, $player->z), Block::get((int)$this->plugin->getConfig()->get('particle-block-id'), (int)$this->plugin->getConfig()->get('fly-particle-type')) ?? Block::get(1)));
             }
         }
     }

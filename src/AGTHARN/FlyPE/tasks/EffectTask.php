@@ -28,25 +28,21 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE\tasks;
 
-use pocketmine\entity\EffectInstance;
+use pocketmine\Player;
+use AGTHARN\FlyPE\Main;
 use pocketmine\entity\Effect;
 use pocketmine\scheduler\Task;
-use pocketmine\Player;
+use pocketmine\entity\EffectInstance;
 
-use AGTHARN\FlyPE\Main;
-
-class EffectTask extends Task {
-
-    /**
-     * plugin
-     * 
-     * @var Main
-     */
+class EffectTask extends Task
+{
+    /** @var Main */
     protected $plugin;
 
-    private $vanishv2;
-    
-    private $simplelay;
+    /** @var mixed */
+    private $vanishV2;
+    /** @var mixed */
+    private $simpleLay;
     
     /**
      * __construct
@@ -54,11 +50,12 @@ class EffectTask extends Task {
      * @param  Main $plugin
      * @return void
      */
-    public function __construct(Main $plugin) {
+    public function __construct(Main $plugin)
+    {
         $this->plugin = $plugin;
 
-        $this->vanishv2 = $this->plugin->getServer()->getPluginManager()->getPlugin('VanishV2') ?? null;
-        $this->simplelay = $this->plugin->getServer()->getPluginManager()->getPlugin('SimpleLay') ?? null;
+        $this->vanishV2 = $this->plugin->getServer()->getPluginManager()->getPlugin('VanishV2') ?? null;
+        $this->simpleLay = $this->plugin->getServer()->getPluginManager()->getPlugin('SimpleLay') ?? null;
     }
         
     /**
@@ -67,13 +64,16 @@ class EffectTask extends Task {
      * @param  int $tick
      * @return void
      */
-    public function onRun(int $tick): void {
+    public function onRun(int $tick): void
+    {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
             if ($player->getAllowFlight() && $player->getAllowFlight() && $player->hasPermission('flype.effects')) {
                 if (!$this->plugin->getConfig()->get('creative-mode-effects') && $player->getGamemode() === Player::CREATIVE) return;
 
-                if ($this->vanishv2 !== null && $this->plugin->getConfig()->get('vanishv2-support') && in_array($player->getName(), $this->vanishv2::$vanish)) return;
-                if ($this->simplelay !== null && $this->plugin->getConfig()->get('simplelay-support') && ($this->simplelay->isLaying($player) || $this->simplelay->isSitting($player))) return;
+                if ($this->vanishV2 !== null && $this->plugin->getConfig()->get('vanishv2-support') && in_array($player->getName(), $this->vanishV2::$vanish))
+                    return;
+                if ($this->simpleLay !== null && $this->plugin->getConfig()->get('simplelay-support') && ($this->simpleLay->isLaying($player) || $this->simpleLay->isSitting($player)))
+                    return;
                 
                 $effect = new EffectInstance(Effect::getEffectByName($this->plugin->getConfig()->get('effect-type')) ?? Effect::getEffectByName('HASTE'));
                 $effect->setDuration(40);

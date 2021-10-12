@@ -28,29 +28,18 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE\commands\subcommands;
 
+use AGTHARN\FlyPE\Main;
+use AGTHARN\FlyPE\util\Util;
+use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as C;
 
-use AGTHARN\FlyPE\util\Util;
-use AGTHARN\FlyPE\Main;
-
-use CortexPE\Commando\BaseSubCommand;
-
-class HelpSubCommand extends BaseSubCommand {
-
-    /**
-     * plugin
-     *
-     * @var Main
-     */
-    protected $plugin;
-
-    /**
-     * util
-     * 
-     * @var Util
-     */
-    private $util;
+class HelpSubCommand extends BaseSubCommand
+{
+    /** @var Main */
+    protected Main $thisPlugin;
+    /** @var Util */
+    private Util $util;
     
     /**
      * __construct
@@ -62,8 +51,9 @@ class HelpSubCommand extends BaseSubCommand {
      * @param  array $aliases
      * @return void
      */
-    public function __construct(Main $plugin, Util $util, string $name, string $description, $aliases = []) {
-        $this->plugin = $plugin;
+    public function __construct(Main $plugin, Util $util, string $name, string $description, $aliases = [])
+    {
+        $this->thisPlugin = $plugin;
         $this->util = $util;
         
         parent::__construct($plugin, $name, $description, $aliases);
@@ -74,7 +64,8 @@ class HelpSubCommand extends BaseSubCommand {
      *
      * @return void
      */
-    public function prepare(): void {
+    public function prepare(): void
+    {
         $this->setPermission('flype.command.help');
     }
     
@@ -86,13 +77,14 @@ class HelpSubCommand extends BaseSubCommand {
      * @param  array $args
      * @return void
      */
-    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
+    {
         if (!$sender->hasPermission('flype.command.help')) {
             $sender->sendMessage(C::RED . 'You do not have the permission to use this command!');
             return;
         }
 
-        $sender->sendMessage(C::GRAY . '-=========[ ' . C::GREEN . 'FlyPE' . C::GRAY . ' ]=========-' . C::EOL . C::GOLD . 'Version: ' . $this->plugin->getDescription()->getVersion() . 
+        $sender->sendMessage(C::GRAY . '-=========[ ' . C::GREEN . 'FlyPE' . C::GRAY . ' ]=========-' . C::EOL . C::GOLD . 'Version: ' . $this->thisPlugin->getDescription()->getVersion() . 
                         C::EOL . C::EOL . C::AQUA . '/fly - Toggles your flight!' . C::EOL . C::AQUA . '/fly help - Displays basic information about the plugin!'  . C::EOL . C::AQUA . 
                         '/fly toggle - Toggles flight for others!' . C::EOL . C::AQUA . '/fly coupon - Gives a flight coupon!' . C::EOL . C::AQUA . '/fly tempflight - Toggles temporal flight!');
     }

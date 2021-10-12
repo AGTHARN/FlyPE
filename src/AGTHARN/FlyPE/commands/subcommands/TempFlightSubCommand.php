@@ -28,32 +28,21 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE\commands\subcommands;
 
+use pocketmine\Player;
+use AGTHARN\FlyPE\Main;
+use AGTHARN\FlyPE\util\Util;
+use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as C;
-use pocketmine\Player;
-
-use AGTHARN\FlyPE\util\Util;
-use AGTHARN\FlyPE\Main;
-
-use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\args\IntegerArgument;
-use CortexPE\Commando\BaseSubCommand;
+use CortexPE\Commando\args\RawStringArgument;
 
-class TempFlightSubCommand extends BaseSubCommand {
-
-    /**
-     * plugin
-     *
-     * @var Main
-     */
-    protected $plugin;
-
-    /**
-     * util
-     * 
-     * @var Util
-     */
-    private $util;
+class TempFlightSubCommand extends BaseSubCommand
+{
+    /** @var Main */
+    protected Main $thisPlugin;
+    /** @var Util */
+    private Util $util;
     
     /**
      * __construct
@@ -65,8 +54,9 @@ class TempFlightSubCommand extends BaseSubCommand {
      * @param  array $aliases
      * @return void
      */
-    public function __construct(Main $plugin, Util $util, string $name, string $description, array $aliases = []) {
-        $this->plugin = $plugin;
+    public function __construct(Main $plugin, Util $util, string $name, string $description, array $aliases = [])
+    {
+        $this->thisPlugin = $plugin;
         $this->util = $util;
         
         parent::__construct($plugin, $name, $description, $aliases);
@@ -77,7 +67,8 @@ class TempFlightSubCommand extends BaseSubCommand {
      *
      * @return void
      */
-    public function prepare(): void {
+    public function prepare(): void
+    {
         $this->setPermission('flype.command.tempfly');
         $this->registerArgument(0, new RawStringArgument('player', true));
         $this->registerArgument(1, new IntegerArgument('time', true));
@@ -91,17 +82,18 @@ class TempFlightSubCommand extends BaseSubCommand {
      * @param  array $args
      * @return void
      */
-    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
+    {
         if (isset($args['player'])) {
             $arg = $args['player'];
 
-            if (!$this->plugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
+            if (!$this->thisPlugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
                 $sender->sendMessage(C::RED . str_replace('{name}', $arg, Main::PREFIX . C::colorize($this->util->messages->get('player-cant-be-found'))));
                 return;
             }
 
             if (isset($args['time'])) {
-                $target = $this->plugin->getServer()->getPlayer($arg);
+                $target = $this->thisPlugin->getServer()->getPlayer($arg);
                 $targetName = $target->getName();
 
                 if (!is_numeric($args['time'])) {
@@ -115,7 +107,6 @@ class TempFlightSubCommand extends BaseSubCommand {
                 }
 
                 $time = $args['time'];
-                
                 if ($this->util->doLevelChecks($target)) {
                     $this->util->toggleFlight($target, $time, false, true);
 
@@ -126,8 +117,8 @@ class TempFlightSubCommand extends BaseSubCommand {
                     }
                 }
             }
-        } else {
-            $this->sendUsage();
+            return;
         }
+            $this->sendUsage();
     }
 }

@@ -28,33 +28,29 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE;
 
+use AGTHARN\FlyPE\util\Util;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat as C;
-
 use AGTHARN\FlyPE\commands\FlyCommand;
-use AGTHARN\FlyPE\util\Util;
-
 use JackMD\ConfigUpdater\ConfigUpdater;
 
-class Main extends PluginBase {
-    
-    /**
-     * util
-     * 
-     * @var Util
-     */
-    protected $util;
+class Main extends PluginBase
+{
+    /** @var Util */
+    protected Util $util;
 
+    /** @var string */
     public const PREFIX = C::GRAY . "[" . C::GOLD . "FlyPE". C::GRAY . "] " . C::RESET;
-    
-    public const CONFIG_VERSION = 4.0;
+    /** @var int */
+    public const CONFIG_VERSION = 4;
     
     /**
      * onEnable
      *
      * @return void
      */
-    public function onEnable(): void {
+    public function onEnable(): void
+    {
         $this->util = new Util($this);
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);

@@ -28,34 +28,23 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE\commands;
 
+use pocketmine\Player;
+use AGTHARN\FlyPE\Main;
+use AGTHARN\FlyPE\util\Util;
+use CortexPE\Commando\BaseCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as C;
-use pocketmine\Player;
-
-use AGTHARN\FlyPE\commands\subcommands\ToggleSubCommand;
 use AGTHARN\FlyPE\commands\subcommands\HelpSubCommand;
 use AGTHARN\FlyPE\commands\subcommands\CouponSubCommand;
+use AGTHARN\FlyPE\commands\subcommands\ToggleSubCommand;
 use AGTHARN\FlyPE\commands\subcommands\TempFlightSubCommand;
-use AGTHARN\FlyPE\util\Util;
-use AGTHARN\FlyPE\Main;
 
-use CortexPE\Commando\BaseCommand;
-
-class FlyCommand extends BaseCommand {
-
-    /**
-     * plugin
-     *
-     * @var Main
-     */
-    protected $plugin;
-
-    /**
-     * util
-     * 
-     * @var Util
-     */
-    private $util;
+class FlyCommand extends BaseCommand
+{
+    /** @var Main */
+    protected Main $thisPlugin;
+    /** @var Util */
+    protected Util $util;
     
     /**
      * __construct
@@ -67,8 +56,9 @@ class FlyCommand extends BaseCommand {
      * @param  array $aliases
      * @return void
      */
-    public function __construct(Main $plugin, Util $util, string $name, string $description, $aliases = []) {
-        $this->plugin = $plugin;
+    public function __construct(Main $plugin, Util $util, string $name, string $description, $aliases = [])
+    {
+        $this->thisPlugin = $plugin;
         $this->util = $util;
         
         parent::__construct($plugin, $name, $description, $aliases);
@@ -79,11 +69,12 @@ class FlyCommand extends BaseCommand {
      *
      * @return void
      */
-    public function prepare(): void {
-        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->util, 'toggle', 'Toggles flight for others!'));
-        $this->registerSubCommand(new HelpSubCommand($this->plugin, $this->util, 'help', 'Displays basic information about the plugin!'));
-        $this->registerSubCommand(new CouponSubCommand($this->plugin, $this->util, 'coupon', 'Gives a flight coupon!'));
-        $this->registerSubCommand(new TempFlightSubCommand($this->plugin, $this->util, 'tempflight', 'Toggles temporal flight!'));
+    public function prepare(): void
+    {
+        $this->registerSubCommand(new ToggleSubCommand($this->thisPlugin, $this->util, 'toggle', 'Toggles flight for others!'));
+        $this->registerSubCommand(new HelpSubCommand($this->thisPlugin, $this->util, 'help', 'Displays basic information about the plugin!'));
+        $this->registerSubCommand(new CouponSubCommand($this->thisPlugin, $this->util, 'coupon', 'Gives a flight coupon!'));
+        $this->registerSubCommand(new TempFlightSubCommand($this->thisPlugin, $this->util, 'tempflight', 'Toggles temporal flight!'));
 
         $this->setPermission('flype.command');
     }
@@ -96,22 +87,21 @@ class FlyCommand extends BaseCommand {
      * @param  array $args
      * @return void
      */
-    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void {
+    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
+    {
         if (!$sender instanceof Player) {
             $sender->sendMessage('You can only use this command in-game!');
             return;
         }
-
         if (!$sender->hasPermission('flype.command')) {
             $sender->sendMessage(C::RED . str_replace('{name}', $sender->getName(), Main::PREFIX . C::colorize($this->util->messages->get('no-permission'))));
             return;
         }
 
-        if ($this->plugin->getConfig()->get('enable-fly-ui')) {
+        if ($this->thisPlugin->getConfig()->get('enable-fly-ui')) {
             $this->util->openFlyUI($sender);
             return;
         }
-    
         if ($this->util->doLevelChecks($sender)) {
             $this->util->toggleFlight($sender);
         }

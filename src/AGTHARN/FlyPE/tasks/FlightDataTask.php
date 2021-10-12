@@ -28,26 +28,16 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE\tasks;
 
+use AGTHARN\FlyPE\Main;
+use AGTHARN\FlyPE\util\Util;
 use pocketmine\scheduler\Task;
 
-use AGTHARN\FlyPE\util\Util;
-use AGTHARN\FlyPE\Main;
-
-class FlightDataTask extends Task {
-
-    /**
-     * plugin
-     * 
-     * @var Main
-     */
-    protected $plugin;
-
-    /**
-     * util
-     * 
-     * @var Util
-     */
-    protected $util;
+class FlightDataTask extends Task
+{
+    /** @var Main */
+    protected Main $plugin;
+    /** @var Util */
+    protected Util $util;
         
     /**
      * __construct
@@ -56,7 +46,8 @@ class FlightDataTask extends Task {
      * @param  Util $util
      * @return void
      */
-    public function __construct(Main $plugin, Util $util) {
+    public function __construct(Main $plugin, Util $util)
+    {
         $this->plugin = $plugin;
         $this->util = $util;
     }
@@ -67,12 +58,13 @@ class FlightDataTask extends Task {
      * @param  int $tick
      * @return void
      */
-    public function onRun(int $tick): void {
+    public function onRun(int $tick): void
+    {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
             $playerData = $this->util->getFlightData($player, 0);
 
             if ($playerData->getDataTime() < time()) {
-                if ($playerData->getTempToggle() && $player->getAllowFlight() && !$this->util->checkGamemodeCreative($player)) {
+                if ($playerData->getTempToggle() && $player->getAllowFlight() && !$player->isCreative(true)) {
                     $this->util->toggleFlight($player, 0, true);
                     $playerData->setTempToggle(false);
                     $playerData->resetDataTime();

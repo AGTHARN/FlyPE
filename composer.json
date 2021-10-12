@@ -1,0 +1,20 @@
+{
+  "name": "agtharn/flype",
+  "license": "GNU-3.0",
+  "description": "An advanced fly plugin for PocketMine!",
+  "authors": [
+    {
+      "name": "AGTHARN"
+    }
+  ],
+  "require-dev": {
+    "pocketmine/pocketmine-mp": "3.*",
+    "phpstan/phpstan": "^0.12.99"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/pmmp/PocketMine-MP.git"
+    }
+  ]
+}

@@ -27,32 +27,34 @@
 
 namespace AGTHARN\FlyPE\lists;
 
-use pocketmine\level\sound\AnvilBreakSound;
-use pocketmine\level\sound\AnvilFallSound;
-use pocketmine\level\sound\AnvilUseSound;
-use pocketmine\level\sound\BlazeShootSound;
-use pocketmine\level\sound\ClickSound;
-use pocketmine\level\sound\DoorBumpSound;
-use pocketmine\level\sound\DoorCrashSound;
+use pocketmine\math\Vector3;
+use pocketmine\level\sound\PopSound;
 use pocketmine\level\sound\DoorSound;
-use pocketmine\level\sound\EndermanTeleportSound;
 use pocketmine\level\sound\FizzSound;
-use pocketmine\level\sound\GhastShootSound;
+use pocketmine\level\sound\ClickSound;
 use pocketmine\level\sound\GhastSound;
 use pocketmine\level\sound\LaunchSound;
-use pocketmine\level\sound\PopSound;
-use pocketmine\math\Vector3;
+use pocketmine\level\sound\GenericSound;
+use pocketmine\level\sound\AnvilUseSound;
+use pocketmine\level\sound\DoorBumpSound;
+use pocketmine\level\sound\AnvilFallSound;
+use pocketmine\level\sound\DoorCrashSound;
+use pocketmine\level\sound\AnvilBreakSound;
+use pocketmine\level\sound\BlazeShootSound;
+use pocketmine\level\sound\GhastShootSound;
+use pocketmine\level\sound\EndermanTeleportSound;
 
-class SoundList {
-            
+class SoundList
+{
     /**
      * getSound
      *
-     * @param  string $soundName
      * @param  Vector3 $playerPos
-     * @return void|object|mixed
+     * @param  string $soundName
+     * @return GenericSound
      */
-    public function getSound(string $soundName = 'popsound', Vector3 $playerPos) {
+    public function getSound(Vector3 $playerPos, string $soundName = 'popsound'): GenericSound
+    {
         switch(str_replace(' ', '', strtolower($soundName))) {
             case 'anvilbreaksound':
             case 'anvilbreak':
