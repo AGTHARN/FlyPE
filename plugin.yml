@@ -1,7 +1,7 @@
 main: AGTHARN\FlyPE\Main
 name: FlyPE
 author: AGTHARN
-version: 4.1.5
+version: 4.1.6
 api: 3.24.0
 php: 8.0
 
@@ -22,6 +22,8 @@ permissions:
     default: op
   flype.command.coupon:
     default: op
+  flype.command.reload:
+    default: false
   flype.particles:
     default: op
   flype.effects:

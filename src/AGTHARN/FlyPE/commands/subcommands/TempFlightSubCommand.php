@@ -42,7 +42,7 @@ class TempFlightSubCommand extends BaseSubCommand
     /** @var Main */
     protected Main $thisPlugin;
     /** @var Util */
-    private Util $util;
+    protected Util $util;
     
     /**
      * __construct

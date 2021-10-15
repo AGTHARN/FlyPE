@@ -1,11 +1,11 @@
 # FlyPE [![GitHub license](https://img.shields.io/github/license/AGTHARN/FlyPE)](https://github.com/AGTHARN/FlyPE/blob/master/LICENSE) [![](https://poggit.pmmp.io/shield.state/FlyPE)](https://poggit.pmmp.io/p/FlyPE)
 ![flypeicon](https://user-images.githubusercontent.com/63234276/83245243-0b6bb180-a1d3-11ea-9a01-3eb2fcb60115.jpg)
 
-![Latest version](https://img.shields.io/badge/Version-v4.1.5-orange?style=for-the-badge)
+![Latest version](https://img.shields.io/badge/Version-v4.1.6-orange?style=for-the-badge)
 
 ***API 3 will stop receiving feature updates and will only receive version & bug updates.***
 
-Time to abandon BlazinFly and move to a better alternative! [FlyPE](https://poggit.pmmp.io/p/FlyPE/4.1.5) is probably the best fly plugin for PocketMine-MP that is feature packed and with multiple commands that allows you to experiment with flying in survival mode! There are many different features in this plugin that makes it special, and you should check them out! 
+Time to abandon BlazinFly and move to a better alternative! [FlyPE](https://poggit.pmmp.io/p/FlyPE/4.1.6) is probably the best fly plugin for PocketMine-MP that is feature packed and with multiple commands that allows you to experiment with flying in survival mode! There are many different features in this plugin that makes it special, and you should check them out! 
 
 We even have the most requested feature, Temporal Flight!
 
@@ -20,7 +20,7 @@ Note: If you are updating to any major version changes, for example, from v2 to 
 ## Installation
 If you are new and need help with installing the plugin, here's a step-by-step guide on how to do that!
 
-1. Download the [latest phar](https://poggit.pmmp.io/p/FlyPE/4.1.5) by pressing on **Direct Download** on the top left corner of your screen. Make sure you have chosen the latest version before that.
+1. Download the [latest phar](https://poggit.pmmp.io/p/FlyPE/4.1.6) by pressing on **Direct Download** on the top left corner of your screen. Make sure you have chosen the latest version before that.
 2. Open your server's plugins folder and put the phar into your server's plugins folder. Make sure to also check if you're putting it into the right server. 
 3. Ensure you have the permission to use the fly command, restart your server and type the command, /fly ingame to toggle flight!
 
@@ -71,6 +71,7 @@ flype.command.help        | Allows player to run the Help Subcommand            
 flype.command.others      | Allows player to run the Toggle Subcommand on others               | op      |
 flype.command.tempfly     | Allows player to run the Temp Flight Subcommand                    | op      |
 flype.command.coupon      | Allows player to run the Coupon Subcommand                         | op      |
+flype.command.reload      | Allows player to reload the Configuration!                         | false   |
 flype.particles           | Allows player to have the Flight Particles                         | op      |
 flype.effects             | Allows player to have the Flight Effects                           | op      |
 flype.flightspeed         | Allows player to have the Flight Speed Modification                | op      |
@@ -89,7 +90,7 @@ You can find the config file for v2.0.0, v2.0.1, v2.0.2, v2.0.3 [here](https://p
 You can find the config file for v3.3.2, v3.3.3, v3.3.4, v3.7.0, v3.8.3 [here](https://pastebin.com/raw/82znpD4P)!
 
 + ![Config v4](https://img.shields.io/badge/Config-v4-orange?style=for-the-badge)
-You can find the config file for v4.0.2, v4.1.5 [here](https://raw.githubusercontent.com/AGTHARN/FlyPE/master/resources/config.yml)!
+You can find the config file for v4.0.2, v4.1.6 [here](https://raw.githubusercontent.com/AGTHARN/FlyPE/master/resources/config.yml)!
 
 ## Frequently-Asked-Questions
 - [How do I report an issue or suggestion?](#how-do-i-report-an-issue-or-suggestion)
@@ -103,4 +104,4 @@ You can find the config file for v4.0.2, v4.1.5 [here](https://raw.githubusercon
 ***A:*** The temporal flight system counts down while the player is both online and offline. Changing timezones would be the only thing affecting it.
 
 ### Are any PMMP forks supported?
-***A:*** I have confirmed that the plugin works fine on Altay. However, if there are any issues encountered, I have decided to give support for it and those changes will be on a separate branch to prevent conflicts.
+***A:*** No support will be given for PMMP forks.

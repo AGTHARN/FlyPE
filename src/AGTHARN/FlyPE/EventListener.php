@@ -218,7 +218,7 @@ class EventListener implements Listener
 
         if ($this->plugin->getConfig()->get('enable-coupon')) {
             if ($item->getNamedTagEntry('default') || $item->getNamedTagEntry('temporal')) {
-                if (!$this->util->checkCooldown($player) && $this->util->doLevelChecks($player)) {
+                if ($this->util->doLevelChecks($player)) {
                     if ($player->getAllowFlight()) {
                         $player->sendMessage(C::RED . str_replace('{name}', $player->getName(), Main::PREFIX . C::colorize($this->util->messages->get('cant-use-coupon'))));
                         return;

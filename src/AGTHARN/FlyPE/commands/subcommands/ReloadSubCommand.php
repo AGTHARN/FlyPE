@@ -28,20 +28,18 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE\commands\subcommands;
 
-use pocketmine\Player;
 use AGTHARN\FlyPE\Main;
 use AGTHARN\FlyPE\util\Util;
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as C;
-use CortexPE\Commando\args\RawStringArgument;
 
-class ToggleSubCommand extends BaseSubCommand
+class ReloadSubCommand extends BaseSubCommand
 {
     /** @var Main */
-    protected $thisPlugin;
+    protected Main $thisPlugin;
     /** @var Util */
-    protected $util;
+    protected Util $util;
     
     /**
      * __construct
@@ -68,8 +66,7 @@ class ToggleSubCommand extends BaseSubCommand
      */
     public function prepare(): void
     {
-        $this->setPermission('flype.command.others');
-        $this->registerArgument(0, new RawStringArgument('player', true));
+        $this->setPermission('flype.command.reload');
     }
     
     /**
@@ -82,32 +79,10 @@ class ToggleSubCommand extends BaseSubCommand
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
-        if (isset($args['player'])) {
-            $arg = $args['player'];
-
-            if (!$this->thisPlugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
-                $sender->sendMessage(C::RED . str_replace('{name}', $arg, Main::PREFIX . C::colorize($this->util->messages->get('player-cant-be-found'))));
-                return;
-            }
-
-            $target = $this->thisPlugin->getServer()->getPlayer($arg);
-            $targetName = $target->getName();
-            if (!$sender->hasPermission('flype.command.others')) {
-                $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . C::colorize($this->util->messages->get('no-permission'))));
-                return;
-            }
-                
-            if ($this->util->doLevelChecks($target)) {
-                if ($this->util->toggleFlight($target)) {
-                    if ($target->getAllowFlight()) {
-                        $sender->sendMessage(C::GREEN . str_replace('{name}', $targetName, Main::PREFIX . C::colorize($this->util->messages->get('flight-for-other-on'))));
-                    } else {
-                        $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . C::colorize($this->util->messages->get('flight-for-other-off'))));
-                    }
-                }
-            }
+        if (!$sender->hasPermission('flype.command.reload')) {
+            $sender->sendMessage(C::RED . 'You do not have the permission to use this command!');
             return;
         }
-        $this->sendUsage();
+        $this->plugin->reloadConfig();
     }
 }

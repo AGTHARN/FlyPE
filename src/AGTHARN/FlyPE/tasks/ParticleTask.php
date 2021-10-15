@@ -80,7 +80,7 @@ class ParticleTask extends Task
                 return;
 
             if ($player->getAllowFlight() && $player->getAllowFlight() && $player->hasPermission('flype.particles')) {
-                $player->getLevel()->addParticle($this->util->getParticleList()->getParticle(new Vector3($player->x, $player->y, $player->z), Block::get((int)$this->plugin->getConfig()->get('particle-block-id'), (int)$this->plugin->getConfig()->get('fly-particle-type')) ?? Block::get(1)));
+                $player->getLevel()->addParticle($this->util->getParticleList()->getParticle(new Vector3($player->x, $player->y, $player->z), Block::get((int)($this->plugin->getConfig()->get('particle-block-id')) ?? Block::get(1)), $this->plugin->getConfig()->get('fly-particle-type')));
             }
         }
     }

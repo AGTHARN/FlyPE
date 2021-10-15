@@ -50,7 +50,7 @@ use JackMD\UpdateNotifier\UpdateNotifier;
 class Util
 { 
     /** @var Main */
-    protected Main$plugin;
+    protected Main $plugin;
 
     /** @var Config */
     public Config $messages;
@@ -101,25 +101,23 @@ class Util
                         }
                         if (!$player->getAllowFlight()) {
                             if ($this->doLevelChecks($player)) {
-                                $this->toggleFlight($player);
-                            
-                                if ($this->plugin->getConfig()->get('save-purchased-data')) {
-                                    if (!$playerData->getPurchased()) {
-                                        EconomyAPI::getInstance()->reduceMoney($player, $flyCost);
-                                        $player->sendMessage(C::GREEN . str_replace('{cost}', (string)$flyCost, str_replace('{name}', $playerName, Main::PREFIX . $this->messages->get('buy-fly-successful'))));
-                                        $playerData->setPurchased(true);
-                                        $playerData->saveData();
+                                if ($this->toggleFlight($player)) {
+                                    if ($this->plugin->getConfig()->get('save-purchased-data')) {
+                                        if (!$playerData->getPurchased()) {
+                                            EconomyAPI::getInstance()->reduceMoney($player, $flyCost);
+                                            $player->sendMessage(C::GREEN . str_replace('{cost}', (string)$flyCost, str_replace('{name}', $playerName, Main::PREFIX . $this->messages->get('buy-fly-successful'))));
+                                            $playerData->setPurchased(true);
+                                            $playerData->saveData();
+                                        }
                                     }
                                 }
                             }
                             return;
                         }
-                        if ($this->doLevelChecks($player) && $player->getAllowFlight()) {
-                            $this->toggleFlight($player);
-                        }
-                        return;
                     }
-                    $this->toggleFlight($player);
+                    if ($this->doLevelChecks($player)) {
+                        $this->toggleFlight($player);
+                    }
                     break;
             }
         });
@@ -131,7 +129,6 @@ class Util
                 $form->addButton('§cExit');
 
                 $player->sendForm($form);
-                return;
             }
     
             if (!$this->plugin->getConfig()->get('pay-for-fly')) {
@@ -140,8 +137,8 @@ class Util
                 $form->addButton('§cExit');
 
                 $player->sendForm($form);
-                return;
             }
+            return;
         }
         if ($this->plugin->getConfig()->get('custom-ui-texts')) {
             $form->setTitle($this->plugin->getConfig()->get('fly-ui-title'));
@@ -149,7 +146,6 @@ class Util
             $form->addButton($this->plugin->getConfig()->get('fly-ui-exit'));
 
             $player->sendForm($form);
-            return;
         }
     }
     
@@ -168,7 +164,6 @@ class Util
             $player->sendMessage(C::RED . str_replace('{name}', $playerName, Main::PREFIX . $this->messages->get('disable-fly-creative')));
             return false;
         }
-
         if ($this->plugin->getConfig()->get('mode') === 'blacklist' && !in_array($player->getLevel()->getName(), $this->plugin->getConfig()->get('blacklisted-worlds'))) {
             return true;
         }
@@ -450,9 +445,9 @@ class Util
      * getFlightData
      *
      * @param  Player $player
-     * @return mixed
+     * @return FlightData
      */
-    public function getFlightData(Player $player, int $time)
+    public function getFlightData(Player $player, int $time): FlightData
     {
         return new FlightData($this->plugin, $this, $player->getName(), $time);
     }
@@ -460,9 +455,9 @@ class Util
     /**
      * getParticles
      *
-     * @return mixed
+     * @return ParticleList
      */
-    public function getParticleList()
+    public function getParticleList(): ParticleList
     {
         return new ParticleList();
     }
@@ -470,9 +465,9 @@ class Util
     /**
      * getSoundList
      *
-     * @return mixed
+     * @return SoundList
      */
-    public function getSoundList()
+    public function getSoundList(): SoundList
     {
         return new SoundList();
     }

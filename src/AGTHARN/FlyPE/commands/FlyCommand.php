@@ -36,6 +36,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat as C;
 use AGTHARN\FlyPE\commands\subcommands\HelpSubCommand;
 use AGTHARN\FlyPE\commands\subcommands\CouponSubCommand;
+use AGTHARN\FlyPE\commands\subcommands\ReloadSubCommand;
 use AGTHARN\FlyPE\commands\subcommands\ToggleSubCommand;
 use AGTHARN\FlyPE\commands\subcommands\TempFlightSubCommand;
 
@@ -75,6 +76,7 @@ class FlyCommand extends BaseCommand
         $this->registerSubCommand(new HelpSubCommand($this->thisPlugin, $this->util, 'help', 'Displays basic information about the plugin!'));
         $this->registerSubCommand(new CouponSubCommand($this->thisPlugin, $this->util, 'coupon', 'Gives a flight coupon!'));
         $this->registerSubCommand(new TempFlightSubCommand($this->thisPlugin, $this->util, 'tempflight', 'Toggles temporal flight!'));
+        $this->registerSubCommand(new ReloadSubCommand($this->thisPlugin, $this->util, 'reload', 'Reloads the configuration!'));
 
         $this->setPermission('flype.command');
     }

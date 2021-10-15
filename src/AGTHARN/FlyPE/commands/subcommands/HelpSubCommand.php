@@ -39,7 +39,7 @@ class HelpSubCommand extends BaseSubCommand
     /** @var Main */
     protected Main $thisPlugin;
     /** @var Util */
-    private Util $util;
+    protected Util $util;
     
     /**
      * __construct
@@ -84,8 +84,14 @@ class HelpSubCommand extends BaseSubCommand
             return;
         }
 
-        $sender->sendMessage(C::GRAY . '-=========[ ' . C::GREEN . 'FlyPE' . C::GRAY . ' ]=========-' . C::EOL . C::GOLD . 'Version: ' . $this->thisPlugin->getDescription()->getVersion() . 
-                        C::EOL . C::EOL . C::AQUA . '/fly - Toggles your flight!' . C::EOL . C::AQUA . '/fly help - Displays basic information about the plugin!'  . C::EOL . C::AQUA . 
-                        '/fly toggle - Toggles flight for others!' . C::EOL . C::AQUA . '/fly coupon - Gives a flight coupon!' . C::EOL . C::AQUA . '/fly tempflight - Toggles temporal flight!');
+        $sender->sendMessage(C::GRAY . '-=========[ ' . C::GREEN . 'FlyPE' . C::GRAY . ' ]=========-');
+        $sender->sendMessage(C::GOLD . 'Version: ' . $this->thisPlugin->getDescription()->getVersion());
+        $sender->sendMessage(C::EOL);
+        foreach ($this->getParent()->getSubCommands() as $baseSubCommand) {
+            $name = $baseSubCommand->getName();
+            $description = $baseSubCommand->getDescription();
+
+            $sender->sendMessage('/fly ' . $name . ' - ' . $description);
+        }
     }
 }
