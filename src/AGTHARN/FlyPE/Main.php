@@ -28,21 +28,33 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE;
 
-use AGTHARN\FlyPE\util\Util;
+use RuntimeException;
+use pocketmine\utils\Config;
+use AGTHARN\FlyPE\util\Flight;
 use pocketmine\plugin\PluginBase;
+use AGTHARN\FlyPE\command\FlyCommand;
 use pocketmine\utils\TextFormat as C;
-use AGTHARN\FlyPE\commands\FlyCommand;
-use JackMD\ConfigUpdater\ConfigUpdater;
+use kim\present\lib\translator\Language;
+use AGTHARN\FlyPE\util\MessageTranslator;
+use kim\present\lib\translator\traits\TranslatablePluginTrait;
 
 class Main extends PluginBase
 {
-    /** @var Util */
-    protected Util $util;
+    use TranslatablePluginTrait;
+    
+    /** @var Config */
+    private Config $generalConfig;
+
+    /** @var MessageTranslator */
+    private MessageTranslator $messageTranslator;
+    /** @var Flight */
+    private Flight $flight;
 
     /** @var string */
     public const PREFIX = C::GRAY . "[" . C::GOLD . "FlyPE". C::GRAY . "] " . C::RESET;
     /** @var int */
-    public const CONFIG_VERSION = 4;
+    public const CONFIG_VERSION = 5;
+
     
     /**
      * onEnable
@@ -51,21 +63,114 @@ class Main extends PluginBase
      */
     public function onEnable(): void
     {
-        $this->util = new Util($this);
-
-        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);
-
-        $this->util->addDataDir();
-        $this->util->checkConfiguration();
-        $this->util->checkUpdates();
-        $this->util->enableCoupon();
-        $this->util->registerPacketHooker();
+        $this->saveResource('config' . DIRECTORY_SEPARATOR . 'general.yml');
+        $this->generalConfig = new Config($this->getDataFolder() . 'config' . DIRECTORY_SEPARATOR . 'general.yml', Config::YAML);
         
-        if (!$this->util->checkDepend() || !$this->util->checkIncompatible() || !$this->util->checkFiles())
-            return;
-        ConfigUpdater::checkUpdate($this, $this->getConfig(), 'config-version', (int)self::CONFIG_VERSION);
+        $this->messageTranslator = new MessageTranslator($this);
+        $this->flight = new Flight($this, $this->messageTranslator);
 
-        $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, $this->util, 'fly', 'Toggles your flight!'));
-        $this->util->checkLanguageFiles();
+        $this->checkConfig();
+        $this->saveDefaultLanguages();
+
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->flight), $this);
+        $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, $this->flight, $this->messageTranslator, 'fly', 'Toggles your flight!'));
     }
+    
+    /**
+     * checkConfig
+     *
+     * @return bool
+     */
+    private function checkConfig(): bool
+    {
+        if ($this->generalConfig->get('config-version') < self::CONFIG_VERSION) {
+            $this->getLogger()->warning('Your config version is outdated. Running an automatic update!');
+            $oldConfig = $this->generalConfig->getAll();
+
+            unlink($this->generalConfig->getPath());
+            $this->saveResource('config' . DIRECTORY_SEPARATOR . 'general.yml');
+            
+            $this->generalConfig->reload();
+            foreach ($oldConfig as $config => $key) {
+                if ($this->generalConfig->get($config) !== false) {
+                    $this->generalConfig->set($config, $key);
+                }
+            }
+            $this->generalConfig->reload();
+            $this->getLogger()->warning('Automatic update completed! No reboot required.');
+            return false;
+        }
+        if ($this->generalConfig->get('config-version') > self::CONFIG_VERSION) {
+            $this->getLogger()->warning('Your config version is too new! Please use an older config!');
+            $this->getServer()->getPluginManager()->disablePlugin($this);
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * loadLanguages
+     *
+     * @return array
+     */
+    public function loadLanguages(): array
+    {  
+        $languages = [];
+        $path = $this->getDataFolder() . "locale/";  
+        if (!is_dir($path)) {
+            throw new RuntimeException("Language directory {$path} does not exist or is not a directory");  
+        }
+
+        foreach (scandir($path, SCANDIR_SORT_NONE) as $_ => $filename) {  
+            if (!preg_match("/^([a-zA-Z]{3})\.ini$/", $filename, $matches) || !isset($matches[1])) {
+                continue;
+            }
+            $languages[$matches[1]] = Language::fromFile($path . $filename, $matches[1]);  
+        }  
+        return $languages;  
+    }  
+    
+    /**
+     * loadDefaultLanguage
+     *
+     * @return Language|null
+     */
+    public function loadDefaultLanguage(): ?Language
+    {  
+        $resource = $this->getResource("locale/{$this->getServer()->getLanguage()->getLang()}.ini"); 
+        $locale = 'eng';
+        if ($resource === null) {  
+            foreach ($this->getResources() as $filePath => $info) {  
+                if (!preg_match("/^locale\/([a-zA-Z]{3})\.ini$/", $filePath, $matches) || !isset($matches[1])) {
+                    continue;
+                }
+
+                $locale = $matches[1];  
+                $resource = $this->getResource($filePath);  
+                if ($resource !== null) {
+                    break;
+                }
+            }  
+        }  
+        if ($resource !== null) {  
+            $contents = stream_get_contents($resource);  
+            fclose($resource);  
+            return Language::fromContents($contents, strtolower($locale));  
+        }
+        return null;  
+    }  
+    
+    /**
+     * saveDefaultLanguages
+     *
+     * @return void
+     */
+    public function saveDefaultLanguages(): void
+    {
+        foreach ($this->getResources() as $filePath => $info) {  
+            if (preg_match("/^locale\/[a-zA-Z]{3}\.ini$/", $filePath)) {  
+                $this->saveResource($filePath);  
+            }  
+        }  
+    }  
 }

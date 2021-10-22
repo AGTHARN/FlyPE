@@ -26,51 +26,36 @@ declare(strict_types = 1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AGTHARN\FlyPE\tasks;
+namespace AGTHARN\FlyPE\util;
 
 use AGTHARN\FlyPE\Main;
-use AGTHARN\FlyPE\util\Util;
-use pocketmine\scheduler\Task;
+use pocketmine\utils\TextFormat as C;
 
-class FlightDataTask extends Task
+class MessageTranslator
 {
     /** @var Main */
-    protected Main $plugin;
-    /** @var Util */
-    protected Util $util;
-        
+    private Main $plugin;
+
     /**
      * __construct
      *
      * @param  Main $plugin
-     * @param  Util $util
      * @return void
      */
-    public function __construct(Main $plugin, Util $util)
+    public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
-        $this->util = $util;
     }
-        
+    
     /**
-     * onRun
+     * sendTranslated
      *
-     * @param  int $tick
+     * @param  mixed $player
+     * @param  string $str
      * @return void
      */
-    public function onRun(int $tick): void
+    public function sendTranslated($player, string $str): void
     {
-        foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            $playerData = $this->util->getFlightData($player, 0);
-
-            if ($playerData->getDataTime() < time()) {
-                if ($playerData->getTempToggle() && $player->getAllowFlight() && !$player->isCreative(true)) {
-                    $this->util->toggleFlight($player, 0, true);
-                    $playerData->setTempToggle(false);
-                    $playerData->resetDataTime();
-                    $playerData->saveData();
-                }
-            }
-        }
+        $player->sendMessage(C::RED . str_replace('{name}', $player->getName(), Main::PREFIX . C::colorize($this->plugin->translateTo($str, [], $player))));
     }
 }

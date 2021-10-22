@@ -26,46 +26,47 @@ declare(strict_types = 1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AGTHARN\FlyPE\tasks;
+namespace AGTHARN\FlyPE\util;
 
 use AGTHARN\FlyPE\Main;
-use pocketmine\scheduler\Task;
-use pocketmine\entity\Attribute;
+use pocketmine\player\Player;
+use AGTHARN\FlyPE\util\MessageTranslator;
 
-class FlightSpeedTask extends Task
+class Flight
 {
     /** @var Main */
-    protected Main $plugin;
-    
+    private Main $plugin;
+    /** @var MessageTranslator */
+    private MessageTranslator $messageTranslator;
+
     /**
      * __construct
      *
      * @param  Main $plugin
+     * @param  MessageTranslator $messageTranslator
      * @return void
      */
-    public function __construct(Main $plugin)
+    public function __construct(Main $plugin, MessageTranslator $messageTranslator)
     {
         $this->plugin = $plugin;
+        $this->messageTranslator = $messageTranslator;
     }
-        
+    
     /**
-     * onRun
+     * toggleFlight
      *
-     * @param  int $tick
-     * @return void
+     * @param  Player $player
+     * @param  bool|null $toggleMode
+     * @return bool
      */
-    public function onRun(int $tick): void
+    public function toggleFlight(Player $player, ?bool $toggleMode = null): bool
     {
-        foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            $attribute = $player->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
-            
-            if (!$this->plugin->getConfig()->get('fly-speed-creative') && $player->isCreative(true))
-                return;
-            if ($player->getAllowFlight() && $player->getAllowFlight() && !$player->onGround && $player->hasPermission('flype.flightspeed')) {
-                $attribute->setValue($attribute->getValue() * $this->plugin->getConfig()->get('fly-speed'));
-            } elseif (!$player->isSprinting() && $player->onGround) {
-                $attribute->resetToDefault();
-            }
-        }
+        $toggleMode = $toggleMode ?? ($player->getAllowFlight() ? false : true);
+
+        $player->setAllowFlight($toggleMode);
+        $player->setFlying($toggleMode);
+        
+        $toggleMode ? $this->messageTranslator->sendTranslated($player, 'flight.toggle.on') : $this->messageTranslator->sendTranslated($player, 'flight.toggle.off');
+        return true;
     }
 }
