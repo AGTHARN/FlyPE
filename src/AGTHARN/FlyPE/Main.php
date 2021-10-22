@@ -75,7 +75,7 @@ class Main extends PluginBase
     /**
      * checkConfig
      *
-     * @return void
+     * @return bool
      */
     private function checkConfig(): bool
     {

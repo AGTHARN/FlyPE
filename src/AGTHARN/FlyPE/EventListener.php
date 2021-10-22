@@ -43,7 +43,7 @@ class EventListener implements Listener
      * __construct
      *
      * @param  Main $plugin
-     * @param  Flight $util
+     * @param  Flight $flight
      * @return void
      */
     public function __construct(Main $plugin, Flight $flight)
