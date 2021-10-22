@@ -26,51 +26,38 @@ declare(strict_types = 1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AGTHARN\FlyPE\tasks;
+namespace AGTHARN\FlyPE\util;
 
+use pocketmine\Player;
 use AGTHARN\FlyPE\Main;
-use AGTHARN\FlyPE\util\Util;
-use pocketmine\scheduler\Task;
 
-class FlightDataTask extends Task
+class Flight
 {
     /** @var Main */
-    protected Main $plugin;
-    /** @var Util */
-    protected Util $util;
-        
+    private Main $plugin;
+
     /**
      * __construct
      *
      * @param  Main $plugin
-     * @param  Util $util
      * @return void
      */
-    public function __construct(Main $plugin, Util $util)
+    public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
-        $this->util = $util;
     }
-        
+    
     /**
-     * onRun
+     * toggleFlight
      *
-     * @param  int $tick
-     * @return void
+     * @param  Player $player
+     * @param  bool $toggleMode
+     * @return bool
      */
-    public function onRun(int $tick): void
+    public function toggleFlight(Player $player, bool $toggleMode = false): bool
     {
-        foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            $playerData = $this->util->getFlightData($player, 0);
-
-            if ($playerData->getDataTime() < time()) {
-                if ($playerData->getTempToggle() && $player->getAllowFlight() && !$player->isCreative(true)) {
-                    $this->util->toggleFlight($player, 0, true);
-                    $playerData->setTempToggle(false);
-                    $playerData->resetDataTime();
-                    $playerData->saveData();
-                }
-            }
-        }
+        $player->setAllowFlight($toggleMode);
+        $player->setFlying($toggleMode);
+        return true;
     }
 }

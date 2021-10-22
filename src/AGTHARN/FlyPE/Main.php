@@ -28,21 +28,28 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE;
 
-use AGTHARN\FlyPE\util\Util;
+use pocketmine\utils\Config;
+use AGTHARN\FlyPE\util\Flight;
 use pocketmine\plugin\PluginBase;
+use AGTHARN\FlyPE\util\Translator;
+use AGTHARN\FlyPE\command\FlyCommand;
 use pocketmine\utils\TextFormat as C;
-use AGTHARN\FlyPE\commands\FlyCommand;
-use JackMD\ConfigUpdater\ConfigUpdater;
 
 class Main extends PluginBase
 {
-    /** @var Util */
-    protected Util $util;
+    /** @var Config */
+    private Config $generalConfig;
+
+    /** @var Translator */
+    private Translator $translator;
+    /** @var Flight */
+    private Flight $flight;
 
     /** @var string */
     public const PREFIX = C::GRAY . "[" . C::GOLD . "FlyPE". C::GRAY . "] " . C::RESET;
     /** @var int */
-    public const CONFIG_VERSION = 4;
+    public const CONFIG_VERSION = 5;
+
     
     /**
      * onEnable
@@ -51,21 +58,49 @@ class Main extends PluginBase
      */
     public function onEnable(): void
     {
-        $this->util = new Util($this);
-
-        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->util), $this);
-
-        $this->util->addDataDir();
-        $this->util->checkConfiguration();
-        $this->util->checkUpdates();
-        $this->util->enableCoupon();
-        $this->util->registerPacketHooker();
+        $this->saveResource('config' . DIRECTORY_SEPARATOR . 'general.yml');
+        $this->generalConfig = new Config($this->getDataFolder() . 'config' . DIRECTORY_SEPARATOR . 'general.yml', Config::YAML);
         
-        if (!$this->util->checkDepend() || !$this->util->checkIncompatible() || !$this->util->checkFiles())
-            return;
-        ConfigUpdater::checkUpdate($this, $this->getConfig(), 'config-version', (int)self::CONFIG_VERSION);
+        $this->translator = new Translator($this);
+        $this->flight = new Flight($this);
 
-        $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, $this->util, 'fly', 'Toggles your flight!'));
-        $this->util->checkLanguageFiles();
+        $this->checkConfig();
+
+        $this->translator->saveDefaultLanguages();
+
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->flight), $this);
+        $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, $this->flight, $this->translator, 'fly', 'Toggles your flight!'));
+    }
+    
+    /**
+     * checkConfig
+     *
+     * @return void
+     */
+    private function checkConfig(): bool
+    {
+        if ($this->generalConfig->get('config-version') < self::CONFIG_VERSION) {
+            $this->getLogger()->warning('Your config version is outdated. Running an automatic update!');
+            $oldConfig = $this->generalConfig->getAll();
+
+            unlink($this->generalConfig->getPath());
+            $this->saveResource('config' . DIRECTORY_SEPARATOR . 'general.yml');
+            
+            $this->generalConfig->reload();
+            foreach ($oldConfig as $config => $key) {
+                if ($this->generalConfig->get($config) !== false) {
+                    $this->generalConfig->set($config, $key);
+                }
+            }
+            $this->generalConfig->reload();
+            $this->getLogger()->warning('Automatic update completed! No reboot required.');
+            return false;
+        }
+        if ($this->generalConfig->get('config-version') > self::CONFIG_VERSION) {
+            $this->getLogger()->warning('Your config version is too new! Please use an older config!');
+            $this->getServer()->getPluginManager()->disablePlugin($this);
+            return false;
+        }
+        return true;
     }
 }

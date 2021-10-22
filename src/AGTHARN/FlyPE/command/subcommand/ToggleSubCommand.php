@@ -26,37 +26,38 @@ declare(strict_types = 1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AGTHARN\FlyPE\commands\subcommands;
+namespace AGTHARN\FlyPE\command\subcommand;
 
 use pocketmine\Player;
 use AGTHARN\FlyPE\Main;
-use AGTHARN\FlyPE\util\Util;
+use AGTHARN\FlyPE\util\Flight;
+use AGTHARN\FlyPE\util\Translator;
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat as C;
 use CortexPE\Commando\args\RawStringArgument;
 
 class ToggleSubCommand extends BaseSubCommand
 {
-    /** @var Main */
-    protected $thisPlugin;
-    /** @var Util */
-    protected $util;
+    /** @var Flight */
+    private Flight $flight;
+    /** @var Translator */
+    private Translator $translator;
     
     /**
      * __construct
      *
      * @param  Main $plugin
-     * @param  Util $util
+     * @param  Flight $flight
+     * @param  Translator $translator
      * @param  string $name
      * @param  string $description
      * @param  array $aliases
      * @return void
      */
-    public function __construct(Main $plugin, Util $util, string $name, string $description, $aliases = [])
+    public function __construct(Main $plugin, Flight $flight, Translator $translator, string $name, string $description, $aliases = [])
     {
-        $this->thisPlugin = $plugin;
-        $this->util = $util;
+        $this->flight = $flight;
+        $this->translator = $translator;
         
         parent::__construct($plugin, $name, $description, $aliases);
     }
@@ -84,27 +85,22 @@ class ToggleSubCommand extends BaseSubCommand
     {
         if (isset($args['player'])) {
             $arg = $args['player'];
-
-            if (!$this->thisPlugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
-                $sender->sendMessage(C::RED . str_replace('{name}', $arg, Main::PREFIX . C::colorize($this->util->messages->get('player-cant-be-found'))));
+            if (!$this->plugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
+                $this->translator->sendTranslated($sender, 'command.invalid.player');
                 return;
             }
-
-            $target = $this->thisPlugin->getServer()->getPlayer($arg);
-            $targetName = $target->getName();
             if (!$sender->hasPermission('flype.command.others')) {
-                $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . C::colorize($this->util->messages->get('no-permission'))));
+                $this->translator->sendTranslated($sender, 'command.no.permission');
                 return;
             }
                 
-            if ($this->util->doLevelChecks($target)) {
-                if ($this->util->toggleFlight($target)) {
-                    if ($target->getAllowFlight()) {
-                        $sender->sendMessage(C::GREEN . str_replace('{name}', $targetName, Main::PREFIX . C::colorize($this->util->messages->get('flight-for-other-on'))));
-                    } else {
-                        $sender->sendMessage(C::RED . str_replace('{name}', $targetName, Main::PREFIX . C::colorize($this->util->messages->get('flight-for-other-off'))));
-                    }
+            $target = $this->plugin->getServer()->getPlayer($arg);
+            if ($this->flight->toggleFlight($target)) {
+                if ($target->getAllowFlight()) {
+                    $this->translator->sendTranslated($sender, 'flight.other.on');
+                    return;
                 }
+                $this->translator->sendTranslated($sender, 'flight.other.off');
             }
             return;
         }

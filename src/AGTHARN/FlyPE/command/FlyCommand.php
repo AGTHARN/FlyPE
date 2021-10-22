@@ -26,35 +26,38 @@ declare(strict_types = 1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace AGTHARN\FlyPE\commands\subcommands;
+namespace AGTHARN\FlyPE\command;
 
+use pocketmine\Player;
 use AGTHARN\FlyPE\Main;
-use AGTHARN\FlyPE\util\Util;
-use CortexPE\Commando\BaseSubCommand;
+use AGTHARN\FlyPE\util\Flight;
+use AGTHARN\FlyPE\util\Translator;
+use CortexPE\Commando\BaseCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat as C;
+use AGTHARN\FlyPE\command\subcommand\ToggleSubCommand;
 
-class HelpSubCommand extends BaseSubCommand
+class FlyCommand extends BaseCommand
 {
-    /** @var Main */
-    protected Main $thisPlugin;
-    /** @var Util */
-    protected Util $util;
+    /** @var Flight */
+    private Flight $flight;
+    /** @var Translator */
+    private Translator $translator;
     
     /**
      * __construct
      *
      * @param  Main $plugin
-     * @param  Util $util
+     * @param  Flight $flight
+     * @param  Translator $translator
      * @param  string $name
      * @param  string $description
      * @param  array $aliases
      * @return void
      */
-    public function __construct(Main $plugin, Util $util, string $name, string $description, $aliases = [])
+    public function __construct(Main $plugin, Flight $flight, Translator $translator, string $name, string $description, array $aliases = [])
     {
-        $this->thisPlugin = $plugin;
-        $this->util = $util;
+        $this->flight = $flight;
+        $this->translator = $translator;
         
         parent::__construct($plugin, $name, $description, $aliases);
     }
@@ -66,7 +69,8 @@ class HelpSubCommand extends BaseSubCommand
      */
     public function prepare(): void
     {
-        $this->setPermission('flype.command.help');
+        $this->setPermission('flype.command');
+        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->flight, $this->translator, 'toggle', 'Toggles flight for others!'));
     }
     
     /**
@@ -79,19 +83,14 @@ class HelpSubCommand extends BaseSubCommand
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
-        if (!$sender->hasPermission('flype.command.help')) {
-            $sender->sendMessage(C::RED . 'You do not have the permission to use this command!');
+        if (!$sender instanceof Player) {
+            $this->translator->sendTranslated($sender, 'command.not.player');
             return;
         }
-
-        $sender->sendMessage(C::GRAY . '-=========[ ' . C::GREEN . 'FlyPE' . C::GRAY . ' ]=========-');
-        $sender->sendMessage(C::GOLD . 'Version: ' . $this->thisPlugin->getDescription()->getVersion());
-        $sender->sendMessage(C::EOL);
-        foreach ($this->getParent()->getSubCommands() as $baseSubCommand) {
-            $name = $baseSubCommand->getName();
-            $description = $baseSubCommand->getDescription();
-
-            $sender->sendMessage('/fly ' . $name . ' - ' . $description);
+        if (!$sender->hasPermission('flype.command')) {
+            $this->translator->sendTranslated($sender, 'command.no.permission');
+            return;
         }
+        $this->flight->toggleFlight($sender);
     }
 }
