@@ -28,20 +28,25 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE;
 
+use RuntimeException;
 use pocketmine\utils\Config;
 use AGTHARN\FlyPE\util\Flight;
 use pocketmine\plugin\PluginBase;
-use AGTHARN\FlyPE\util\Translator;
 use AGTHARN\FlyPE\command\FlyCommand;
 use pocketmine\utils\TextFormat as C;
+use kim\present\lib\translator\Language;
+use AGTHARN\FlyPE\util\MessageTranslator;
+use kim\present\lib\translator\traits\TranslatablePluginTrait;
 
 class Main extends PluginBase
 {
+    use TranslatablePluginTrait;
+    
     /** @var Config */
     private Config $generalConfig;
 
-    /** @var Translator */
-    private Translator $translator;
+    /** @var MessageTranslator */
+    private MessageTranslator $messageTranslator;
     /** @var Flight */
     private Flight $flight;
 
@@ -61,15 +66,14 @@ class Main extends PluginBase
         $this->saveResource('config' . DIRECTORY_SEPARATOR . 'general.yml');
         $this->generalConfig = new Config($this->getDataFolder() . 'config' . DIRECTORY_SEPARATOR . 'general.yml', Config::YAML);
         
-        $this->translator = new Translator($this);
-        $this->flight = new Flight($this);
+        $this->messageTranslator = new MessageTranslator($this);
+        $this->flight = new Flight($this, $this->messageTranslator);
 
         $this->checkConfig();
-
-        $this->translator->saveDefaultLanguages();
+        $this->saveDefaultLanguages();
 
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->flight), $this);
-        $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, $this->flight, $this->translator, 'fly', 'Toggles your flight!'));
+        $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, $this->flight, $this->messageTranslator, 'fly', 'Toggles your flight!'));
     }
     
     /**
@@ -103,4 +107,70 @@ class Main extends PluginBase
         }
         return true;
     }
+
+    /**
+     * loadLanguages
+     *
+     * @return array
+     */
+    public function loadLanguages(): array
+    {  
+        $languages = [];
+        $path = $this->getDataFolder() . "locale/";  
+        if (!is_dir($path)) {
+            throw new RuntimeException("Language directory {$path} does not exist or is not a directory");  
+        }
+
+        foreach (scandir($path, SCANDIR_SORT_NONE) as $_ => $filename) {  
+            if (!preg_match("/^([a-zA-Z]{3})\.ini$/", $filename, $matches) || !isset($matches[1])) {
+                continue;
+            }
+            $languages[$matches[1]] = Language::fromFile($path . $filename, $matches[1]);  
+        }  
+        return $languages;  
+    }  
+    
+    /**
+     * loadDefaultLanguage
+     *
+     * @return Language|null
+     */
+    public function loadDefaultLanguage(): ?Language
+    {  
+        $resource = $this->getResource("locale/{$this->getServer()->getLanguage()->getLang()}.ini"); 
+        $locale = 'eng';
+        if ($resource === null) {  
+            foreach ($this->getResources() as $filePath => $info) {  
+                if (!preg_match("/^locale\/([a-zA-Z]{3})\.ini$/", $filePath, $matches) || !isset($matches[1])) {
+                    continue;
+                }
+
+                $locale = $matches[1];  
+                $resource = $this->getResource($filePath);  
+                if ($resource !== null) {
+                    break;
+                }
+            }  
+        }  
+        if ($resource !== null) {  
+            $contents = stream_get_contents($resource);  
+            fclose($resource);  
+            return Language::fromContents($contents, strtolower($locale));  
+        }
+        return null;  
+    }  
+    
+    /**
+     * saveDefaultLanguages
+     *
+     * @return void
+     */
+    public function saveDefaultLanguages(): void
+    {
+        foreach ($this->getResources() as $filePath => $info) {  
+            if (preg_match("/^locale\/[a-zA-Z]{3}\.ini$/", $filePath)) {  
+                $this->saveResource($filePath);  
+            }  
+        }  
+    }  
 }

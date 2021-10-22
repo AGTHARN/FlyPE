@@ -28,36 +28,37 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE\command\subcommand;
 
-use pocketmine\Player;
 use AGTHARN\FlyPE\Main;
+use pocketmine\player\Player;
 use AGTHARN\FlyPE\util\Flight;
-use AGTHARN\FlyPE\util\Translator;
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
+use AGTHARN\FlyPE\util\MessageTranslator;
+use CortexPE\Commando\args\BooleanArgument;
 use CortexPE\Commando\args\RawStringArgument;
 
 class ToggleSubCommand extends BaseSubCommand
 {
     /** @var Flight */
     private Flight $flight;
-    /** @var Translator */
-    private Translator $translator;
+    /** @var MessageTranslator */
+    private MessageTranslator $messageTranslator;
     
     /**
      * __construct
      *
      * @param  Main $plugin
      * @param  Flight $flight
-     * @param  Translator $translator
+     * @param  MessageTranslator $messageTranslator
      * @param  string $name
      * @param  string $description
      * @param  array $aliases
      * @return void
      */
-    public function __construct(Main $plugin, Flight $flight, Translator $translator, string $name, string $description, $aliases = [])
+    public function __construct(Main $plugin, Flight $flight, MessageTranslator $messageTranslator, string $name, string $description, $aliases = [])
     {
         $this->flight = $flight;
-        $this->translator = $translator;
+        $this->messageTranslator = $messageTranslator;
         
         parent::__construct($plugin, $name, $description, $aliases);
     }
@@ -70,7 +71,8 @@ class ToggleSubCommand extends BaseSubCommand
     public function prepare(): void
     {
         $this->setPermission('flype.command.others');
-        $this->registerArgument(0, new RawStringArgument('player', true));
+        $this->registerArgument(0, new RawStringArgument('player', false));
+        $this->registerArgument(1, new BooleanArgument('toggleMode', true));
     }
     
     /**
@@ -85,22 +87,23 @@ class ToggleSubCommand extends BaseSubCommand
     {
         if (isset($args['player'])) {
             $arg = $args['player'];
-            if (!$this->plugin->getServer()->getPlayer($arg) instanceof Player || empty($arg)) {
-                $this->translator->sendTranslated($sender, 'command.invalid.player');
+            $toggleMode = $args['toggleMode'] ?? null;
+            if (!$this->plugin->getServer()->getPlayerByPrefix($arg) instanceof Player || empty($arg)) {
+                $this->messageTranslator->sendTranslated($sender, 'command.invalid.player');
                 return;
             }
             if (!$sender->hasPermission('flype.command.others')) {
-                $this->translator->sendTranslated($sender, 'command.no.permission');
+                $this->messageTranslator->sendTranslated($sender, 'command.no.permission');
                 return;
             }
                 
-            $target = $this->plugin->getServer()->getPlayer($arg);
-            if ($this->flight->toggleFlight($target)) {
+            $target = $this->plugin->getServer()->getPlayerByPrefix($arg);
+            if ($this->flight->toggleFlight($target, $toggleMode)) {
                 if ($target->getAllowFlight()) {
-                    $this->translator->sendTranslated($sender, 'flight.other.on');
+                    $this->messageTranslator->sendTranslated($sender, 'flight.other.on');
                     return;
                 }
-                $this->translator->sendTranslated($sender, 'flight.other.off');
+                $this->messageTranslator->sendTranslated($sender, 'flight.other.off');
             }
             return;
         }

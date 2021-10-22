@@ -28,33 +28,34 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE\command;
 
-use pocketmine\Player;
 use AGTHARN\FlyPE\Main;
+use pocketmine\player\Player;
 use AGTHARN\FlyPE\util\Flight;
-use AGTHARN\FlyPE\util\Translator;
 use CortexPE\Commando\BaseCommand;
 use pocketmine\command\CommandSender;
+use AGTHARN\FlyPE\util\MessageTranslator;
+use CortexPE\Commando\args\BooleanArgument;
 use AGTHARN\FlyPE\command\subcommand\ToggleSubCommand;
 
 class FlyCommand extends BaseCommand
 {
     /** @var Flight */
     private Flight $flight;
-    /** @var Translator */
-    private Translator $translator;
+    /** @var MessageTranslator */
+    private MessageTranslator $translator;
     
     /**
      * __construct
      *
      * @param  Main $plugin
      * @param  Flight $flight
-     * @param  Translator $translator
+     * @param  MessageTranslator $translator
      * @param  string $name
      * @param  string $description
      * @param  array $aliases
      * @return void
      */
-    public function __construct(Main $plugin, Flight $flight, Translator $translator, string $name, string $description, array $aliases = [])
+    public function __construct(Main $plugin, Flight $flight, MessageTranslator $translator, string $name, string $description, array $aliases = [])
     {
         $this->flight = $flight;
         $this->translator = $translator;
@@ -70,6 +71,8 @@ class FlyCommand extends BaseCommand
     public function prepare(): void
     {
         $this->setPermission('flype.command');
+        $this->registerArgument(0, new BooleanArgument('toggleMode', true));
+
         $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->flight, $this->translator, 'toggle', 'Toggles flight for others!'));
     }
     
@@ -83,6 +86,7 @@ class FlyCommand extends BaseCommand
      */
     public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
     {
+        $toggleMode = $args['toggleMode'] ?? null;
         if (!$sender instanceof Player) {
             $this->translator->sendTranslated($sender, 'command.not.player');
             return;
@@ -91,6 +95,6 @@ class FlyCommand extends BaseCommand
             $this->translator->sendTranslated($sender, 'command.no.permission');
             return;
         }
-        $this->flight->toggleFlight($sender);
+        $this->flight->toggleFlight($sender, $toggleMode);
     }
 }

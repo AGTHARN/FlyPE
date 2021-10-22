@@ -29,44 +29,33 @@ declare(strict_types = 1);
 namespace AGTHARN\FlyPE\util;
 
 use AGTHARN\FlyPE\Main;
-use pocketmine\player\Player;
-use AGTHARN\FlyPE\util\MessageTranslator;
+use pocketmine\utils\TextFormat as C;
 
-class Flight
+class MessageTranslator
 {
     /** @var Main */
     private Main $plugin;
-    /** @var MessageTranslator */
-    private MessageTranslator $messageTranslator;
 
     /**
      * __construct
      *
      * @param  Main $plugin
-     * @param  MessageTranslator $messageTranslator
      * @return void
      */
-    public function __construct(Main $plugin, MessageTranslator $messageTranslator)
+    public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
-        $this->messageTranslator = $messageTranslator;
     }
     
     /**
-     * toggleFlight
+     * sendTranslated
      *
-     * @param  Player $player
-     * @param  bool|null $toggleMode
-     * @return bool
+     * @param  mixed $player
+     * @param  string $str
+     * @return void
      */
-    public function toggleFlight(Player $player, ?bool $toggleMode = null): bool
+    public function sendTranslated($player, string $str): void
     {
-        $toggleMode = $toggleMode ?? ($player->getAllowFlight() ? false : true);
-
-        $player->setAllowFlight($toggleMode);
-        $player->setFlying($toggleMode);
-        
-        $toggleMode ? $this->messageTranslator->sendTranslated($player, 'flight.toggle.on') : $this->messageTranslator->sendTranslated($player, 'flight.toggle.off');
-        return true;
+        $player->sendMessage(C::RED . str_replace('{name}', $player->getName(), Main::PREFIX . C::colorize($this->plugin->translateTo($str, [], $player))));
     }
 }
