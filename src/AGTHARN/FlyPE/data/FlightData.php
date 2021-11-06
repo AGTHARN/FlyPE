@@ -220,7 +220,7 @@ class FlightData
      */
     public function checkNew(): bool
     {
-        if ((!$this->getFlightState() || $this->getFlightState() === '~') && (!$this->getPurchased() || $this->getPurchased() === '~') && (!$this->getTempToggle() || $this->getTempToggle() === '')) {
+        if ($this->getFlightState() === false && $this->getPurchased() === false && $this->getDataTime() === 0 && $this->getTempToggle() === false) {
             return true;
         }
         return false;
