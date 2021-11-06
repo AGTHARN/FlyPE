@@ -1,7 +1,7 @@
 main: AGTHARN\FlyPE\Main
 name: FlyPE
 author: AGTHARN
-version: 4.1.6
+version: 4.1.7
 api: 3.24.0
 php: 8.0
 

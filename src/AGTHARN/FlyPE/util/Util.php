@@ -88,7 +88,7 @@ class Util
             switch($data) {
                 case 0:
                     $playerName = $player->getName();
-                    $playerData = $this->getFlightData($player, 0);
+                    $playerData = $this->getFlightData($player);
                 
                     if ($this->plugin->getConfig()->get('pay-for-fly')) {
                         if ($player->getAllowFlight()) {
@@ -445,9 +445,10 @@ class Util
      * getFlightData
      *
      * @param  Player $player
+     * @param  int $time
      * @return FlightData
      */
-    public function getFlightData(Player $player, int $time): FlightData
+    public function getFlightData(Player $player, int $time = 0): FlightData
     {
         return new FlightData($this->plugin, $this, $player->getName(), $time);
     }

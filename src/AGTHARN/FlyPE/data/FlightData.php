@@ -44,7 +44,7 @@ class FlightData
     /** @var int */
     private int $time = 0;
     /** @var int */
-    private int $setTime;
+    private int $setTime = 0;
 
     /** @var bool */
     private bool $purchased = false;
@@ -59,9 +59,10 @@ class FlightData
      * @param  Main $plugin
      * @param  Util $util
      * @param  string $playerName
+     * @param  int $setTime
      * @return void
      */
-    public function __construct(Main $plugin, Util $util, string $playerName, int $setTime)
+    public function __construct(Main $plugin, Util $util, string $playerName, int $setTime = 0)
     {
         $this->plugin = $plugin;
         $this->util = $util;
@@ -117,9 +118,9 @@ class FlightData
     /**
      * getTempToggled
      *
-     * @return mixed
+     * @return bool
      */
-    public function getTempToggle()
+    public function getTempToggle(): bool
     {
         return $this->tempFlight;
     }
@@ -127,9 +128,9 @@ class FlightData
     /**
      * getDataTime
      *
-     * @return mixed
+     * @return int
      */
-    public function getDataTime()
+    public function getDataTime(): int
     {
         return $this->time;
     }
@@ -137,9 +138,9 @@ class FlightData
     /**
      * getPurchased
      *
-     * @return mixed
+     * @return bool
      */
-    public function getPurchased()
+    public function getPurchased(): bool
     {
         return $this->purchased;
     }
@@ -147,9 +148,9 @@ class FlightData
     /**
      * getFlightState
      *
-     * @return mixed
+     * @return bool
      */
-    public function getFlightState()
+    public function getFlightState(): bool
     {
         return $this->flightState;
     }

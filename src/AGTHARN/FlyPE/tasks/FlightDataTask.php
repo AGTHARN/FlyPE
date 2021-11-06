@@ -61,7 +61,7 @@ class FlightDataTask extends Task
     public function onRun(int $tick): void
     {
         foreach ($this->plugin->getServer()->getOnlinePlayers() as $player) {
-            $playerData = $this->util->getFlightData($player, 0);
+            $playerData = $this->util->getFlightData($player);
 
             if ($playerData->getDataTime() < time()) {
                 if ($playerData->getTempToggle() && $player->getAllowFlight() && !$player->isCreative(true)) {

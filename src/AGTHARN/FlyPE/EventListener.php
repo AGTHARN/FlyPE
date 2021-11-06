@@ -98,7 +98,7 @@ class EventListener implements Listener
     public function onPlayerJoin(PlayerJoinEvent $event): void
     {
         $player = $event->getPlayer();
-        $playerData = $this->util->getFlightData($player, 0);
+        $playerData = $this->util->getFlightData($player);
         
         if ((!$player->isCreative(true) || $this->plugin->getConfig()->get('apply-flight-settings-gmc')) && $playerData->getFlightState() && !$this->plugin->getConfig()->get('join-disable-fly')) {
             $this->util->toggleFlight($player);
@@ -114,7 +114,7 @@ class EventListener implements Listener
     public function onPlayerQuit(PlayerQuitEvent $event): void
     {
         $player = $event->getPlayer();
-        $playerData = $this->util->getFlightData($player, 0);
+        $playerData = $this->util->getFlightData($player);
 
         if ($this->plugin->getConfig()->get('save-flight-state')) {
             if ($player->getAllowFlight()) {
