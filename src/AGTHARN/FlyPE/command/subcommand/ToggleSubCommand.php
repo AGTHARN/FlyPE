@@ -39,9 +39,6 @@ use CortexPE\Commando\args\RawStringArgument;
 
 class ToggleSubCommand extends BaseSubCommand
 {
-    /** @var Main */
-    private Main $plugin;
-    
     /** @var Flight */
     private Flight $flight;
     /** @var MessageTranslator */
@@ -60,12 +57,10 @@ class ToggleSubCommand extends BaseSubCommand
      */
     public function __construct(Main $plugin, Flight $flight, MessageTranslator $messageTranslator, string $name, string $description, $aliases = [])
     {
-        $this->plugin = $plugin;
-
         $this->flight = $flight;
         $this->messageTranslator = $messageTranslator;
         
-        parent::__construct($name, $description, $aliases);
+        parent::__construct($plugin, $name, $description, $aliases);
     }
     
     /**
@@ -76,7 +71,7 @@ class ToggleSubCommand extends BaseSubCommand
     public function prepare(): void
     {
         $this->setPermission('flype.command.others');
-        $this->registerArgument(0, new RawStringArgument('player', true));
+        $this->registerArgument(0, new RawStringArgument('player', false));
         $this->registerArgument(1, new BooleanArgument('toggleMode', true));
     }
     

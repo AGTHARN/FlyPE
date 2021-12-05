@@ -9,6 +9,7 @@ projects:
     libs:
     - src: AGTHARN/libtranslator/libtranslator
       version: ^3.0.0
-    - src: CortexPE/Commando/Commando
+    - src: Paroxity/Commando/Commando
       version: ^3.0.0
+      branch: PM-4.0
 ...
