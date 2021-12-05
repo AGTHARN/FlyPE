@@ -3,32 +3,11 @@ name: FlyPE
 author: AGTHARN
 version: 5.0.0
 api: 4.0.0
-php: 8.0
-
-softdepend:
-- EconomyAPI # fly ui
-- PurePerms # for permissions
-- VanishV2 # integration support
-- SimpleLay # integration support
 
 permissions:
   flype.command:
     default: op
-  flype.command.help:
-    default: true
   flype.command.others:
     default: op
-  flype.command.tempfly:
-    default: op
-  flype.command.coupon:
-    default: op
-  flype.command.reload:
-    default: false
-  flype.particles:
-    default: op
-  flype.effects:
-    default: op
-  flype.flightspeed:
-    default: op
-  flype.bypass:
+  flype.world.bypass:
     default: false

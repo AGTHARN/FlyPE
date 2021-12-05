@@ -5,10 +5,10 @@
 # | |    | |____| |  | |    | |____ 
 # |_|    |______|_|  |_|    |______|
 #
-#
 # Thanks for using FlyPE! All permissions are stated on our page on
 # poggit or github! If you have any issues, feel free to let me know at
 # https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/bGKEJTKPZc !
+
 
 ##### VERSION #####
 
@@ -20,10 +20,12 @@ config-version: 5
 
 ##### LANGUAGE #####
 
-# Preset language file to use, set as "default" if you want to modify it in default.yml.
+# Default language will be used if a player's language is not available in the list.
 # 
 # DEFAULT LANGUAGE: en_US
-# CURRENT AVAILABLE LANGUAGE CODES: en_US, es
+# CURRENT AVAILABLE LANGUAGE CODES: 
+#  - en_US [English (US)]
+#  - es_ES [Español (España)]
 lang: "en_US"
 
 ####################

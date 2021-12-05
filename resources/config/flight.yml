@@ -1,0 +1,37 @@
+#  ______ _  __     _______  ______ 
+# |  ____| | \ \   / /  __ \|  ____|
+# | |__  | |  \ \_/ /| |__) | |__   
+# |  __| | |   \   / |  ___/|  __|  
+# | |    | |____| |  | |    | |____ 
+# |_|    |______|_|  |_|    |______|
+#
+# Thanks for using FlyPE! All permissions are stated on our page on
+# poggit or github! If you have any issues, feel free to let me know at
+# https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/bGKEJTKPZc !
+
+
+##### BLACKLIST OR WHITELIST WORLDS #####
+
+# If set to *blacklist*, players that are in the worlds listed in *blacklisted-worlds* will not be able to run the fly command.
+# If set to *whitelist*, players that are in the worlds listed in *whitelisted-worlds* will ___ be able to run the fly command.
+listed-mode: "blacklist"
+
+# (BLACKLIST) These worlds only apply if the mode is set to *blacklist*.
+blacklisted-worlds:
+ - "noflyworld1"
+ - "noflyworld2"
+ - "noflyworld3"
+ 
+# (WHITELIST) These worlds only apply if the mode is set to *whitelist*.
+whitelisted-worlds:
+ - "flyworld1"
+ - "flyworld2"
+ - "flyworld3"
+
+# Notify a player when they move to a world which ____ ___ restricts flight.
+level-change-restricted: true
+
+# Notify a player when they move to a world which does not restricts flight.
+level-change-unrestricted: false
+ 
+#########################################

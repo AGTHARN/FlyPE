@@ -92,7 +92,7 @@ class ToggleSubCommand extends BaseSubCommand
                 $this->messageTranslator->sendTranslated($sender, 'command.invalid.player');
                 return;
             }
-            if (!$sender->hasPermission('flype.command.others')) {
+            if (!$this->testPermissionSilent($sender)) {
                 $this->messageTranslator->sendTranslated($sender, 'command.no.permission');
                 return;
             }

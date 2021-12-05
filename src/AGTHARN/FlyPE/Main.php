@@ -43,6 +43,8 @@ class Main extends PluginBase
     use TranslatablePluginTrait;
     
     /** @var Config */
+    private Config $flightConfig;
+    /** @var Config */
     private Config $generalConfig;
 
     /** @var MessageTranslator */
@@ -55,7 +57,6 @@ class Main extends PluginBase
     /** @var int */
     public const CONFIG_VERSION = 5;
 
-    
     /**
      * onEnable
      *
@@ -63,49 +64,100 @@ class Main extends PluginBase
      */
     public function onEnable(): void
     {
-        $this->saveResource('config' . DIRECTORY_SEPARATOR . 'general.yml');
-        $this->generalConfig = new Config($this->getDataFolder() . 'config' . DIRECTORY_SEPARATOR . 'general.yml', Config::YAML);
+        $this->saveAllResources();
+        $this->prepareConfigs();
         
         $this->messageTranslator = new MessageTranslator($this);
         $this->flight = new Flight($this, $this->messageTranslator);
 
-        $this->checkConfig();
+        $this->checkConfigs($this->generalConfig, $this->flightConfig);
         $this->saveDefaultLanguages();
 
-        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->flight), $this);
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->flight, $this->messageTranslator), $this);
         $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, $this->flight, $this->messageTranslator, 'fly', 'Toggles your flight!'));
     }
     
     /**
-     * checkConfig
+     * saveAllResources
      *
+     * @return void
+     */
+    public function saveAllResources(): void
+    {
+        $dir = $this->getFile() . 'resources' . DIRECTORY_SEPARATOR;
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)) as $path => $file) {
+            if (!$file->isFile()) {
+                continue;
+            }
+            $this->saveResource(str_replace($dir, '', $path));
+        }
+    }
+    
+    /**
+     * prepareConfigs
+     *
+     * @return void
+     */
+    public function prepareConfigs(): void
+    {
+        $this->generalConfig = new Config($this->getDataFolder() . 'config' . DIRECTORY_SEPARATOR . 'general.yml', Config::YAML);
+        $this->flightConfig = new Config($this->getDataFolder() . 'config' . DIRECTORY_SEPARATOR . 'flight.yml', Config::YAML);
+    }
+    
+    /**
+     * checkConfigs
+     *
+     * @param  Config[] $configTypes
      * @return bool
      */
-    private function checkConfig(): bool
+    private function checkConfigs(Config ...$configTypes): bool
     {
-        if ($this->generalConfig->get('config-version') < self::CONFIG_VERSION) {
-            $this->getLogger()->warning('Your config version is outdated. Running an automatic update!');
-            $oldConfig = $this->generalConfig->getAll();
-
-            unlink($this->generalConfig->getPath());
-            $this->saveResource('config' . DIRECTORY_SEPARATOR . 'general.yml');
-            
-            $this->generalConfig->reload();
-            foreach ($oldConfig as $config => $key) {
-                if ($this->generalConfig->get($config) !== false) {
-                    $this->generalConfig->set($config, $key);
-                }
+        $oldConfigVersion = $this->generalConfig->get('config-version');
+        if ($oldConfigVersion < self::CONFIG_VERSION) {
+            $this->getLogger()->warning('Your config version is outdated. Running an automatic update! v' . $oldConfigVersion);
+            foreach ($configTypes as $configType) {
+                $this->updateConfig($configType);
             }
-            $this->generalConfig->reload();
             $this->getLogger()->warning('Automatic update completed! No reboot required.');
             return false;
         }
-        if ($this->generalConfig->get('config-version') > self::CONFIG_VERSION) {
-            $this->getLogger()->warning('Your config version is too new! Please use an older config!');
+        if ($oldConfigVersion> self::CONFIG_VERSION) {
+            $this->getLogger()->warning('Your config version is too new! Please delete your current config! v' . $oldConfigVersion);
             $this->getServer()->getPluginManager()->disablePlugin($this);
             return false;
         }
         return true;
+    }
+    
+    /**
+     * updateConfig
+     *
+     * @param  Config $configType
+     * @return void
+     */
+    public function updateConfig(Config $configType): void
+    {
+        $originalConfig = $configType->getAll();
+
+        $originalConfigPath = $configType->getPath();
+        $oldConfigPath = basename($originalConfigPath) . '_OLD.yml';
+        
+        rename($originalConfigPath, $this->getDataFolder()  . 'config' . DIRECTORY_SEPARATOR . $oldConfigPath);
+        $this->saveResource(str_replace($this->getDataFolder(), '', $originalConfigPath));
+            
+        $configType->reload();
+        foreach ($originalConfig as $config => $key) {
+            // General Config
+            if ($config === 'config-version') {
+                $configType->set('config-version', self::CONFIG_VERSION);
+                continue;
+            }
+                
+            if ($configType->get($config, null) !== null) {
+                $configType->set($config, $key);
+            }
+        }
+        $configType->reload();
     }
 
     /**
@@ -138,7 +190,7 @@ class Main extends PluginBase
     public function loadDefaultLanguage(): ?Language
     {  
         $resource = $this->getResource("locale/{$this->getServer()->getLanguage()->getLang()}.ini"); 
-        $locale = 'eng';
+        $locale = $this->generalConfig->get('lang', 'en_US');
         if ($resource === null) {  
             foreach ($this->getResources() as $filePath => $info) {  
                 if (!preg_match("/^locale\/([a-zA-Z]{3})\.ini$/", $filePath, $matches) || !isset($matches[1])) {
@@ -172,5 +224,15 @@ class Main extends PluginBase
                 $this->saveResource($filePath);  
             }  
         }  
-    }  
+    }
+    
+    /**
+     * getFile
+     *
+     * @return string
+     */
+    public function getFile(): string
+    {
+        return parent::getFile();
+    }
 }

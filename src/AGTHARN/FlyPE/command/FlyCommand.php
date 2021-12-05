@@ -42,23 +42,23 @@ class FlyCommand extends BaseCommand
     /** @var Flight */
     private Flight $flight;
     /** @var MessageTranslator */
-    private MessageTranslator $translator;
+    private MessageTranslator $messageTranslator;
     
     /**
      * __construct
      *
      * @param  Main $plugin
      * @param  Flight $flight
-     * @param  MessageTranslator $translator
+     * @param  MessageTranslator $messageTranslator
      * @param  string $name
      * @param  string $description
      * @param  array $aliases
      * @return void
      */
-    public function __construct(Main $plugin, Flight $flight, MessageTranslator $translator, string $name, string $description, array $aliases = [])
+    public function __construct(Main $plugin, Flight $flight, MessageTranslator $messageTranslator, string $name, string $description, array $aliases = [])
     {
         $this->flight = $flight;
-        $this->translator = $translator;
+        $this->messageTranslator = $messageTranslator;
         
         parent::__construct($plugin, $name, $description, $aliases);
     }
@@ -73,7 +73,7 @@ class FlyCommand extends BaseCommand
         $this->setPermission('flype.command');
         $this->registerArgument(0, new BooleanArgument('toggleMode', true));
 
-        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->flight, $this->translator, 'toggle', 'Toggles flight for others!'));
+        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->flight, $this->messageTranslator, 'toggle', 'Toggles flight for others!'));
     }
     
     /**
@@ -88,11 +88,11 @@ class FlyCommand extends BaseCommand
     {
         $toggleMode = $args['toggleMode'] ?? null;
         if (!$sender instanceof Player) {
-            $this->translator->sendTranslated($sender, 'command.not.player');
+            $this->messageTranslator->sendTranslated($sender, 'command.not.player');
             return;
         }
-        if (!$sender->hasPermission('flype.command')) {
-            $this->translator->sendTranslated($sender, 'command.no.permission');
+        if (!$this->testPermissionSilent($sender)) {
+            $this->messageTranslator->sendTranslated($sender, 'command.no.permission');
             return;
         }
         $this->flight->toggleFlight($sender, $toggleMode);

@@ -29,8 +29,11 @@ declare(strict_types = 1);
 namespace AGTHARN\FlyPE;
 
 use AGTHARN\FlyPE\Main;
+use pocketmine\player\Player;
 use AGTHARN\FlyPE\util\Flight;
 use pocketmine\event\Listener;
+use AGTHARN\FlyPE\util\MessageTranslator;
+use pocketmine\event\entity\EntityTeleportEvent;
 
 class EventListener implements Listener
 {
@@ -38,17 +41,66 @@ class EventListener implements Listener
     private Main $plugin;
     /** @var Flight */
     private Flight $flight;
+    /** @var MessageTranslator */
+    private MessageTranslator $messageTranslator;
 
     /**
      * __construct
      *
      * @param  Main $plugin
      * @param  Flight $flight
+     * @param  MessageTranslator $messageTranslator
      * @return void
      */
-    public function __construct(Main $plugin, Flight $flight)
+    public function __construct(Main $plugin, Flight $flight, MessageTranslator $messageTranslator)
     {
         $this->plugin = $plugin;
         $this->flight = $flight;
+        $this->messageTranslator = $messageTranslator;
+    }
+    
+    /**
+     * onTeleport
+     *
+     * @param  EntityTeleportEvent $event
+     * @return void
+     */
+    public function onTeleport(EntityTeleportEvent $event): void
+    {
+        $entity = $event->getEntity();
+        if ($entity instanceof Player) {
+            $fromWorldName = $event->getFrom()->getWorld()->getFolderName();
+            $toWorldName = $event->getTo()->getWorld()->getFolderName();
+            if ($entity->hasPermission('flype.world.bypass')) {
+                if ($fromWorldName !== $toWorldName) {
+                    $disallowed = false;
+                    switch ($this->plugin->flightConfig->get('listed-mode')) {
+                        case 'blacklist':
+                            if (in_array($toWorldName, $this->plugin->flightConfig->get('blacklisted-worlds'))) {
+                                $disallowed = true;
+                            }
+                            break;
+                        case 'whitelist':
+                            if (in_array($toWorldName, $this->plugin->flightConfig->get('whitelisted-worlds'))) {
+                                $disallowed = true;
+                            }
+                            break;
+                        default:
+                            return;
+                    }
+    
+                    if ($disallowed) {
+                        $this->flight->toggleFlight($entity, false);
+                        if ($this->plugin->flightConfig->get('level-change-restricted')) {
+                            $this->messageTranslator->sendTranslated($entity, 'world.flight.disallowed');
+                        }
+                        return;
+                    }
+                    if ($this->plugin->flightConfig->get('level-change-unrestricted')) {
+                        $this->messageTranslator->sendTranslated($entity, 'world.flight.allowed');
+                    }
+                }
+            }
+        }
     }
 }

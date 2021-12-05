@@ -29,7 +29,9 @@ declare(strict_types = 1);
 namespace AGTHARN\FlyPE\util;
 
 use AGTHARN\FlyPE\Main;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat as C;
+use pocketmine\console\ConsoleCommandSender;
 
 class MessageTranslator
 {
@@ -50,12 +52,14 @@ class MessageTranslator
     /**
      * sendTranslated
      *
-     * @param  mixed $player
-     * @param  string $str
+     * @param  Player|ConsoleCommandSender $player
+     * @param  string $message
      * @return void
      */
-    public function sendTranslated($player, string $str): void
+    public function sendTranslated(Player|ConsoleCommandSender $player, string $message): void
     {
-        $player->sendMessage(C::RED . str_replace('{name}', $player->getName(), Main::PREFIX . C::colorize($this->plugin->translateTo($str, [], $player))));
+        $message = C::colorize($this->plugin->translateTo($message, [], $player));
+        $message = str_replace('{name}', $player->getName(), Main::PREFIX . $message);
+        $player->sendMessage(C::RED . $message);
     }
 }

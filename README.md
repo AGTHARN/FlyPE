@@ -15,7 +15,7 @@ This plugin is in English and there are even customizable preset messages for th
 
 Thanks to the Contributors for helping FlyPE!
 
-Note: If you are updating to any major version changes, for example, from v2 to v3, please delete your old configuration or update it.
+Note: If you are updating to any major version changes, for example, from v2 to v3 or v4 to v5, please delete your old configuration or update it.
 
 ## Installation
 If you are new and need help with installing the plugin, here's a step-by-step guide on how to do that!
@@ -29,10 +29,12 @@ That's all you have to do to install the plugin. If you wan't, you may also chec
 ## Features
 These are the list of features in FlyPE. If you have any suggestions for the plugin, feel free to let me know!
 
-- [⚠️] Customisable messages
-- [⚠️] Translations
+- [✔️] Blacklist/Whitelist Worlds
+- [✔️] Customisable messages
+- [✔️] Translations
 
-- [❌] Blacklist/Whitelist Worlds
+Features below were available for PM3 but is not implemented yet implemented for PM4.
+
 - [❌] Multiple Flight Rules/Permissions/Commands
 - [❌] No Creative Toggling
 - [❌] Toggling Flight For Others
@@ -56,7 +58,6 @@ The list below state the requirements of FlyPE!
 
 + A PocketMine-MP Server (REQUIRED)
 + PHP8 (REQUIRED)
-+ [EconomyAPI](https://poggit.pmmp.io/p/EconomyAPI/5.7.2) (OPTIONAL)
 
 ## Support
 If you have any issues with the plugin, or have any suggestions for the plugin, feel free to let me know [here](https://github.com/AGTHARN/FlyPE/issues) and I would look at it as soon as possible!
@@ -71,15 +72,8 @@ Permissions required for players to use the command, /fly.
 Permission                | Description                                                        | Default |
 ------------------------- | ------------------------------------------------------------------ | ------- |
 flype.command             | Allows player to run the Flight Command                            | op      |
-flype.command.help        | Allows player to run the Help Subcommand                           | true    |
 flype.command.others      | Allows player to run the Toggle Subcommand on others               | op      |
-flype.command.tempfly     | Allows player to run the Temp Flight Subcommand                    | op      |
-flype.command.coupon      | Allows player to run the Coupon Subcommand                         | op      |
-flype.command.reload      | Allows player to reload the Configuration!                         | false   |
-flype.particles           | Allows player to have the Flight Particles                         | op      |
-flype.effects             | Allows player to have the Flight Effects                           | op      |
-flype.flightspeed         | Allows player to have the Flight Speed Modification                | op      |
-flype.bypass              | Allows player to Bypass Checks when Switching Worlds               | false   |
+flype.world.bypass         | Allows player to Bypass Checks when Switching Worlds               | false   |
 
 ## Configuration
 These are the config versions of FlyPE. To find your config version, open the **config.yml** file in FlyPE's plugin data folder and find the header, **"VERSION"**.
