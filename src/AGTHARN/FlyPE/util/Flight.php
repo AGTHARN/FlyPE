@@ -34,21 +34,17 @@ use AGTHARN\FlyPE\util\MessageTranslator;
 
 class Flight
 {
-    /** @var Main */
-    private Main $plugin;
     /** @var MessageTranslator */
     private MessageTranslator $messageTranslator;
 
     /**
      * __construct
      *
-     * @param  Main $plugin
      * @param  MessageTranslator $messageTranslator
      * @return void
      */
-    public function __construct(Main $plugin, MessageTranslator $messageTranslator)
+    public function __construct(MessageTranslator $messageTranslator)
     {
-        $this->plugin = $plugin;
         $this->messageTranslator = $messageTranslator;
     }
     

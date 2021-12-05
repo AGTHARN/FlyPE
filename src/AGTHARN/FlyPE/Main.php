@@ -43,9 +43,9 @@ class Main extends PluginBase
     use TranslatablePluginTrait;
     
     /** @var Config */
-    private Config $flightConfig;
+    public Config $flightConfig;
     /** @var Config */
-    private Config $generalConfig;
+    public Config $generalConfig;
 
     /** @var MessageTranslator */
     private MessageTranslator $messageTranslator;
@@ -68,7 +68,7 @@ class Main extends PluginBase
         $this->prepareConfigs();
         
         $this->messageTranslator = new MessageTranslator($this);
-        $this->flight = new Flight($this, $this->messageTranslator);
+        $this->flight = new Flight($this->messageTranslator);
 
         $this->checkConfigs($this->generalConfig, $this->flightConfig);
         $this->saveDefaultLanguages();
@@ -107,7 +107,7 @@ class Main extends PluginBase
     /**
      * checkConfigs
      *
-     * @param  Config[] $configTypes
+     * @param  Config $configTypes
      * @return bool
      */
     private function checkConfigs(Config ...$configTypes): bool
