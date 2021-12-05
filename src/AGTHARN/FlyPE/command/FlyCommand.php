@@ -39,6 +39,9 @@ use AGTHARN\FlyPE\command\subcommand\ToggleSubCommand;
 
 class FlyCommand extends BaseCommand
 {
+    /** @var Main */
+    private Main $plugin;
+
     /** @var Flight */
     private Flight $flight;
     /** @var MessageTranslator */
@@ -57,9 +60,11 @@ class FlyCommand extends BaseCommand
      */
     public function __construct(Main $plugin, Flight $flight, MessageTranslator $messageTranslator, string $name, string $description, array $aliases = [])
     {
+        $this->plugin = $plugin;
+        
         $this->flight = $flight;
         $this->messageTranslator = $messageTranslator;
-        
+
         parent::__construct($plugin, $name, $description, $aliases);
     }
     

@@ -59,12 +59,13 @@ The list below state the requirements of FlyPE!
 + A PocketMine-MP Server (REQUIRED)
 + PHP8 (REQUIRED)
 
-## Support
-If you have any issues with the plugin, or have any suggestions for the plugin, feel free to let me know [here](https://github.com/AGTHARN/FlyPE/issues) and I would look at it as soon as possible!
+## Commands
+Commands and the permissions required to run commands.
 
-Alternatively, you can get support from our [Discord Server](https://discord.gg/bGKEJTKPZc)!
-
-![GitHub issues](https://img.shields.io/github/issues/AGTHARN/FlyPE?style=for-the-badge) ![GitHub closed issues](https://img.shields.io/github/issues-closed/AGTHARN/FlyPE?style=for-the-badge)
+Command                                       | Description                | Permission           |
+--------------------------------------------- | -------------------------- | -------------------- |
+/fly                                          | Toggles your flight!       | flype.command        |
+/fly toggle [player:string] [toggleMode:bool] | Toggles flight for others! | flype.command.others |
 
 ## Permissions
 Permissions required for players to use the command, /fly.
@@ -73,7 +74,7 @@ Permission                | Description                                         
 ------------------------- | ------------------------------------------------------------------ | ------- |
 flype.command             | Allows player to run the Flight Command                            | op      |
 flype.command.others      | Allows player to run the Toggle Subcommand on others               | op      |
-flype.world.bypass         | Allows player to Bypass Checks when Switching Worlds               | false   |
+flype.world.bypass        | Allows player to Bypass Checks when Switching Worlds               | false   |
 
 ## Configuration
 These are the config versions of FlyPE. To find your config version, open the **config.yml** file in FlyPE's plugin data folder and find the header, **"VERSION"**.
@@ -92,6 +93,13 @@ You can find the config file for v4.0.2, v4.1.6 [here](https://pastebin.com/raw/
 
 + ![Config v4](https://img.shields.io/badge/Config-v5-orange?style=for-the-badge)
 You can find the config file for v5.0.0 [here](https://github.com/AGTHARN/FlyPE/tree/pm4/resources)!
+
+## Support
+If you have any issues with the plugin, or have any suggestions for the plugin, feel free to let me know [here](https://github.com/AGTHARN/FlyPE/issues) and I would look at it as soon as possible!
+
+Alternatively, you can get support from our [Discord Server](https://discord.gg/bGKEJTKPZc)!
+
+![GitHub issues](https://img.shields.io/github/issues/AGTHARN/FlyPE?style=for-the-badge) ![GitHub closed issues](https://img.shields.io/github/issues-closed/AGTHARN/FlyPE?style=for-the-badge)
 
 ## Frequently-Asked-Questions
 - [How do I report an issue or suggestion?](#how-do-i-report-an-issue-or-suggestion)
