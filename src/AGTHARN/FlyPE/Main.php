@@ -28,7 +28,6 @@ declare(strict_types = 1);
 
 namespace AGTHARN\FlyPE;
 
-use RuntimeException;
 use pocketmine\utils\Config;
 use AGTHARN\FlyPE\util\Flight;
 use pocketmine\plugin\PluginBase;
@@ -146,84 +145,45 @@ class Main extends PluginBase
         $this->saveResource(str_replace($this->getDataFolder(), '', $originalConfigPath));
             
         $configType->reload();
-        foreach ($originalConfig as $config => $key) {
-            // General Config
-            if ($config === 'config-version') {
+        foreach ($originalConfig as $key => $value) {
+            if ($key === 'config-version') {
                 $configType->set('config-version', self::CONFIG_VERSION);
                 continue;
             }
-                
-            if ($configType->get($config, null) !== null) {
-                $configType->set($config, $key);
+            
+            if ($configType->get($key, null) !== null) {
+                $configType->set($key, $value);
             }
         }
         $configType->reload();
     }
 
     /**
-     * loadLanguages
+     * Load default language from plugin resources
      *
-     * @return array
-     */
-    public function loadLanguages(): array
-    {  
-        $languages = [];
-        $path = $this->getDataFolder() . "locale/";  
-        if (!is_dir($path)) {
-            throw new RuntimeException("Language directory {$path} does not exist or is not a directory");  
-        }
-
-        foreach (scandir($path, SCANDIR_SORT_NONE) as $_ => $filename) {  
-            if (!preg_match("/^([a-zA-Z]{3})\.ini$/", $filename, $matches) || !isset($matches[1])) {
-                continue;
-            }
-            $languages[$matches[1]] = Language::fromFile($path . $filename, $matches[1]);  
-        }  
-        return $languages;  
-    }  
-    
-    /**
-     * loadDefaultLanguage
-     *
-     * @return Language|null
+     * @return Language
      */
     public function loadDefaultLanguage(): ?Language
-    {  
-        $resource = $this->getResource("locale/{$this->getServer()->getLanguage()->getLang()}.ini"); 
-        $locale = $this->generalConfig->get('lang', 'en_US');
-        if ($resource === null) {  
-            foreach ($this->getResources() as $filePath => $info) {  
-                if (!preg_match("/^locale\/([a-zA-Z]{3})\.ini$/", $filePath, $matches) || !isset($matches[1])) {
-                    continue;
-                }
-
-                $locale = $matches[1];  
-                $resource = $this->getResource($filePath);  
-                if ($resource !== null) {
-                    break;
-                }
-            }  
-        }  
-        if ($resource !== null) {  
-            $contents = stream_get_contents($resource);  
-            fclose($resource);  
-            return Language::fromContents($contents, strtolower($locale));  
-        }
-        return null;  
-    }  
-    
-    /**
-     * saveDefaultLanguages
-     *
-     * @return void
-     */
-    public function saveDefaultLanguages(): void
     {
-        foreach ($this->getResources() as $filePath => $info) {  
-            if (preg_match("/^locale\/[a-zA-Z]{3}\.ini$/", $filePath)) {  
-                $this->saveResource($filePath);  
-            }  
-        }  
+        $locale = $this->generalConfig->get('lang', 'en_US');
+        $resource = $this->getResource("locale/{$locale}.ini");
+        if ($resource === null) {
+            foreach ($this->getResources() as $filePath => $info) {
+                if (!preg_match("/^locale\/([a-zA-Z]{3})\.ini$/", $filePath, $matches) || !isset($matches[1]))
+                    continue;
+
+                $locale = $matches[1];
+                $resource = $this->getResource($filePath);
+                if ($resource !== null)
+                    break;
+            }
+        }
+        if ($resource !== null) {
+            $contents = stream_get_contents($resource);
+            fclose($resource);
+            return Language::fromContents($contents, strtolower($locale));
+        }
+        return null;
     }
     
     /**

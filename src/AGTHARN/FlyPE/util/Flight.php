@@ -62,7 +62,7 @@ class Flight
         $player->setAllowFlight($toggleMode);
         $player->setFlying($toggleMode);
         
-        $toggleMode ? $this->messageTranslator->sendTranslated($player, 'flight.toggle.on') : $this->messageTranslator->sendTranslated($player, 'flight.toggle.off');
+        $this->messageTranslator->sendTranslated($player, $toggleMode ? 'flype.flight.toggle.on' : 'flype.flight.toggle.off');
         return true;
     }
 }

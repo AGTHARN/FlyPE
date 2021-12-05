@@ -73,31 +73,21 @@ class EventListener implements Listener
             $toWorldName = $event->getTo()->getWorld()->getFolderName();
             if ($entity->hasPermission('flype.world.bypass')) {
                 if ($fromWorldName !== $toWorldName) {
-                    $disallowed = false;
-                    switch ($this->plugin->flightConfig->get('listed-mode')) {
-                        case 'blacklist':
-                            if (in_array($toWorldName, $this->plugin->flightConfig->get('blacklisted-worlds'))) {
-                                $disallowed = true;
+                    // Don't ever change this lol
+                    $types = ['blacklist', 'whitelist'];
+                    foreach ($types as $type) {
+                        if ($this->plugin->flightConfig->get('listed-mode') === $type) {
+                            if (in_array($toWorldName, $this->plugin->flightConfig->get($type . 'ed-worlds'))) {
+                                $this->flight->toggleFlight($entity, false);
+                                if ($this->plugin->flightConfig->get('level-change-restricted')) {
+                                    $this->messageTranslator->sendTranslated($entity, 'flype.world.flight.disallowed');
+                                }
+                                return;
                             }
-                            break;
-                        case 'whitelist':
-                            if (in_array($toWorldName, $this->plugin->flightConfig->get('whitelisted-worlds'))) {
-                                $disallowed = true;
-                            }
-                            break;
-                        default:
-                            return;
-                    }
-    
-                    if ($disallowed) {
-                        $this->flight->toggleFlight($entity, false);
-                        if ($this->plugin->flightConfig->get('level-change-restricted')) {
-                            $this->messageTranslator->sendTranslated($entity, 'world.flight.disallowed');
                         }
-                        return;
                     }
                     if ($this->plugin->flightConfig->get('level-change-unrestricted')) {
-                        $this->messageTranslator->sendTranslated($entity, 'world.flight.allowed');
+                        $this->messageTranslator->sendTranslated($entity, 'flype.world.flight.allowed');
                     }
                 }
             }

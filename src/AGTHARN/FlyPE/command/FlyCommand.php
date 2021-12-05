@@ -88,11 +88,11 @@ class FlyCommand extends BaseCommand
     {
         $toggleMode = $args['toggleMode'] ?? null;
         if (!$sender instanceof Player) {
-            $this->messageTranslator->sendTranslated($sender, 'command.not.player');
+            $this->messageTranslator->sendTranslated($sender, 'flype.command.not.player');
             return;
         }
         if (!$this->testPermissionSilent($sender)) {
-            $this->messageTranslator->sendTranslated($sender, 'command.no.permission');
+            $this->messageTranslator->sendTranslated($sender, 'flype.command.no.permission');
             return;
         }
         $this->flight->toggleFlight($sender, $toggleMode);

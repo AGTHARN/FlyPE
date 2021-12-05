@@ -89,21 +89,21 @@ class ToggleSubCommand extends BaseSubCommand
             $arg = $args['player'];
             $toggleMode = $args['toggleMode'] ?? null;
             if (!$this->plugin->getServer()->getPlayerByPrefix($arg) instanceof Player || empty($arg)) {
-                $this->messageTranslator->sendTranslated($sender, 'command.invalid.player');
+                $this->messageTranslator->sendTranslated($sender, 'flype.command.invalid.player');
                 return;
             }
             if (!$this->testPermissionSilent($sender)) {
-                $this->messageTranslator->sendTranslated($sender, 'command.no.permission');
+                $this->messageTranslator->sendTranslated($sender, 'flype.command.no.permission');
                 return;
             }
                 
             $target = $this->plugin->getServer()->getPlayerByPrefix($arg);
             if ($this->flight->toggleFlight($target, $toggleMode)) {
                 if ($target->getAllowFlight()) {
-                    $this->messageTranslator->sendTranslated($sender, 'flight.other.on');
+                    $this->messageTranslator->sendTranslated($sender, 'flype.flight.other.on');
                     return;
                 }
-                $this->messageTranslator->sendTranslated($sender, 'flight.other.off');
+                $this->messageTranslator->sendTranslated($sender, 'flype.flight.other.off');
             }
             return;
         }
