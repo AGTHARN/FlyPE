@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -26,35 +25,46 @@ declare(strict_types = 1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace AGTHARN\FlyPE;
 
 use pocketmine\utils\Config;
 use AGTHARN\FlyPE\util\Flight;
+use poggit\libasynql\libasynql;
 use pocketmine\plugin\PluginBase;
+use poggit\libasynql\DataConnector;
 use AGTHARN\FlyPE\command\FlyCommand;
 use pocketmine\utils\TextFormat as C;
 use kim\present\lib\translator\Language;
+use AGTHARN\FlyPE\session\SessionManager;
 use AGTHARN\FlyPE\util\MessageTranslator;
 use kim\present\lib\translator\traits\TranslatablePluginTrait;
 
 class Main extends PluginBase
 {
     use TranslatablePluginTrait;
-    
-    /** @var Config */
-    public Config $flightConfig;
-    /** @var Config */
-    public Config $generalConfig;
 
+    /** 
+     * @var Config[] 
+     * @see $this->generateConfigs()
+     */
+    public array $configs;
+
+    /** @var DataConnector */
+    public DataConnector $dataBase;
+
+    /** @var SessionManager */
+    public SessionManager $sessionManager;
     /** @var MessageTranslator */
-    private MessageTranslator $messageTranslator;
+    public MessageTranslator $messageTranslator;
     /** @var Flight */
-    private Flight $flight;
+    public Flight $flight;
 
     /** @var string */
-    public const PREFIX = C::GRAY . "[" . C::GOLD . "FlyPE". C::GRAY . "] " . C::RESET;
-    /** @var int */
-    public const CONFIG_VERSION = 5;
+    public const PREFIX = C::GRAY . "[" . C::GOLD . "FlyPE" . C::GRAY . "] " . C::RESET;
+    /** @var float */
+    public const CONFIG_VERSION = 5.10;
 
     /**
      * onEnable
@@ -64,18 +74,31 @@ class Main extends PluginBase
     public function onEnable(): void
     {
         $this->saveAllResources();
-        $this->prepareConfigs();
-        
-        $this->messageTranslator = new MessageTranslator($this);
-        $this->flight = new Flight($this->messageTranslator);
+        $this->generateConfigs();
+        $this->initDataBase();
 
-        $this->checkConfigs($this->generalConfig, $this->flightConfig);
+        $this->sessionManager = new SessionManager($this);
+        $this->messageTranslator = new MessageTranslator($this);
+        $this->flight = new Flight($this);
+
+        $this->checkConfigs();
         $this->saveDefaultLanguages();
 
-        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this, $this->flight, $this->messageTranslator), $this);
-        $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, $this->flight, $this->messageTranslator, 'fly', 'Toggles your flight!'));
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
+        $this->getServer()->getCommandMap()->register('flype', new FlyCommand($this, 'fly', 'Toggles your flight!'));
     }
-    
+
+    /**
+     * onDisable
+     *
+     * @return void
+     */
+    public function onDisable(): void
+    {
+        $this->dataBase->waitAll();
+        $this->dataBase->close();
+    }
+
     /**
      * saveAllResources
      *
@@ -91,81 +114,125 @@ class Main extends PluginBase
             $this->saveResource(str_replace($dir, '', $path));
         }
     }
-    
+
     /**
-     * prepareConfigs
+     * generateConfigs
      *
      * @return void
      */
-    public function prepareConfigs(): void
+    public function generateConfigs(): void
     {
-        $this->generalConfig = new Config($this->getDataFolder() . 'config' . DIRECTORY_SEPARATOR . 'general.yml', Config::YAML);
-        $this->flightConfig = new Config($this->getDataFolder() . 'config' . DIRECTORY_SEPARATOR . 'flight.yml', Config::YAML);
+        $configsPath = [];
+        $dir = $this->getFile() . 'resources' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)) as $path => $file) {
+            if (!$file->isFile()) {
+                continue;
+            }
+            $configsPath[] = str_replace($this->getFile() . 'resources' . DIRECTORY_SEPARATOR, '', $path);
+        }
+        foreach ($configsPath as $configPath) {
+            $this->configs[basename($configPath, '.yml')] = new Config($this->getDataFolder() . $configPath, Config::YAML);
+        }
     }
-    
+
     /**
      * checkConfigs
      *
-     * @param  Config $configTypes
      * @return bool
      */
-    private function checkConfigs(Config ...$configTypes): bool
+    private function checkConfigs(): bool
     {
-        $oldConfigVersion = $this->generalConfig->get('config-version');
+        $oldConfigVersion = $this->configs['general']->get('config-version', 1.00);
         if ($oldConfigVersion < self::CONFIG_VERSION) {
             $this->getLogger()->warning('Your config version is outdated. Running an automatic update! v' . $oldConfigVersion);
-            foreach ($configTypes as $configType) {
-                $this->updateConfig($configType);
-            }
+            $this->updateConfigs($this->configs);
+            $this->updateLanguageFiles();
             $this->getLogger()->warning('Automatic update completed! No reboot required.');
             return false;
         }
-        if ($oldConfigVersion> self::CONFIG_VERSION) {
+        if ($oldConfigVersion > self::CONFIG_VERSION) {
             $this->getLogger()->warning('Your config version is too new! Please delete your current config! v' . $oldConfigVersion);
             $this->getServer()->getPluginManager()->disablePlugin($this);
             return false;
         }
         return true;
     }
-    
+
     /**
-     * updateConfig
+     * updateConfigs
      *
-     * @param  Config $configType
+     * @param  Config[] $configTypes
      * @return void
      */
-    public function updateConfig(Config $configType): void
+    public function updateConfigs(array $configTypes): void
     {
-        $originalConfig = $configType->getAll();
-
-        $originalConfigPath = $configType->getPath();
-        $oldConfigPath = basename($originalConfigPath) . '_OLD.yml';
-        
-        rename($originalConfigPath, $this->getDataFolder()  . 'config' . DIRECTORY_SEPARATOR . $oldConfigPath);
-        $this->saveResource(str_replace($this->getDataFolder(), '', $originalConfigPath));
+        foreach ($configTypes as $configType) {
+            $configType->save();
             
-        $configType->reload();
-        foreach ($originalConfig as $key => $value) {
-            if ($key === 'config-version') {
-                $configType->set('config-version', self::CONFIG_VERSION);
+            $originalConfig = $configType->getAll();
+
+            $originalConfigPath = $configType->getPath();
+            $oldConfigPath = basename($originalConfigPath, '.yml') . '_OLD.yml';
+
+            rename($originalConfigPath, $this->getDataFolder()  . 'config' . DIRECTORY_SEPARATOR . $oldConfigPath);
+            $this->saveResource(str_replace($this->getDataFolder(), '', $originalConfigPath));
+
+            $configType->reload();
+            foreach ($originalConfig as $key => $value) {
+                if ($key === 'config-version') {
+                    $configType->set('config-version', self::CONFIG_VERSION);
+                    continue;
+                }
+                if ($configType->get($key, null) !== null) {
+                    $configType->set($key, $value);
+                }
+            }
+            $configType->save();
+            $configType->reload();
+        }
+    }
+    
+    /**
+     * updateLanguageFiles
+     *
+     * @return void
+     */
+    public function updateLanguageFiles(): void
+    {
+        $dir = $this->getFile() . 'resources' . DIRECTORY_SEPARATOR . 'locale' . DIRECTORY_SEPARATOR;
+        foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)) as $path => $file) {
+            if (!$file->isFile()) {
                 continue;
             }
-            
-            if ($configType->get($key, null) !== null) {
-                $configType->set($key, $value);
-            }
+            rename($path, $dir . basename($path, '.ini') . '_OLD.ini');
+            $this->saveResource(str_replace($dir, '', $path));
         }
-        $configType->reload();
+    }
+
+    /**
+     * Initiates the Databases
+     *
+     * @return void
+     */
+    public function initDataBase(): void
+    {
+        $dataBase = libasynql::create($this, $this->configs['general']->get('database'), [
+            'sqlite' => 'database_stmts' . DIRECTORY_SEPARATOR . 'sqlite.sql',
+            'mysql' => 'database_stmts' . DIRECTORY_SEPARATOR . 'mysql.sql'
+        ]);
+        $dataBase->executeGeneric('flype.init');
+        $dataBase->waitAll();
+        $this->dataBase = $dataBase;
     }
 
     /**
      * Load default language from plugin resources
      *
-     * @return Language
+     * @return Language|null
      */
     public function loadDefaultLanguage(): ?Language
     {
-        $locale = $this->generalConfig->get('lang', 'en_US');
+        $locale = $this->configs['general']->get('lang', 'en_US');
         $resource = $this->getResource("locale/{$locale}.ini");
         if ($resource === null) {
             foreach ($this->getResources() as $filePath => $info) {
@@ -185,7 +252,7 @@ class Main extends PluginBase
         }
         return null;
     }
-    
+
     /**
      * getFile
      *

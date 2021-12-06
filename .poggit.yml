@@ -12,4 +12,6 @@ projects:
     - src: Paroxity/Commando/Commando
       version: ^3.0.0
       branch: PM-4.0
+    - src: poggit/libasynql/libasynql
+      version: ^3.4.0
 ...

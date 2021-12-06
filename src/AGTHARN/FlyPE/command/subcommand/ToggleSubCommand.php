@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -43,26 +42,24 @@ class ToggleSubCommand extends BaseSubCommand
     private Flight $flight;
     /** @var MessageTranslator */
     private MessageTranslator $messageTranslator;
-    
+
     /**
      * __construct
      *
      * @param  Main $plugin
-     * @param  Flight $flight
-     * @param  MessageTranslator $messageTranslator
      * @param  string $name
      * @param  string $description
      * @param  array $aliases
      * @return void
      */
-    public function __construct(Main $plugin, Flight $flight, MessageTranslator $messageTranslator, string $name, string $description, $aliases = [])
+    public function __construct(Main $plugin, string $name, string $description, $aliases = [])
     {
-        $this->flight = $flight;
-        $this->messageTranslator = $messageTranslator;
-        
+        $this->flight = $plugin->flight;
+        $this->messageTranslator = $plugin->messageTranslator;
+
         parent::__construct($plugin, $name, $description, $aliases);
     }
-    
+
     /**
      * prepare
      *
@@ -74,7 +71,7 @@ class ToggleSubCommand extends BaseSubCommand
         $this->registerArgument(0, new RawStringArgument('player', false));
         $this->registerArgument(1, new BooleanArgument('toggleMode', true));
     }
-    
+
     /**
      * onRun
      *
@@ -96,7 +93,7 @@ class ToggleSubCommand extends BaseSubCommand
                 $this->messageTranslator->sendTranslated($sender, 'flype.command.no.permission');
                 return;
             }
-                
+
             $target = $this->plugin->getServer()->getPlayerByPrefix($arg);
             if ($this->flight->toggleFlight($target, $toggleMode)) {
                 if ($target->getAllowFlight()) {

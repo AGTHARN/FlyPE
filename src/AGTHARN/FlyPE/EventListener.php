@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -26,19 +25,27 @@ declare(strict_types = 1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace AGTHARN\FlyPE;
 
 use AGTHARN\FlyPE\Main;
 use pocketmine\player\Player;
 use AGTHARN\FlyPE\util\Flight;
 use pocketmine\event\Listener;
+use AGTHARN\FlyPE\session\SessionManager;
 use AGTHARN\FlyPE\util\MessageTranslator;
+use AGTHARN\FlyPE\event\FlightToggleEvent;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\entity\EntityTeleportEvent;
 
 class EventListener implements Listener
 {
     /** @var Main */
     private Main $plugin;
+
+    /** @var SessionManager */
+    private SessionManager $sessionManager;
     /** @var Flight */
     private Flight $flight;
     /** @var MessageTranslator */
@@ -48,17 +55,53 @@ class EventListener implements Listener
      * __construct
      *
      * @param  Main $plugin
-     * @param  Flight $flight
-     * @param  MessageTranslator $messageTranslator
      * @return void
      */
-    public function __construct(Main $plugin, Flight $flight, MessageTranslator $messageTranslator)
+    public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
-        $this->flight = $flight;
-        $this->messageTranslator = $messageTranslator;
+
+        $this->sessionManager = $plugin->sessionManager;
+        $this->flight = $plugin->flight;
+        $this->messageTranslator = $plugin->messageTranslator;
     }
     
+    /**
+     * onPlayerJoin
+     *
+     * @param  PlayerJoinEvent $event
+     * @return void
+     */
+    public function onPlayerJoin(PlayerJoinEvent $event): void
+    {
+        $player = $event->getPlayer();
+        $this->sessionManager->registerSession($player);
+        $this->plugin->dataBase->waitAll();
+
+        $playerSession = $this->sessionManager->getSessionByPlayer($player);
+        if ($this->plugin->configs['general']->get('save-flight-state') && $playerSession->getFlightState()) {
+            $this->flight->toggleFlight($player, true);
+        }
+    }
+    
+    /**
+     * onFlightToggle
+     *
+     * @param  FlightToggleEvent $event
+     * @return void
+     */
+    public function onFlightToggle(FlightToggleEvent $event): void
+    {
+        $player = $event->getPlayer();
+        $worldAllowed = $event->isWorldAllowed();
+
+        // Will not implement in toggleFlight()
+        $worldAllowedString = $worldAllowed ? 'true' : 'false';
+        if ($this->plugin->configs['flight']->get('world-allowed-' . $worldAllowedString)) {
+            $this->messageTranslator->sendTranslated($player, 'flype.world.allowed.' . $worldAllowedString);
+        }
+    }
+
     /**
      * onTeleport
      *
@@ -73,22 +116,8 @@ class EventListener implements Listener
             $toWorldName = $event->getTo()->getWorld()->getFolderName();
             if ($entity->hasPermission('flype.world.bypass')) {
                 if ($fromWorldName !== $toWorldName) {
-                    // Don't ever change this lol
-                    $types = ['blacklist', 'whitelist'];
-                    foreach ($types as $type) {
-                        if ($this->plugin->flightConfig->get('listed-mode') === $type) {
-                            if (in_array($toWorldName, $this->plugin->flightConfig->get($type . 'ed-worlds'))) {
-                                $this->flight->toggleFlight($entity, false);
-                                if ($this->plugin->flightConfig->get('level-change-restricted')) {
-                                    $this->messageTranslator->sendTranslated($entity, 'flype.world.flight.disallowed');
-                                }
-                                return;
-                            }
-                        }
-                    }
-                    if ($this->plugin->flightConfig->get('level-change-unrestricted')) {
-                        $this->messageTranslator->sendTranslated($entity, 'flype.world.flight.allowed');
-                    }
+                    // Will already run world checks here and make necessary changes
+                    $this->flight->toggleFlight($entity);
                 }
             }
         }

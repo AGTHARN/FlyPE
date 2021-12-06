@@ -27,39 +27,54 @@
 
 declare(strict_types=1);
 
-namespace AGTHARN\FlyPE\util;
+namespace AGTHARN\FlyPE\event;
 
-use AGTHARN\FlyPE\Main;
-use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat as C;
+use pocketmine\player\Player;
+use pocketmine\event\Cancellable;
+use pocketmine\event\CancellableTrait;
+use pocketmine\event\player\PlayerEvent;
 
-class MessageTranslator
+class FlightToggleEvent extends PlayerEvent implements Cancellable
 {
-    /** @var Main */
-    private Main $plugin;
+    use CancellableTrait;
 
+    /** @var bool */
+    protected bool $isFlying;
+    /** @var bool */
+    protected bool $worldAllowed;
+    
     /**
      * __construct
      *
-     * @param  Main $plugin
+     * @param  Player $player
+     * @param  bool $isFlying
+     * @param  bool $worldAllowed
      * @return void
      */
-    public function __construct(Main $plugin)
+    public function __construct(Player $player, bool $isFlying, bool $worldAllowed)
     {
-        $this->plugin = $plugin;
+        $this->player = $player;
+        $this->isFlying = $isFlying;
+        $this->worldAllowed = $worldAllowed;
     }
-
+    
     /**
-     * sendTranslated
+     * isFlying
      *
-     * @param  CommandSender $sender
-     * @param  string $message
-     * @return void
+     * @return bool
      */
-    public function sendTranslated(CommandSender $sender, string $message): void
+    public function isFlying(): bool
     {
-        $message = C::colorize($this->plugin->translateTo($message, [], $sender));
-        $message = str_replace('{name}', $sender->getName(), Main::PREFIX . $message);
-        $sender->sendMessage(C::RED . $message);
+        return $this->isFlying;
+    }
+    
+    /**
+     * isWorldAllowed
+     *
+     * @return bool
+     */
+    public function isWorldAllowed(): bool
+    {
+        return $this->worldAllowed;
     }
 }

@@ -30,7 +30,8 @@ That's all you have to do to install the plugin. If you wan't, you may also chec
 These are the list of features in FlyPE. If you have any suggestions for the plugin, feel free to let me know!
 
 - [✔️] Blacklist/Whitelist Worlds
-- [✔️] Customisable messages
+- [✔️] Customisable Messages
+- [✔️] Flight States
 - [✔️] Translations
 
 Features below were available for PM3 but is not implemented yet implemented for PM4.
@@ -46,7 +47,6 @@ Features below were available for PM3 but is not implemented yet implemented for
 - [❌] Flight Particles
 - [❌] Flight Effects
 - [❌] Flight Coupons
-- [❌] Flight States
 - [❌] Creative Mode Settings
 - [❌] Plugin Integrations
 - [❌] Toggle Sounds

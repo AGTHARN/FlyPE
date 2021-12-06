@@ -28,10 +28,22 @@ whitelisted-worlds:
  - "flyworld2"
  - "flyworld3"
 
-# Notify a player when they move to a world which ____ ___ restricts flight.
-level-change-restricted: true
-
 # Notify a player when they move to a world which does not restricts flight.
-level-change-unrestricted: false
- 
+world-allowed-true: false
+
+# Notify a player when they move to a world which ____ ___ restricts flight.
+world-allowed-false: true
+
 #########################################
+
+
+##### FLIGHT STATE #####
+
+# If set to true,  flight will ___ toggle on if a player joins and had flight toggled on in their previous session.
+# If set to false, flight will not toggle on if a player joins and had flight toggled on in their previous session.
+#
+# EXAMPLE:
+# If a player leaves while their flight is toggled on and rejoins, flight will be automatically toggled on for them.
+save-flight-state: true
+
+########################

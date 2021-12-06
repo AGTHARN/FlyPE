@@ -1,5 +1,4 @@
 <?php
-declare(strict_types = 1);
 
 /* 
  *  ______ _  __     _______  ______ 
@@ -26,6 +25,8 @@ declare(strict_types = 1);
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+declare(strict_types=1);
+
 namespace AGTHARN\FlyPE\command;
 
 use AGTHARN\FlyPE\Main;
@@ -43,26 +44,24 @@ class FlyCommand extends BaseCommand
     private Flight $flight;
     /** @var MessageTranslator */
     private MessageTranslator $messageTranslator;
-    
+
     /**
      * __construct
      *
      * @param  Main $plugin
-     * @param  Flight $flight
-     * @param  MessageTranslator $messageTranslator
      * @param  string $name
      * @param  string $description
      * @param  array $aliases
      * @return void
      */
-    public function __construct(Main $plugin, Flight $flight, MessageTranslator $messageTranslator, string $name, string $description, array $aliases = [])
+    public function __construct(Main $plugin, string $name, string $description, array $aliases = [])
     {
-        $this->flight = $flight;
-        $this->messageTranslator = $messageTranslator;
+        $this->flight = $plugin->flight;
+        $this->messageTranslator = $plugin->messageTranslator;
 
         parent::__construct($plugin, $name, $description, $aliases);
     }
-    
+
     /**
      * prepare
      *
@@ -73,9 +72,9 @@ class FlyCommand extends BaseCommand
         $this->setPermission('flype.command');
         $this->registerArgument(0, new BooleanArgument('toggleMode', true));
 
-        $this->registerSubCommand(new ToggleSubCommand($this->plugin, $this->flight, $this->messageTranslator, 'toggle', 'Toggles flight for others!'));
+        $this->registerSubCommand(new ToggleSubCommand($this->plugin, 'toggle', 'Toggles flight for others!'));
     }
-    
+
     /**
      * onRun
      *

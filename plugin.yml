@@ -1,7 +1,7 @@
 main: AGTHARN\FlyPE\Main
 name: FlyPE
-author: AGTHARN
-version: 5.0.0
+authosr: [AGTHARN, CosmicNebula200]
+version: 5.1.0
 api: 4.0.0
 
 permissions:
