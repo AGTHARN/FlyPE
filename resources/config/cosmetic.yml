@@ -1,0 +1,100 @@
+#  ______ _  __     _______  ______ 
+# |  ____| | \ \   / /  __ \|  ____|
+# | |__  | |  \ \_/ /| |__) | |__   
+# |  __| | |   \   / |  ___/|  __|  
+# | |    | |____| |  | |    | |____ 
+# |_|    |______|_|  |_|    |______|
+#
+# Thanks for using FlyPE! All permissions are stated on our page on
+# poggit or github! If you have any issues, feel free to let me know at
+# https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/KD4Fp8dnZD !
+
+
+##### FLIGHT TOGGLE SOUNDS #####
+
+# LIST OF ALL SOUNDS:
+# AnvilBreak, AnvilFall, AnvilUse, ArrowHit, BarrelClose, BarrelOpen, BellRing, BlazeShoot, BowShoot,
+# BucketEmptyLava, BucketEmptyWater, BucketFillLava, BucketFillWater, ChestClose, ChestOpen, Click,
+# DoorBump, DoorCrash, Door, EnderChestClose, EnderChestOpen, EndermanTeleport, EntityAttackNoDamage,
+# EntityAttack, Explode, FireExtinguish, Fizz, FlintSteel, GhastShoot, Ghast, Ignite, ItemBreak, Launch,
+# PaintingPlace, Pop, PotionSplash, RedstonePowerOff, RedstonePowerOn, ShulkerBoxClose, ShulkerBoxOpen,
+# Throw, TotemUse, XpCollect
+
+# If set to true,  players with sound permission will ___ be able hear a flight toggle sound.
+# If set to false, players with sound permission will not be able hear a flight toggle sound.
+# 
+# NOTE:
+# This permission is given to OPed players by default!
+enable-sound: true
+
+# These sounds will be the sounds which players will not be able to use.
+#  [AnvilBreak, AnvilFall, AnvilUse] (etc.)
+#
+# NOTE:
+# Players will be able to use the ones which are not excluded by running /fly sound.
+excluded-sounds: []
+
+###############################
+
+
+##### FLIGHT PARTICLES #####
+
+# LIST OF ALL PARTICLES:
+# AngryVillager, Bubble, BlockForceField, BlockPunch, Critical, DragonEggTeleport, Dust, EnchantmentTable,
+# Enchant, EndermanTeleport, EntityFlame, Explode, Flame, HappyVillager, Heart, HugeExplode, HugeExplodeSeed,
+# Ink, InstantEnchant, ItemBreak, LavaDrip, Lava, MobSpawn, Portal, PotionSplash, RainSplash, Redstone,
+# Smoke, SnowballPoof, Splash, Spore, Terrain, WaterDrip, Water
+
+# If set to true,  players with particle permission will ___ be able to toggle flight particles.
+# If set to false, players with particle permission will not be able to toggle flight particles.
+# 
+# NOTE:
+# This permission is given to OPed players by default!
+enable-particle: true
+
+# These particles will be the particles which players will not be able to use.
+#  [AngryVillager, Bubble, BlockForceField] (etc.)
+#
+# NOTE:
+# Players will be able to use the ones which are not excluded by running /fly particle.
+excluded-particles: []
+
+############################
+
+
+##### FLIGHT EFFECTS #####
+
+# LIST OF ALL EFFECTS:
+# Absorption, Blindness, ConduitPower, FatalPoison, FireResistance, Haste, HealthBoost, Hunger,
+# InstantDamage, InstantHealth, Invisibility, Jump Boost, Levitation, MiningFatigue, Nausea
+# NightVision, Poison, Regeneration, Resistance, Saturation, Slowness, Speed, Strength, WaterBreathing
+# Weakness, Wither
+
+# If set to true,  players with effect permission will ___ be able to toggle flight effects.
+# If set to false, players with effect permission will not be able to toggle flight effects.
+# 
+# NOTE:
+# This permission is given to OPed players by default!
+enable-effect: true
+
+# These effects will be the effects which players will not be able to use.
+#  [Absorption, Blindness, ConduitPower] (etc.)
+#
+# NOTE:
+# Players will be able to use the ones which are not excluded by running /fly effect.
+excluded-effects: []
+
+##########################
+
+
+##### FLIGHT EFFECTS #####
+
+# If set to true,  players with cape permission will ___ be able to toggle flight capes.
+# If set to false, players with cape permission will not be able to toggle flight capes.
+# 
+# NOTE:
+# This permission is given to OPed players by default!
+# Please use png files for capes in the cape folder in plugin data!
+enable-cape: true
+
+##########################

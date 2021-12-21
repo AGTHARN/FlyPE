@@ -7,15 +7,9 @@
 #
 # Thanks for using FlyPE! All permissions are stated on our page on
 # poggit or github! If you have any issues, feel free to let me know at
-# https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/bGKEJTKPZc !
+# https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/KD4Fp8dnZD !
 
-
-##### VERSION #####
-
-# CONFIG VERSION! (DO NOT CHANGE THIS VALUE)
-config-version: 5.10
-
-###################
+# NOTE: The purpose of splitting configurations is because of the file size it can eventually get to :)
 
 
 ##### LANGUAGE #####
@@ -24,8 +18,10 @@ config-version: 5.10
 # 
 # DEFAULT LANGUAGE: en_US
 # CURRENT AVAILABLE LANGUAGE CODES: 
-#  - en_US [English (US)]
-#  - es_ES [Español (España)]
+#  - en_US [English (US)] ~ AGTHARN
+#  - es_ES [Español (España)] ~ ShurumbaPR, MrBlasyMSK
+#  - de_DE [Deutsch (Deutschland)] ~ DragonfireHD98
+#  - tr_TR [Türkçe (Türkiye)] ~ DragonfireHD98
 lang: "en_US"
 
 ####################
@@ -34,7 +30,7 @@ lang: "en_US"
 ##### DATABASE ######
 
 database:
-  # The database type. "sqlite" and "mysql" are supported.
+  # The database type. "sqlite", "mysql", "yaml" and "json" are supported.
   type: sqlite
 
   # Edit these settings only if you choose "mysql".
@@ -42,7 +38,7 @@ database:
     host: 127.0.0.1
     # Avoid using the "root" user for security reasons.
     username: root
-    password: ""
+    password: password
     schema: flype
 
   # The maximum number of simultaneous SQL queries

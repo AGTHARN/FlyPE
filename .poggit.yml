@@ -14,4 +14,8 @@ projects:
       branch: PM-4.0
     - src: poggit/libasynql/libasynql
       version: ^3.4.0
+    - src: CLADevs/FormAPI-4.0/libFormAPI
+      version: ^1.4.0
+    - src: sky-min/DataConfig/DataConfig
+      version: ^SKY
 ...

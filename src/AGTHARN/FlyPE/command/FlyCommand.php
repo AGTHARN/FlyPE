@@ -34,16 +34,22 @@ use pocketmine\player\Player;
 use AGTHARN\FlyPE\util\Flight;
 use CortexPE\Commando\BaseCommand;
 use pocketmine\command\CommandSender;
-use AGTHARN\FlyPE\util\MessageTranslator;
+use pocketmine\utils\TextFormat as C;
+use AGTHARN\FlyPE\session\SessionManager;
 use CortexPE\Commando\args\BooleanArgument;
+use AGTHARN\FlyPE\command\subcommand\CapeSubCommand;
+use AGTHARN\FlyPE\command\subcommand\SoundSubCommand;
+use AGTHARN\FlyPE\command\subcommand\EffectSubCommand;
+use AGTHARN\FlyPE\command\subcommand\ReloadSubCommand;
 use AGTHARN\FlyPE\command\subcommand\ToggleSubCommand;
+use AGTHARN\FlyPE\command\subcommand\ParticleSubCommand;
 
 class FlyCommand extends BaseCommand
 {
+    /** @var SessionManager */
+    private SessionManager $sessionManager;
     /** @var Flight */
     private Flight $flight;
-    /** @var MessageTranslator */
-    private MessageTranslator $messageTranslator;
 
     /**
      * __construct
@@ -56,8 +62,8 @@ class FlyCommand extends BaseCommand
      */
     public function __construct(Main $plugin, string $name, string $description, array $aliases = [])
     {
+        $this->sessionManager = $plugin->sessionManager;
         $this->flight = $plugin->flight;
-        $this->messageTranslator = $plugin->messageTranslator;
 
         parent::__construct($plugin, $name, $description, $aliases);
     }
@@ -73,6 +79,11 @@ class FlyCommand extends BaseCommand
         $this->registerArgument(0, new BooleanArgument('toggleMode', true));
 
         $this->registerSubCommand(new ToggleSubCommand($this->plugin, 'toggle', 'Toggles flight for others!'));
+        $this->registerSubCommand(new SoundSubCommand($this->plugin, 'sound', 'Configure your flight toggle sound!'));
+        $this->registerSubCommand(new ParticleSubCommand($this->plugin, 'particle', 'Configure your flight particles while flying!'));
+        $this->registerSubCommand(new EffectSubCommand($this->plugin, 'effect', 'Configure your flight effects while flying!'));
+        $this->registerSubCommand(new CapeSubCommand($this->plugin, 'cape', 'Configure your flight cape while flying!'));
+        $this->registerSubCommand(new ReloadSubCommand($this->plugin, 'reload', 'Reload your configuration while server is on!'));
     }
 
     /**
@@ -87,11 +98,17 @@ class FlyCommand extends BaseCommand
     {
         $toggleMode = $args['toggleMode'] ?? null;
         if (!$sender instanceof Player) {
-            $this->messageTranslator->sendTranslated($sender, 'flype.command.not.player');
+            $sender->sendMessage(C::colorize(Main::PREFIX . $this->plugin->translateTo('flype.command.not.player', [], $sender)));
             return;
         }
+
+        $senderSession = $this->sessionManager->getSessionByPlayer($sender);
         if (!$this->testPermissionSilent($sender)) {
-            $this->messageTranslator->sendTranslated($sender, 'flype.command.no.permission');
+            $senderSession->sendTranslated('flype.command.no.permission');
+            return;
+        }
+        if ($this->plugin->config->getConfig('flight', 'enable-flight-ui')) {
+            $this->plugin->flightForm->openFlightForm($sender);
             return;
         }
         $this->flight->toggleFlight($sender, $toggleMode);

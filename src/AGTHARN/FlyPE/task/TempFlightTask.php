@@ -27,39 +27,32 @@
 
 declare(strict_types=1);
 
-namespace AGTHARN\FlyPE\util;
+namespace AGTHARN\FlyPE\task;
 
-use AGTHARN\FlyPE\Main;
-use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat as C;
+use pocketmine\scheduler\Task;
+use AGTHARN\FlyPE\session\PlayerSession;
+use AGTHARN\FlyPE\util\trait\BasicTrait;
 
-class MessageTranslator
+class TempFlightTask extends Task
 {
-    /** @var Main */
-    private Main $plugin;
+    use BasicTrait;
 
     /**
-     * __construct
+     * onRun
      *
-     * @param  Main $plugin
      * @return void
      */
-    public function __construct(Main $plugin)
+    public function onRun(): void
     {
-        $this->plugin = $plugin;
-    }
-
-    /**
-     * sendTranslated
-     *
-     * @param  CommandSender $sender
-     * @param  string $message
-     * @return void
-     */
-    public function sendTranslated(CommandSender $sender, string $message): void
-    {
-        $message = C::colorize($this->plugin->translateTo($message, [], $sender));
-        $message = str_replace('{name}', $sender->getName(), Main::PREFIX . $message);
-        $sender->sendMessage(C::RED . $message);
+        /** @var PlayerSession $playerSession */
+        foreach ($this->plugin->sessionManager->getSessions() as $playerSession) {
+            $flightTime = $playerSession->getProvider()->extractData('flightTime');
+            if ($flightTime !== 0) {
+                if ($flightTime <= time()) {
+                    $this->plugin->flight->toggleFlight($playerSession->getPlayer(), false, null, true);
+                    $playerSession->getProvider()->setData('flightTime', 0);
+                }
+            }
+        }
     }
 }

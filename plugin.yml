@@ -1,13 +1,50 @@
+#  ______ _  __     _______  ______ 
+# |  ____| | \ \   / /  __ \|  ____|
+# | |__  | |  \ \_/ /| |__) | |__   
+# |  __| | |   \   / |  ___/|  __|  
+# | |    | |____| |  | |    | |____ 
+# |_|    |______|_|  |_|    |______|
+#
+# Thanks for using FlyPE! All permissions are stated here!
+# If you have any issues, feel free to let me know at
+# https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/KD4Fp8dnZD !
+
 main: AGTHARN\FlyPE\Main
 name: FlyPE
 authors: [AGTHARN, cosmicnebula200]
-version: 5.1.0
+version: 5.2.0
 api: 4.0.0
+
+softdepend:
+- EconomyAPI     # flight cost
+- BedrockEconomy # flight cost
+- VanishV2       # integration support
+- SimpleLay      # integration support
 
 permissions:
   flype.command:
     default: op
   flype.command.others:
+    default: op
+  flype.command.sound:
+    default: op
+  flype.command.particle:
+    default: op
+  flype.command.effect:
+    default: op
+  flype.command.cape:
+    default: op
+  flype.command.reload:
+    default: op
+  flype.command.admin:
+    default: op
+  flype.allow.sound:
+    default: op
+  flype.allow.particle:
+    default: op
+  flype.allow.effect:
+    default: op
+  flype.allow.cape:
     default: op
   flype.world.bypass:
     default: false
