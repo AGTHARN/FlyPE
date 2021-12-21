@@ -64,7 +64,7 @@ class Flight
      *
      * @param Player $player
      * @param bool|null $toggleMode
-     * @param int|null $time
+     * @param int|null $flightTime
      * @param bool $ignoreWorld
      * @return bool
      */

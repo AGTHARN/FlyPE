@@ -100,7 +100,7 @@ class Integration
     /**
      * Returns the [name, instance] of integration plugins detected.
      *
-     * @return Plugin[]
+     * @return array
      */
     public function getIntegrationPlugins(): array
     {

@@ -30,7 +30,6 @@ declare(strict_types=1);
 namespace AGTHARN\FlyPE;
 
 use AGTHARN\FlyPE\Main;
-use pocketmine\entity\Skin;
 use pocketmine\player\Player;
 use AGTHARN\FlyPE\util\Config;
 use AGTHARN\FlyPE\util\Flight;

@@ -86,7 +86,6 @@ class ToggleSubCommand extends BaseSubCommand
         $playerName = $args['playerName'];
         $toggleMode = preg_match("/(on|yes|true|enable|yea|okay|affirmative|confirm|sure|granted|yep)/i", $args['toggleMode']);
         $flightTime = isset($args['flightTime']) ? $this->parseDuration($args['flightTime']) : null;
-        echo $toggleMode;
         if (!$this->plugin->getServer()->getPlayerByPrefix($playerName) instanceof Player) {
             $sender->sendMessage(C::colorize(Main::PREFIX . $this->plugin->translateTo('flype.command.invalid.player', [], $sender)));
             return;
