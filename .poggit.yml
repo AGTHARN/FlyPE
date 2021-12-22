@@ -16,6 +16,6 @@ projects:
       version: ^4.0.1
     - src: CLADevs/FormAPI-4.0/libFormAPI
       version: ^1.4.0
-    - src: sky-min/DataConfig/DataConfig
+    - src: AGTHARN/DataConfig/DataConfig
       version: ^1.0.0
 ...
