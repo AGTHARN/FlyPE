@@ -33,6 +33,9 @@ use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 use AGTHARN\FlyPE\session\SessionManager;
 
+/**
+ * @property Main $plugin
+ */
 class AdminSubCommand extends BaseSubCommand
 {
     /** @var SessionManager */

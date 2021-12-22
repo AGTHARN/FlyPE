@@ -34,6 +34,9 @@ use pocketmine\command\CommandSender;
 use AGTHARN\FlyPE\util\form\SoundForm;
 use AGTHARN\FlyPE\session\SessionManager;
 
+/**
+ * @property Main $plugin
+ */
 class SoundSubCommand extends BaseSubCommand
 {
     /** @var SessionManager */

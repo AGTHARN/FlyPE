@@ -44,6 +44,9 @@ use AGTHARN\FlyPE\command\subcommand\ReloadSubCommand;
 use AGTHARN\FlyPE\command\subcommand\ToggleSubCommand;
 use AGTHARN\FlyPE\command\subcommand\ParticleSubCommand;
 
+/**
+ * @property Main $plugin
+ */
 class FlyCommand extends BaseCommand
 {
     /** @var SessionManager */

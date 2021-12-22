@@ -34,6 +34,9 @@ use pocketmine\command\CommandSender;
 use AGTHARN\FlyPE\session\SessionManager;
 use AGTHARN\FlyPE\util\form\ParticleForm;
 
+/**
+ * @property Main $plugin
+ */
 class ParticleSubCommand extends BaseSubCommand
 {
     /** @var SessionManager */

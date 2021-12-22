@@ -36,6 +36,9 @@ use pocketmine\utils\TextFormat as C;
 use AGTHARN\FlyPE\session\SessionManager;
 use CortexPE\Commando\args\RawStringArgument;
 
+/**
+ * @property Main $plugin
+ */
 class ToggleSubCommand extends BaseSubCommand
 {
     /** @var SessionManager */

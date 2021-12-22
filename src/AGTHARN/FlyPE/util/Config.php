@@ -57,7 +57,6 @@ class Config
             }
             return $config;
         }
-        return false;
     }
 
     /**

@@ -31,6 +31,9 @@ use AGTHARN\FlyPE\Main;
 use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
 
+/**
+ * @property Main $plugin
+ */
 class ReloadSubCommand extends BaseSubCommand
 {
     /**

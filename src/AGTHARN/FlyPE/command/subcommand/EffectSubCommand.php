@@ -34,6 +34,9 @@ use pocketmine\command\CommandSender;
 use AGTHARN\FlyPE\util\form\EffectForm;
 use AGTHARN\FlyPE\session\SessionManager;
 
+/**
+ * @property Main $plugin
+ */
 class EffectSubCommand extends BaseSubCommand
 {
     /** @var SessionManager */

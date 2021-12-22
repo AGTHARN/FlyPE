@@ -112,7 +112,7 @@ class SessionManager
     /**
      * Returns a player's session by UUID.
      *
-     * @param  string $name
+     * @param  string $uuid
      * @return PlayerSession
      */
     public function getSessionByUUID(string $uuid): PlayerSession
