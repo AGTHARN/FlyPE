@@ -5,11 +5,11 @@
 
 ***This is the PM4 branch of FlyPE. All the features from PM3 may be incomplete in this rewrite. Expect bugs and problems as well.***
 
-Time to abandon BlazinFly and BetterFlight, and move to a better alternative! [FlyPE](https://poggit.pmmp.io/p/FlyPE/5.2.0) is the most extensive/advanced/customizable/best fly plugin in Minecraft history that is feature packed and with multiple commands that allows you to experiment with flying in survival mode! There are many different features in this plugin that makes it special, and you should check them out! 
+It's time to ditch SimpleFly and BetterFlight in favor of a superior option! [FlyPE](https://poggit.pmmp.io/p/FlyPE/5.2.0) is the most advanced/customizable/best fly plugin in Minecraft history, with many commands and features that allow you to play with flying in survival mode! This plugin has a variety of features that makes it unique, and you should check them out! 
 
-This plugin would be useful for big or skyblock servers that would not like players to use fly in PvP Zones or The Hub. And if you would like players to pay for toggling flight, there's an option for that! Tradeable items like Flight Coupons are also available and you can decide on allowing it! We even have the most requested feature, Temporal Flight!
+This plugin is useful for large or skyblock servers that don't want users flying in PvP Zones or Hub. There's also a payment option if you want players to pay for toggling flight! Tradeable items such as Flight Coupons are also accessible, and you may choose whether or not to allow them! We even have Temporal Flight, the most requested feature! 
 
-This plugin is in English and there are even customizable preset messages for those that want to use other languages. And there are also fly settings to prevent players from doing different actions while in flight mode.
+This plugin is available in English, with adjustable preset messages for people who prefer to utilize other languages. Additionally, there are fly options that limit players from performing various tasks when in flight mode. 
 
 Thanks to the Contributors for helping FlyPE!
 
@@ -25,51 +25,51 @@ If you are new and need help with installing the plugin, here's a step-by-step g
 That's all you have to do to install the plugin. If you wan't, you may also check out the config in your plugins data folder as there are many features for you to explore!
 
 ## Features
-Here is a comparison of features in FlyPE with other plugins. If you have any suggestions for the plugin, feel free to let me know!
+Here's a comparison of FlyPE's features to those of other plugins. Please let me know if you have any recommendations for the plugin! 
 
-Comparison                            | FlyPE | BetterFlight | BlazinFly |
-------------------------------------- | ----- | ------------ | --------- |
-PM4 Support                           | ✔️   | ✔️           | ❌       |
-Multilingual Translation              | ✔️   | ❌           | ❌       |
-Auto Configuration Reset              | ✔️   | ❌           | ❌       |
-Toggle Flight for Others              | ✔️   | ✔️           | ✔️       |
-Toggle Flight for Everyone            | ❌   | ❌           | ❌       |
-**Temporal Flight**                   | ✔️   | ❌           | ❌       |
-Whitelist Worlds                      | ✔️   | ✔️           | ✔️       |
-Blacklist Worlds                      | ✔️   | ✔️           | ❌       |
-Plugin Integration                    | ✔️   | ❌           | ❌       |
-Save Flight States                    | ✔️   | ❌           | ❌       |
-Purchasable Flight                    | ✔️   | ❌           | ❌       |
-Flight Combat Disable                 | ✔️   | ✔️           | ✔️       |
-Flight Sounds                         | ✔️   | ❌           | ❌       |
-Flight Particles                      | ✔️   | ❌           | ❌       |
-Flight Effects                        | ✔️   | ❌           | ❌       |
-Flight Capes                          | ✔️   | ❌           | ❌       |
-Flight UI                             | ✔️   | ❌           | ❌       |
-Completely Configurable               | ✔️   | ✔️           | ❌       |
-SQlite Data Provider                  | ✔️   | ❌           | ❌       |
-MySQL Data Provider                   | ✔️   | ❌           | ❌       |
-YAML Data Provider                    | ✔️   | ❌           | ❌       |
-JSON Data Provider                    | ✔️   | ❌           | ❌       |
-Reload Configuration Files            | ✔️   | ❌           | ❌       |
-Error Handling                        | ⚠️   | ⚠️           | ⚠️       |
-Configurable Creative Mode            | ❌   | ❌           | ❌       |
-Flight Rules                          | ❌   | ❌           | ❌       |
-Flight Speed                          | ❌   | ❌           | ❌       |
-Flight Coupons                        | ❌   | ❌           | ❌       |
-Help SubCommand                       | ❌   | ❌           | ❌       |
-Admin UI                              | ❌   | ❌           | ❌       |
-Developer Documentation               | ⚠️   | ❌           | ❌       |
-Flight Addons                         | ❌   | ❌           | ❌       |
+Comparison                            | FlyPE | BetterFlight | SimpleFly | BlazinFly |
+------------------------------------- | ----- | ------------ | --------- | --------- |
+PM4 Support                           | ✔️   | ✔️           | ✔️       | ❌       |
+Multilingual Translation              | ✔️   | ❌           | ❌       | ❌       |
+Auto Configuration Reset              | ✔️   | ❌           | ❌       | ❌       |
+Toggle Flight for Others              | ✔️   | ✔️           | ✔️       | ✔️       |
+Toggle Flight for Everyone            | ❌   | ❌           | ❌       | ❌       |
+**Temporal Flight**                   | ✔️   | ❌           | ❌       | ❌       |
+Whitelist Worlds                      | ✔️   | ✔️           | ❌       | ✔️       |
+Blacklist Worlds                      | ✔️   | ✔️           | ❌       | ❌       |
+Plugin Integration                    | ✔️   | ❌           | ❌       | ❌       |
+Save Flight States                    | ✔️   | ❌           | ❌       | ❌       |
+Purchasable Flight                    | ✔️   | ❌           | ❌       | ❌       |
+Flight Combat Disable                 | ✔️   | ✔️           | ✔️       | ✔️       |
+Flight Sounds                         | ✔️   | ❌           | ❌       | ❌       |
+Flight Particles                      | ✔️   | ❌           | ❌       | ❌       |
+Flight Effects                        | ✔️   | ❌           | ❌       | ❌       |
+Flight Capes                          | ✔️   | ❌           | ❌       | ❌       |
+Flight UI                             | ✔️   | ❌           | ❌       | ❌       |
+Completely Configurable               | ✔️   | ✔️           | ❌       | ❌       |
+SQlite Data Provider                  | ✔️   | ❌           | ❌       | ❌       |
+MySQL Data Provider                   | ✔️   | ❌           | ❌       | ❌       |
+YAML Data Provider                    | ✔️   | ❌           | ❌       | ❌       |
+JSON Data Provider                    | ✔️   | ❌           | ❌       | ❌       |
+Reload Configuration Files            | ✔️   | ❌           | ❌       | ❌       |
+Error Handling                        | ⚠️   | ❌           | ❌       | ❌       |
+Configurable Creative Mode            | ❌   | ❌           | ❌       | ❌       |
+Flight Rules                          | ❌   | ❌           | ❌       | ❌       |
+Flight Speed                          | ❌   | ❌           | ❌       | ❌       |
+Flight Coupons                        | ❌   | ❌           | ❌       | ❌       |
+Help SubCommand                       | ❌   | ❌           | ❌       | ❌       |
+Admin UI                              | ❌   | ❌           | ❌       | ❌       |
+Developer Documentation               | ⚠️   | ❌           | ❌       | ❌       |
+Flight Addons                         | ❌   | ❌           | ❌       | ❌       |
 
 ## Requirements
-The list below state the requirements of FlyPE!
+The requirements of FlyPE are listed below.
 
 + A PocketMine-MP Server (REQUIRED)
 + PHP8 (REQUIRED)
 
 ## Commands
-Commands and the permissions required to run commands.
+Commands and the permissions needed to execute them.
 
 Command                                                            | Description                                   | Permission             |
 ------------------------------------------------------------------ | --------------------------------------------- | ---------------------- |
