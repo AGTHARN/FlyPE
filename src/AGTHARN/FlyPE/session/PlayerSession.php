@@ -30,94 +30,104 @@ declare(strict_types=1);
 namespace AGTHARN\FlyPE\session;
 
 use AGTHARN\FlyPE\Main;
+use pocketmine\player\Player;
+use pocketmine\utils\TextFormat;
+use AGTHARN\FlyPE\provider\Provider;
 
 class PlayerSession
 {
     /** @var Main */
     private Main $plugin;
 
-    /** @var string */
-    private string $name;
-    /** @var string */
-    private string $uuid;
-    /** @var bool */
-    private bool $flightState = false;
+    /** @var Player */
+    private Player $player;
+    /** @var Provider */
+    private Provider $provider;
 
     /**
      * __construct
      *
-     * @param  Main $plugin
-     * @param  string $uuid
-     * @param  string $name
-     * @param  bool $flightState
+     * @param Main $plugin
+     * @param Player $player
+     * @param Provider $provider
      * @return void
      */
-    public function __construct(Main $plugin, string $uuid, string $name, bool $flightState)
+    public function __construct(Main $plugin, Player $player, Provider $provider)
     {
         $this->plugin = $plugin;
 
-        $this->uuid = $uuid;
-        $this->name = $name;
-        $this->flightState = $flightState;
+        $this->player = $player;
+        $this->provider = $provider;
     }
 
     /**
-     * returns the name of the player
+     * Sends the player a translated message based on the id given.
      *
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * returns the uuid of the player in form of a string
-     *
-     * @return string
-     */
-    public function getUuid(): string
-    {
-        return $this->uuid;
-    }
-
-    /**
-     * sets the flight state of the player
-     *
-     * @param bool $flightState
+     * @param string $id
+     * @param bool $includePrefix
      * @return void
      */
-    public function setFlightState(bool $flightState): void
+    public function sendTranslated(string $id, bool $includePrefix = true): void
     {
-        $this->flightState = $flightState;
-        $this->save();
+        $this->getPlayer()->sendMessage($this->getTranslated($id, $includePrefix));
     }
 
     /**
-     * returns the fly state of the player
-     * true when player can fly
-     * false when player cant fly
-     * 
-     * supersedes Player::getAllowFlight()
+     * Returns a translated message based on the id given.
      *
+     * @param string $id
+     * @param bool $includePrefix
+     * @return string
+     */
+    public function getTranslated(string $id, bool $includePrefix = true): string
+    {
+        $message = TextFormat::colorize($this->plugin->translateTo($id, [], $this->getPlayer()));
+        $message = $includePrefix ? Main::PREFIX . $message : $message;
+        $message = str_replace('{name}', $this->getPlayer()->getName(), $message);
+        return $message;
+    }
+
+    /**
+     * Reduces money the player has for an economy plugin. Returns successful or not.
+     *
+     * @param float $amount
      * @return bool
      */
-    public function getFlightState(): bool
+    public function reduceMoney(float $amount): bool
     {
-        return $this->flightState;
+        $economyPlugin = $this->plugin->economy->getEconomyPlugin() ?? null;
+        if ($economyPlugin === null) {
+            return false;
+        }
+
+        switch ($economyPlugin[0]) {
+            case 'EconomyAPI':
+                $economyPlugin[1]->reduceMoney($this->getPlayer(), $amount);
+                return true;
+            case 'BedrockEconomy':
+                $economyPlugin[1]->getSessionManager()->getSession($this->getPlayer()->getName(), 0)->getCache()->subtractFromBalance(floor($amount));
+                return true;
+        }
+        return false;
     }
 
     /**
-     * save
+     * Returns the player.
      *
-     * @return void
+     * @return Player
      */
-    public function save(): void
+    public function getPlayer(): Player
     {
-        $this->plugin->dataBase->executeChange('flype.update', [
-            'username' => $this->getName(),
-            'uuid' => $this->getUuid(),
-            'flightState' => $this->getFlightState()
-        ]);
+        return $this->player;
+    }
+
+    /**
+     * Returns the database provider for the player.
+     *
+     * @return Provider
+     */
+    public function getProvider(): Provider
+    {
+        return $this->provider;
     }
 }

@@ -7,34 +7,22 @@
 #
 # Thanks for using FlyPE! All permissions are stated on our page on
 # poggit or github! If you have any issues, feel free to let me know at
-# https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/bGKEJTKPZc !
+# https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/KD4Fp8dnZD !
 
 
-##### BLACKLIST OR WHITELIST WORLDS #####
+##### FLIGHT RULES OR SETTINGS #####
 
-# If set to *blacklist*, players that are in the worlds listed in *blacklisted-worlds* will not be able to run the fly command.
-# If set to *whitelist*, players that are in the worlds listed in *whitelisted-worlds* will ___ be able to run the fly command.
-listed-mode: "blacklist"
+# These gamemodes are the ones which will be excluded/not allowed.
+#
+# OPTIONS:
+# ['survival', 'creative', 'adventure', 'spectator']
+gamemode-exclusions: ['creative', 'spectator']
 
-# (BLACKLIST) These worlds only apply if the mode is set to *blacklist*.
-blacklisted-worlds:
- - "noflyworld1"
- - "noflyworld2"
- - "noflyworld3"
- 
-# (WHITELIST) These worlds only apply if the mode is set to *whitelist*.
-whitelisted-worlds:
- - "flyworld1"
- - "flyworld2"
- - "flyworld3"
+# If set to true, fly is disabled when a punches another player.
+# If set to false, fly wouldn't be disabled when a punches another player.
+combat-disable-fly: true
 
-# Notify a player when they move to a world which does not restricts flight.
-world-allowed-true: false
-
-# Notify a player when they move to a world which ____ ___ restricts flight.
-world-allowed-false: true
-
-#########################################
+##########################################
 
 
 ##### FLIGHT STATE #####
@@ -44,6 +32,53 @@ world-allowed-false: true
 #
 # EXAMPLE:
 # If a player leaves while their flight is toggled on and rejoins, flight will be automatically toggled on for them.
+# (This saves even when the server shuts down or reboots.)
 save-flight-state: true
 
 ########################
+
+
+##### FLIGHT UI #####
+
+# If set to true, a UI would show up when a player runs the /fly command.
+# If set to false, everything would be normal and players would be able to toggle flight normally.
+#
+# NOTE:
+# Buttons on the Flight UI appear based on the permissions a player has. No need to worry :)
+enable-flight-ui: true
+
+#####################
+
+
+##### TEMPORAL FLIGHT #####
+
+# If set to true , players will ___ be able to add a flight duration (in seconds) at the back of the fly command.
+# If set to false, players will not be able to add a flight duration (in seconds) at the back of the fly command.
+enable-tempFlight: true
+
+# If the flight duration is not specified, the default amount of time (in seconds) a player can fly will default to this.
+#
+# NOTE:
+# /fly        -> will not set _____ ____ timing (because i dont see why it needs to)
+# /fly toggle -> will ___ set using this timing (if flight duration is not specified)
+default-temp-flight: 180
+
+###########################
+
+
+##### FLIGHT COST #####
+
+# If set to true , players would ___ have to pay to enable fly.
+# If set to false, players would not have to pay for fly.
+#
+# NOTE:
+# If you wish to make flight temporal, check default-temp-flight.
+# You also need to have ONE of the followings Economy plugins:
+#  - EconomyAPI
+#  - BedrockEconomy
+enable-flight-cost: false
+
+# The amount of money that would be taken away from the player upon toggling flight.
+flight-cost-amount: 100
+
+#######################

@@ -25,41 +25,55 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-declare(strict_types=1);
-
-namespace AGTHARN\FlyPE\util;
+namespace AGTHARN\FlyPE\command\subcommand;
 
 use AGTHARN\FlyPE\Main;
+use CortexPE\Commando\BaseSubCommand;
 use pocketmine\command\CommandSender;
-use pocketmine\utils\TextFormat as C;
 
-class MessageTranslator
+/**
+ * @property Main $plugin
+ */
+class ReloadSubCommand extends BaseSubCommand
 {
-    /** @var Main */
-    private Main $plugin;
-
     /**
      * __construct
      *
      * @param  Main $plugin
+     * @param  string $name
+     * @param  string $description
+     * @param  array $aliases
      * @return void
      */
-    public function __construct(Main $plugin)
+    public function __construct(Main $plugin, string $name, string $description, $aliases = [])
     {
-        $this->plugin = $plugin;
+        parent::__construct($plugin, $name, $description, $aliases);
     }
 
     /**
-     * sendTranslated
+     * prepare
      *
-     * @param  CommandSender $sender
-     * @param  string $message
      * @return void
      */
-    public function sendTranslated(CommandSender $sender, string $message): void
+    public function prepare(): void
     {
-        $message = C::colorize($this->plugin->translateTo($message, [], $sender));
-        $message = str_replace('{name}', $sender->getName(), Main::PREFIX . $message);
-        $sender->sendMessage(C::RED . $message);
+        $this->setPermission('flype.command.reload');
+    }
+
+    /**
+     * onRun
+     *
+     * @param  CommandSender $sender
+     * @param  string $aliasUsed
+     * @param  array $args
+     * @return void
+     */
+    public function onRun(CommandSender $sender, string $aliasUsed, array $args): void
+    {
+        if (!$this->testPermissionSilent($sender)) {
+            $this->plugin->util->sendTranslated($sender, 'flype.command.no.permission');
+            return;
+        }
+        $this->plugin->config->reloadConfigs();
     }
 }

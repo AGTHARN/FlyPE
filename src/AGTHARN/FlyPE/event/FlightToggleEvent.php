@@ -42,20 +42,24 @@ class FlightToggleEvent extends PlayerEvent implements Cancellable
     protected bool $isFlying;
     /** @var bool */
     protected bool $worldAllowed;
-    
+    /** @var bool */
+    protected bool $gamemodeAllowed;
+
     /**
      * __construct
      *
-     * @param  Player $player
-     * @param  bool $isFlying
-     * @param  bool $worldAllowed
+     * @param Player $player
+     * @param bool $isFlying
+     * @param bool $worldAllowed
+     * @param bool $gamemodeAllowed
      * @return void
      */
-    public function __construct(Player $player, bool $isFlying, bool $worldAllowed)
+    public function __construct(Player $player, bool $isFlying, bool $worldAllowed, bool $gamemodeAllowed)
     {
         $this->player = $player;
         $this->isFlying = $isFlying;
         $this->worldAllowed = $worldAllowed;
+        $this->gamemodeAllowed = $gamemodeAllowed;
     }
     
     /**
@@ -76,5 +80,15 @@ class FlightToggleEvent extends PlayerEvent implements Cancellable
     public function isWorldAllowed(): bool
     {
         return $this->worldAllowed;
+    }
+
+    /**
+     * isGamemodeAllowed
+     *
+     * @return bool
+     */
+    public function isGamemodeAllowed(): bool
+    {
+        return $this->gamemodeAllowed;
     }
 }

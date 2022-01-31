@@ -1,0 +1,37 @@
+#  ______ _  __     _______  ______ 
+# |  ____| | \ \   / /  __ \|  ____|
+# | |__  | |  \ \_/ /| |__) | |__   
+# |  __| | |   \   / |  ___/|  __|  
+# | |    | |____| |  | |    | |____ 
+# |_|    |______|_|  |_|    |______|
+#
+# Thanks for using FlyPE! All permissions are stated on our page on
+# poggit or github! If you have any issues, feel free to let me know at
+# https://github.com/AGTHARN/FlyPE/issues or https://discord.gg/bGKEJTKPZc !
+
+# THESE ARE TECHNICAL SETTINGS THAT YOU WILL MOST LIKELY NOT NEED TO CHANGE!
+# ONLY CHANGE THESE SETTINGS IF YOU KNOW WHAT YOU'RE DOING!
+
+
+##### VERSION #####
+
+# THIS IS THE CONFIG VERSION!
+# PLEASE DO NOT CHANGE THIS VALUE UNLESS YOU KNOW WHAT YOU ARE DOING!
+# (YOU MAY LOWER THIS VALUE TO FORCE A CONFIG RESET! BUT MAY BREAK IF IT IS TOO NEW!)
+config-version: 5.20
+
+###################
+
+
+##### TASKS #####
+
+# Next interval in which the particle task repeats. (in ticks)
+tempFlight-task-tick: 20
+
+# Next interval in which the particle task repeats. (in ticks)
+particle-task-tick: 10
+
+# Next interval in which the effect task repeats. (in ticks)
+effect-task-tick: 40
+
+#################

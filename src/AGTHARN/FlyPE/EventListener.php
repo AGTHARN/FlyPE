@@ -31,25 +31,28 @@ namespace AGTHARN\FlyPE;
 
 use AGTHARN\FlyPE\Main;
 use pocketmine\player\Player;
+use AGTHARN\FlyPE\util\Config;
 use AGTHARN\FlyPE\util\Flight;
 use pocketmine\event\Listener;
+use pocketmine\world\sound\Sound;
 use AGTHARN\FlyPE\session\SessionManager;
-use AGTHARN\FlyPE\util\MessageTranslator;
 use AGTHARN\FlyPE\event\FlightToggleEvent;
 use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\entity\EntityTeleportEvent;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
 
 class EventListener implements Listener
 {
     /** @var Main */
     private Main $plugin;
+    /** @var Config */
+    private Config $config;
 
     /** @var SessionManager */
     private SessionManager $sessionManager;
     /** @var Flight */
     private Flight $flight;
-    /** @var MessageTranslator */
-    private MessageTranslator $messageTranslator;
 
     /**
      * __construct
@@ -60,12 +63,12 @@ class EventListener implements Listener
     public function __construct(Main $plugin)
     {
         $this->plugin = $plugin;
+        $this->config = $plugin->config;
 
         $this->sessionManager = $plugin->sessionManager;
         $this->flight = $plugin->flight;
-        $this->messageTranslator = $plugin->messageTranslator;
     }
-    
+
     /**
      * onPlayerJoin
      *
@@ -76,14 +79,30 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
         $this->sessionManager->registerSession($player);
-        $this->plugin->dataBase->waitAll();
+        if (isset($this->plugin->dataBase->libasynql)) {
+            $this->plugin->dataBase->libasynql->waitAll();
+        }
 
-        $playerSession = $this->sessionManager->getSessionByPlayer($player);
-        if ($this->plugin->configs['general']->get('save-flight-state') && $playerSession->getFlightState()) {
+        if ($this->config->getConfig('flight', 'save-flight-state') && (bool) $this->sessionManager->getSessionByPlayer($player)->getProvider()->extractData('flightState')) {
             $this->flight->toggleFlight($player, true);
         }
     }
-    
+
+    /**
+     * onPlayerQuit
+     *
+     * @param PlayerQuitEvent $event
+     * @return void
+     */
+    public function onPlayerQuit(PlayerQuitEvent $event): void
+    {
+        $player = $event->getPlayer();
+
+        $this->plugin->particleManager->removeParticleSession($player);
+        $this->plugin->effectManager->removeEffectSession($player);
+        $this->plugin->capeManager->removePlayerCape($player);
+    }
+
     /**
      * onFlightToggle
      *
@@ -93,13 +112,31 @@ class EventListener implements Listener
     public function onFlightToggle(FlightToggleEvent $event): void
     {
         $player = $event->getPlayer();
+        $playerSession = $this->plugin->sessionManager->getSessionByPlayer($player);
         $worldAllowed = $event->isWorldAllowed();
 
         // Will not implement in toggleFlight()
         $worldAllowedString = $worldAllowed ? 'true' : 'false';
-        if ($this->plugin->configs['flight']->get('world-allowed-' . $worldAllowedString)) {
-            $this->messageTranslator->sendTranslated($player, 'flype.world.allowed.' . $worldAllowedString);
+        if ($this->config->getConfig('world', 'world-allowed-' . $worldAllowedString)) {
+            $playerSession->sendTranslated('flype.world.allowed.' . $worldAllowedString);
         }
+        if ($this->config->getConfig('cosmetic', 'enable-sound')) {
+            $sound = $this->plugin->soundManager->getSoundFromString($playerSession->getProvider()->extractData('flightSound')) ?? null;
+            if ($sound instanceof Sound && $player->hasPermission('flype.allow.sound')) {
+                $player->getNetworkSession()->sendDataPacket($sound->encode($player->getPosition())[0]);
+            }
+        }
+        if ($this->config->getConfig('cosmetic', 'enable-cape')) {
+            $this->plugin->capeManager->setPlayerCape($player);
+        }
+
+        if ($event->isFlying()) {
+            $this->plugin->particleManager->addParticleSession($player, $playerSession->getProvider()->extractData('flightParticle'));
+            $this->plugin->effectManager->addEffectSession($player, $playerSession->getProvider()->extractData('flightEffect'));
+            return;
+        }
+        $this->plugin->particleManager->removeParticleSession($player);
+        $this->plugin->effectManager->removeEffectSession($player);
     }
 
     /**
@@ -118,6 +155,25 @@ class EventListener implements Listener
                 if ($fromWorldName !== $toWorldName) {
                     // Will already run world checks here and make necessary changes
                     $this->flight->toggleFlight($entity);
+                }
+            }
+        }
+    }
+
+    /**
+     * onEntityDamage
+     *
+     * @param EntityDamageByEntityEvent $event
+     * @return void
+     */
+    public function onEntityDamage(EntityDamageByEntityEvent $event): void
+    {
+        $entity = $event->getEntity();
+        $damager = $event->getDamager();
+        if ($entity instanceof Player && $damager instanceof Player) {
+            if ($this->config->getConfig('flight', 'combat-disable-fly')) {
+                if ($this->flight->isFlightToggled($damager, true)) {
+                    $this->flight->toggleFlight($damager, false, null, true);
                 }
             }
         }

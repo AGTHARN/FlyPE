@@ -1,17 +1,15 @@
 # FlyPE [![GitHub license](https://img.shields.io/github/license/AGTHARN/FlyPE)](https://github.com/AGTHARN/FlyPE/blob/master/LICENSE) [![](https://poggit.pmmp.io/shield.state/FlyPE)](https://poggit.pmmp.io/p/FlyPE)
 ![flypeicon](https://user-images.githubusercontent.com/63234276/83245243-0b6bb180-a1d3-11ea-9a01-3eb2fcb60115.jpg)
 
-![Latest version](https://img.shields.io/badge/Version-v5.0.0-orange?style=for-the-badge)
+![Latest version](https://img.shields.io/badge/Version-v5.2.0-orange?style=for-the-badge)
 
 ***This is the PM4 branch of FlyPE. All the features from PM3 may be incomplete in this rewrite. Expect bugs and problems as well.***
 
-Time to abandon BlazinFly and move to a better alternative! [FlyPE](https://poggit.pmmp.io/p/FlyPE/5.0.0) is probably the best fly plugin for PocketMine-MP that is feature packed and with multiple commands that allows you to experiment with flying in survival mode! There are many different features in this plugin that makes it special, and you should check them out! 
+It's time to ditch SimpleFly and BetterFlight in favor of a superior option! [FlyPE](https://poggit.pmmp.io/p/FlyPE/5.2.0) is the most advanced/customizable/best fly plugin in Minecraft history, with many commands and features that allow you to play with flying in survival mode! This plugin has a variety of features that makes it unique, and you should check them out! 
 
-We even have the most requested feature, Temporal Flight!
+This plugin is useful for large or skyblock servers that don't want users flying in PvP Zones or Hub. There's also a payment option if you want players to pay for toggling flight! Tradeable items such as Flight Coupons are also accessible, and you may choose whether or not to allow them! We even have Temporal Flight, the most requested feature! 
 
-This plugin would be useful for big or skyblock servers that would not like players to use fly in PvP Zones or The Hub. And if you would like players to pay for toggling flight, there's an option for that! Tradeable items like Flight Coupons are also available and you can decide on allowing it!
-
-This plugin is in English and there are even customizable preset messages for those that want to use other languages. And there are also fly settings to prevent players from doing different actions while in flight mode.
+This plugin is available in English, with adjustable preset messages for people who prefer to utilize other languages. Additionally, there are fly options that limit players from performing various tasks when in flight mode. 
 
 Thanks to the Contributors for helping FlyPE!
 
@@ -20,61 +18,90 @@ Note: If you are updating to any major version changes, for example, from v2 to 
 ## Installation
 If you are new and need help with installing the plugin, here's a step-by-step guide on how to do that!
 
-1. Download the [latest phar](https://poggit.pmmp.io/p/FlyPE/5.0.0) by pressing on **Direct Download** on the top left corner of your screen. Make sure you have chosen the latest version before that.
+1. Download the [latest phar](https://poggit.pmmp.io/p/FlyPE/5.2.0) by pressing on **Direct Download** on the top left corner of your screen. Make sure you have chosen the latest version before that.
 2. Open your server's plugins folder and put the phar into your server's plugins folder. Make sure to also check if you're putting it into the right server. 
-3. Ensure you have the permission to use the fly command, restart your server and type the command, /fly ingame to toggle flight!
+3. Ensure you have the permission to use the fly command, restart your server and type the command, /fly in-game to toggle flight!
 
 That's all you have to do to install the plugin. If you wan't, you may also check out the config in your plugins data folder as there are many features for you to explore!
 
 ## Features
-These are the list of features in FlyPE. If you have any suggestions for the plugin, feel free to let me know!
+Here's a comparison of FlyPE's features to those of other plugins. Please let me know if you have any recommendations for the plugin! 
 
-- [✔️] Blacklist/Whitelist Worlds
-- [✔️] Customisable Messages
-- [✔️] Flight States
-- [✔️] Translations
-
-Features below were available for PM3 but is not implemented yet implemented for PM4.
-
-- [❌] Multiple Flight Rules/Permissions/Commands
-- [❌] No Creative Toggling
-- [❌] Toggling Flight For Others
-- [❌] Flight UI
-- [❌] Purchasable Flight
-- [❌] Temporal Flight Time
-- [❌] Ability to Change UI Texts
-- [❌] Configurable Flight Speed
-- [❌] Flight Particles
-- [❌] Flight Effects
-- [❌] Flight Coupons
-- [❌] Creative Mode Settings
-- [❌] Plugin Integrations
-- [❌] Toggle Sounds
-
-[✔️] -> Included  ***|***  [⚠️] -> Work In Progress  ***|***  [❌] -> Excluded
+Comparison                            | FlyPE | BetterFlight | SimpleFly | BlazinFly |
+------------------------------------- | ----- | ------------ | --------- | --------- |
+PM4 Support                           | ✔️   | ✔️           | ✔️       | ❌       |
+Multilingual Translation              | ✔️   | ❌           | ❌       | ❌       |
+Auto Configuration Reset              | ✔️   | ❌           | ❌       | ❌       |
+Toggle Flight for Others              | ✔️   | ✔️           | ✔️       | ✔️       |
+Toggle Flight for Everyone            | ❌   | ❌           | ❌       | ❌       |
+**Temporal Flight**                   | ✔️   | ❌           | ❌       | ❌       |
+Whitelist Worlds                      | ✔️   | ✔️           | ❌       | ✔️       |
+Blacklist Worlds                      | ✔️   | ✔️           | ❌       | ❌       |
+Plugin Integration                    | ✔️   | ❌           | ❌       | ❌       |
+Save Flight States                    | ✔️   | ❌           | ❌       | ❌       |
+Purchasable Flight                    | ✔️   | ❌           | ❌       | ❌       |
+Flight Combat Disable                 | ✔️   | ✔️           | ✔️       | ✔️       |
+Flight Sounds                         | ✔️   | ❌           | ❌       | ❌       |
+Flight Particles                      | ✔️   | ❌           | ❌       | ❌       |
+Flight Effects                        | ✔️   | ❌           | ❌       | ❌       |
+Flight Capes                          | ✔️   | ❌           | ❌       | ❌       |
+Flight UI                             | ✔️   | ❌           | ❌       | ❌       |
+Completely Configurable               | ✔️   | ✔️           | ❌       | ❌       |
+SQlite Data Provider                  | ✔️   | ❌           | ❌       | ❌       |
+MySQL Data Provider                   | ✔️   | ❌           | ❌       | ❌       |
+YAML Data Provider                    | ✔️   | ❌           | ❌       | ❌       |
+JSON Data Provider                    | ✔️   | ❌           | ❌       | ❌       |
+Reload Configuration Files            | ✔️   | ❌           | ❌       | ❌       |
+Error Handling                        | ⚠️   | ❌           | ❌       | ❌       |
+Configurable Creative Mode            | ❌   | ❌           | ❌       | ❌       |
+Flight Rules                          | ❌   | ❌           | ❌       | ❌       |
+Flight Speed                          | ❌   | ❌           | ❌       | ❌       |
+Flight Coupons                        | ❌   | ❌           | ❌       | ❌       |
+Help SubCommand                       | ❌   | ❌           | ❌       | ❌       |
+Admin UI                              | ❌   | ❌           | ❌       | ❌       |
+Developer Documentation               | ⚠️   | ❌           | ❌       | ❌       |
+Flight Addons                         | ❌   | ❌           | ❌       | ❌       |
 
 ## Requirements
-The list below state the requirements of FlyPE!
+The requirements of FlyPE are listed below.
 
 + A PocketMine-MP Server (REQUIRED)
 + PHP8 (REQUIRED)
 
 ## Commands
-Commands and the permissions required to run commands.
+Commands and the permissions needed to execute them.
 
-Command                                       | Description                | Permission           |
---------------------------------------------- | -------------------------- | -------------------- |
-/fly                                          | Toggles your flight!       | flype.command        |
-/fly toggle [player:string] [toggleMode:bool] | Toggles flight for others! | flype.command.others |
+Command                                                            | Description                                   | Permission             |
+------------------------------------------------------------------ | --------------------------------------------- | ---------------------- |
+/fly                                                               | Toggles your flight!                          | flype.command          |
+/fly toggle [player:string] [toggleMode:string] [flightTime:string]| Toggles flight for others!                    | flype.command.others   |
+/fly sound                                                         | Configure your flight toggle sound!           | flype.command.sound    |
+/fly particle                                                      | Configure your flight particles while flying! | flype.command.particle |
+/fly effect                                                        | Configure your flight effects while flying!   | flype.command.effect   |
+/fly cape                                                          | Configure your flight cape while flying!      | flype.command.cape     |
+/fly reload                                                        | Reload your configuration while server is on! | flype.command.reload   |
+
+> **[player:string]** - The player's name. (doesn't have to be the full name)\
+> **[toggleMode:string]** - The toggle mode. (on/off)\
+> **[flightTime:string]** - The flight duration. (m, h, d, w, M, y)
 
 ## Permissions
 Permissions required for players to use the command, /fly.
 
-Permission                | Description                                                        | Default |
-------------------------- | ------------------------------------------------------------------ | ------- |
-flype.command             | Allows player to run the Flight Command                            | op      |
-flype.command.others      | Allows player to run the Toggle Subcommand on others               | op      |
-flype.world.bypass        | Allows player to Bypass Checks when Switching Worlds               | false   |
+Permission                | Description                                       | Default |
+------------------------- | ------------------------------------------------  | ------- |
+flype.command             | Run the Flight Command!                           | op      |
+flype.command.others      | Run the Toggle Subcommand on others!              | op      |
+flype.command.sound       | Run the Sound Subcommand!                         | op      |
+flype.command.particle    | Run the Particle Subcommand!                      | op      |
+flype.command.effect      | Run the Effect Subcommand! (NOT RECOMMENDED)      | op      |
+flype.command.cape        | Run the Cape Subcommand!                          | op      |
+flype.command.reload      | Run the Reload Subcommand!                        | op      |
+flype.allow.sound         | Hear the Flight Toggle Sound!                     | op      |
+flype.allow.particle      | Have a Flight Particle!                           | op      |
+flype.allow.effect        | Have a Flight Effect!                             | op      |
+flype.allow.cape          | Have a Flight Cape!                               | op      |
+flype.world.bypass        | Bypass Checks when Switching Worlds!              | false   |
 
 ## Configuration
 These are the config versions of FlyPE. To find your config version, open the **config.yml** file in FlyPE's plugin data folder and find the header, **"VERSION"**.
@@ -92,14 +119,23 @@ You can find the config file for v3.3.2, v3.3.3, v3.3.4, v3.7.0, v3.8.3 [here](h
 You can find the config file for v4.0.2, v4.1.6 [here](https://pastebin.com/raw/9Yx4qapV)!
 
 + ![Config v4](https://img.shields.io/badge/Config-v5-orange?style=for-the-badge)
-You can find the config file for v5.0.0 [here](https://github.com/AGTHARN/FlyPE/tree/pm4/resources)!
+You can find the config file for v5.2.0 [here](https://github.com/AGTHARN/FlyPE/tree/pm4/resources)!
 
 ## Support
 If you have any issues with the plugin, or have any suggestions for the plugin, feel free to let me know [here](https://github.com/AGTHARN/FlyPE/issues) and I would look at it as soon as possible!
 
-Alternatively, you can get support from our [Discord Server](https://discord.gg/bGKEJTKPZc)!
+Alternatively, you can get support from our [Discord Server](https://discord.gg/KD4Fp8dnZD)!
 
 ![GitHub issues](https://img.shields.io/github/issues/AGTHARN/FlyPE?style=for-the-badge) ![GitHub closed issues](https://img.shields.io/github/issues-closed/AGTHARN/FlyPE?style=for-the-badge)
+
+## Developers
+FlyPE contains a huge API you could use in your own plugin to manage players' flight! You could also use the API to integrate your plugins with FlyPE's! Below are the tools available to help you with integration:
+
+> ![Dev Doc](https://media.discordapp.net/attachments/489366022172966922/922049514678931456/devdoc.png?width=161&height=34)\
+> https://github.com/AGTHARN/FlyPE/wiki/Developer-Documentation
+
+<details><summary>FAQ</summary>
+<p>
 
 ## Frequently-Asked-Questions
 - [How do I report an issue or suggestion?](#how-do-i-report-an-issue-or-suggestion)
@@ -107,10 +143,13 @@ Alternatively, you can get support from our [Discord Server](https://discord.gg/
 - [Are any PMMP forks supported?](#are-any-pmmp-forks-supported)
 
 ### How do I report an issue or suggestion?
-***A:*** Issues can be opened by clicking the **New issue** button located in [Issues](https://github.com/AGTHARN/FlyPE/issues). Feel free to use any format you'd like as long as you state the issue/suggestion you have! You may also get help by joining our [Discord Server](https://discord.gg/bGKEJTKPZc)!
+***A:*** Issues can be opened by clicking the **New issue** button located in [Issues](https://github.com/AGTHARN/FlyPE/issues). Feel free to use any format you'd like as long as you state the issue/suggestion you have! You may also get help by joining our [Discord Server](https://discord.gg/KD4Fp8dnZD)!
 
 ### Does temporal flight count down while the player is online or offline?
-***A:*** The temporal flight system counts down while the player is both online and offline. Changing timezones would be the only thing affecting it.
+***A:*** The temporal flight system counts down while the player is both online and offline.
 
 ### Are any PMMP forks supported?
 ***A:*** No support will be given for PMMP forks.
+
+</p>
+</details>
